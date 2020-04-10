@@ -52,13 +52,19 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 			//Vars.Table[str[0]] = &types.Rationel{ val }
 			//t = 0
 		}
-	} else if strings.Index(str[0], "mat") != -1 {
+	}
+
+	if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
 		
 
-	} else if strings.Index(str[0], "func") != -1 {
+	}
+
+	if strings.Index(str[0], "fun") != -1 {
 		
 
-	} else if val, ok := Vars.Table[str[1]]; ok {
+	}
+
+	if val, ok := Vars.Table[str[1]]; ok {
 
     	Vars.Table[str[0]] = val
     	t = 1
