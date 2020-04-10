@@ -29,7 +29,6 @@ func GetAll(str string) (float64, float64) {
 		}
 
 		if len(str) > i + to {
-			fmt.Println(str[i:i + to])
 			n1, n2 = ParseOne(str[i:i + to])
 			//fmt.Printf("n1 : %f n2 : %f\n", n1, n2)
 		} else {
