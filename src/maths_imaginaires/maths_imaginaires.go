@@ -3,7 +3,7 @@ package maths_imaginaires
 import (
 	"strings"
 	"strconv"
-	"fmt"
+	//"fmt"
 )
 
 type TmpComp struct {
@@ -31,14 +31,14 @@ func GetAll(str string) (float64, float64) {
 		if len(str) > i + to {
 			fmt.Println(str[i:i + to])
 			n1, n2 = ParseOne(str[i:i + to])
-			fmt.Printf("n1 : %f n2 : %f\n", n1, n2)
+			//fmt.Printf("n1 : %f n2 : %f\n", n1, n2)
 		} else {
 			add := ""
 			if len (str[i:len(str)]) <= 2 {
 				add = "+0i"
 			}
 			n1, n2 = ParseOne(str[i:len(str)] + add)
-			fmt.Printf("n1 : %f n2 : %f\n", n1, n2)
+			//fmt.Printf("n1 : %f n2 : %f\n", n1, n2)
 		}
 
 		if i != 0 {
@@ -80,7 +80,7 @@ func ParseOne(str string) (x float64, y float64) {
 	}
 	new_str := strings.Split(str_tmp, "+")
 
-	fmt.Println(new_str)
+	//fmt.Println(new_str)
 
 	if strings.Index(new_str[0], "i") != -1 {
 		y, _ = strconv.ParseFloat(strings.ReplaceAll(new_str[0], "i", ""), 64)
