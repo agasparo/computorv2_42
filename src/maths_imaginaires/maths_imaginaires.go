@@ -21,8 +21,10 @@ func GetAll(str string) (float64, float64) {
 	for i := 0; i < len(str); i += 5 {
 
 		if str[i] == '-' {
-			to = 5
+			to++
 		}
+
+		to += strings.Index(strings.ReplaceAll(str, " ", ""), "+")
 
 		if len(str) > i + to && strings.Index(str[i:i + to], "*") != -1 {
 			to++
@@ -69,6 +71,7 @@ func ParseOne(str string) (x float64, y float64) {
 
 	str_tmp := strings.ReplaceAll(str, "*", "")
 	str_tmp = strings.ReplaceAll(str_tmp, " ", "")
+	//fmt.Println(str_tmp)
 	if strings.Index(str_tmp, "+") == -1 {
 		ntab := strings.Split(str_tmp, "-")
 		if len(ntab) == 2 {
