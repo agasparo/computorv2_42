@@ -6,9 +6,15 @@ import (
 	"fmt"
 )
 
-func GetAll(str string) {
-	
-	signs := ""
+type TmpComp struct {
+
+	a float64
+	b float64
+}
+
+func GetAll(str string) (string) {
+
+	final_number := TmpComp{}
 
 	for i := 0; i < len(str); i += 5 {
 
@@ -27,15 +33,20 @@ func GetAll(str string) {
 		}
 
 		if i != 0 {
-			signs += string(str[i - 1])
+			switch sign := string(str[i - 1]); sign {
+				case "+":
+					add(&TmpComp, n1, n2)
+				case "-":
+					sous(&TmpComp, n1, n2)
+				case "*":
+					mul(&TmpComp, n1, n2)
+				case "/":
+					divi(&TmpComp, n1, n2)
+			}
 		}
 	}
 
-	fmt.Println(signs)
-}
-
-func check() {
-
+	return ("ok")
 }
 
 func ParseOne(str string) (x float64, y float64) {
@@ -60,18 +71,24 @@ func ParseOne(str string) (x float64, y float64) {
 
 /************************************************************************************************/
 
-func add() {
+func add(Finu *TmpComp, a float64, b float64) {
+
+	Finu.a = Finu.a + a
+	Finu.b = Finu.b + b
+}
+
+func mul(Finu *TmpComp, a float64, b float64) {
+
+	Finu.a = ((Finu.a * a) - (Finu.b * b))
+	Finu.b = ((Finu.a * b) + (a * Finu.b))
+}
+
+func divi(Finu *TmpComp, a float64, b float64) {
 
 }
 
-func mul() {
+func sous(Finu *TmpComp, a float64, b float64) {
 
-}
-
-func divi() {
-
-}
-
-func sous() {
-
+	Finu.a = Finu.a - a
+	Finu.b = Finu.b - b
 }
