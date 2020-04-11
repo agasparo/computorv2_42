@@ -19,19 +19,24 @@ func IsCommand(str string, Vars types.Variable) (int) {
 func GetAllVars(tab map[string]types.AllT) {
 
 	fmt.Println("List of all vars : ")
-
-	w := new(tabwriter.Writer)
+	c := 0
 	var indexs, elems string
 
 	for index, element := range tab {
 
+		c++
 		indexs += index + "\t"
 		elems += element.Value() + "\t"
 	}
 
-	w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
-	fmt.Fprintln(w, indexs)
-    fmt.Fprintln(w, elems)
-    fmt.Fprintln(w)
-    w.Flush()
+	if c == 0 {
+		fmt.Println("no var set")
+	} else {
+		w := new(tabwriter.Writer)
+		w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
+		fmt.Fprintln(w, indexs)
+    	fmt.Fprintln(w, elems)
+    	fmt.Fprintln(w)
+    	w.Flush()
+	}
 }
