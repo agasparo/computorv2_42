@@ -16,7 +16,6 @@ type TmpComp struct {
 
 func CalcVar(data map[int]string) (float64, float64) {
 
-	fmt.Println(data)
 	data = CalcMulDivi(data)
 	data = CalcAddSous(data)
 	return ParseOne(data[0])
@@ -98,6 +97,7 @@ func ParseOne(str string) (x float64, y float64) {
 
 		if str[0] == '-' {
 			neg = 1
+			str = str[1:len(str)]
 		}
 		strings.ReplaceAll(str, "-", "+-")
 		nstr := strings.Split(str, "+")
