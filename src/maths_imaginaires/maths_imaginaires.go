@@ -103,7 +103,7 @@ func ParseOne(str string) (x float64, y float64) {
 			neg = 1
 			str = str[1:len(str)]
 		}
-		strings.ReplaceAll(str, "-", "+-")
+		str = strings.ReplaceAll(str, "-", "+-")
 		nstr := strings.Split(str, "+")
 		if neg == 1 {
 			nstr[0] = "-" + nstr[0]
