@@ -1,7 +1,7 @@
 package maths_functions
 
 import (
-	"fmt"
+	//"fmt"
 	"strings"
 	"types"
 	"replace_vars"
