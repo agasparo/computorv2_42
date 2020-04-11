@@ -51,7 +51,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 		res := maths_functions.Init(parser.GetAllIma(strings.ReplaceAll(str[1], " ", "")), str[0], Vars)
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
-
 	} else if strings.Index(str[1], "i") != -1 {
 
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
