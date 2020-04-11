@@ -3,7 +3,7 @@ package parser
 import (
 	"strconv"
 	"strings"
-	//"fmt"
+	"fmt"
 )
 
 func Array_search_count(array []string, to_search string) (res int) {
@@ -105,6 +105,29 @@ func GetAllIma(str string) (map[int]string) {
 		}
 		if str[index] == '*' && str[index + 1] == 'i' {
 			index += GetCararc(str[index + 1:len(str)], "+-/*") + 1
+		}
+		if str[index] == '/' {
+			n1 := str[i:index]
+			tmp := GetCararc(str[index + 1:len(str)], "+-/*")
+			n2 := str[index + 1:tmp + index + 1]
+			fmt.Printf("n1 : %s, n2: %s, tmp :%d\n", n1, n2, tmp)
+			is_i := 0
+			if strings.Index(n1, "i") != -1 || strings.Index(n2, "i") != -1 {
+				n1 = strings.ReplaceAll(n1, "i", "")
+				n2 = strings.ReplaceAll(n2, "i", "")
+				is_i = 1
+			}
+			x1, _ := strconv.ParseFloat(n1, 64)
+			y1, _ := strconv.ParseFloat(n2, 64)
+			n3 := x1 / y1
+			var n4 string
+			if is_i == 1 {
+				n4 = fmt.Sprintf("%fi", n3)
+			} else {
+				n4 = fmt.Sprintf("%f", n3)
+			}
+			str = n4 + str[index + tmp + i + 1:]
+			index = GetCararc(str, "+-/*")
 		}
 		tmp_str = str[i:i + index]
 		if neg == 1 {
