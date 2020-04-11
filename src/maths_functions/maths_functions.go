@@ -64,9 +64,11 @@ func CountSign(tab map[int]string) (int) {
 	return (c)
 }
 
-func CheckSign(tab map[int]string) (int) {
+func CheckSign(tab map[int]string) (int) { // a finir de modifier
 
 	cmp := "a"
+	type_a := "+-"
+	type_b := "*/%"
 
 	for i := 1; i < len(tab); i += 2 {
 
