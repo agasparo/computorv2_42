@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"maps"
 	"fmt"
+	"regexp"
 )
 
 type TmpComp struct {
@@ -15,7 +16,6 @@ type TmpComp struct {
 
 func CalcVar(data map[int]string) (float64, float64) {
 
-	fmt.Println(data)
 	data = CalcMulDivi(data)
 	data = CalcAddSous(data)
 	return ParseOne(data[0])
@@ -77,15 +77,42 @@ func CalcAddSous(data map[int]string) (map[int]string) {
 
 func Float2string(Calc TmpComp) (string) {
 
-	if Calc.b > 0 {
-		return (fmt.Sprintf("%f+%fi", Calc.a, Calc.b))
-	} else if Calc.b == 0 {
+	if Calc.b == 0 {
 		return (fmt.Sprintf("%f", Calc.a))
+	} else if Calc.a == 0 {
+		return (fmt.Sprintf("%fi", Calc.b))
+	} else if Calc.b > 0 {
+		return (fmt.Sprintf("%f+%fi", Calc.a, Calc.b))
 	}
 	return (fmt.Sprintf("%f%fi", Calc.a, Calc.b))
 }
 
 func ParseOne(str string) (x float64, y float64) {
+
+	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
+
+	if r.MatchString(str) {
+
+		neg := 0
+
+		if str[0] == '-' {
+			neg = 1
+		}
+		strings.ReplaceAll(str, "-", "+-")
+		nstr := strings.Split(str, "+")
+		if neg == 1 {
+			nstr[0] = "-" + nstr[0]
+		}
+
+		if strings.Index(nstr[0], "i") != -1 {
+			y, _ = strconv.ParseFloat(strings.ReplaceAll(nstr[0], "i", ""), 64)
+			x, _ = strconv.ParseFloat(nstr[1], 64)
+		} else {
+			x, _ = strconv.ParseFloat(nstr[0], 64)
+			y, _ = strconv.ParseFloat(strings.ReplaceAll(nstr[1], "i", ""), 64)
+		}
+		return x, y
+	}
 
 	if strings.Index(str, "i") != -1 {
 		y, _ = strconv.ParseFloat(strings.ReplaceAll(str, "i", ""), 64)
