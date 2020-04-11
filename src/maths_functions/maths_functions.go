@@ -11,12 +11,14 @@ import (
 func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 
 	fmt.Println(tab)
+	x = Getx(x)
 	for i := 0; i < len(tab); i++ {
 
-		tab[i] = replace_vars.GetVars(vars, tab[i])
+		if tab[i] != x {
+			tab[i] = replace_vars.GetVars(vars, tab[i])
+		}
 	}
 	fmt.Println(tab)
-	x = Getx(x)
 	fmt.Println(x)
 	tab = maths_imaginaires.CalcMulDivi(tab, vars, x)
 	tab = maths_imaginaires.CalcAddSous(tab, vars, x)
