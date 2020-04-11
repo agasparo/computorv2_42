@@ -141,11 +141,13 @@ func GetAllIma(str string) (map[int]string) {
 			i = index + add
 			index = GetCararc(str[i:len(str)], "+-/*")
 			if str[index + i] == '*' && (str[index + 1 + i] == 'i' || str[index - 1 + i] == 'i') {
-				add := GetCararc(str[index + 1 + i:len(str)], "+-/*")
-				if add > -1 {
-					index += add + 1
-				} else {
-					index = add
+				if str[index + 1 + i] != '-' && str[index + 1 + i] != '+' {
+					add := GetCararc(str[index + 1 + i:len(str)], "+-/*")
+					if add > -1 {
+						index += add + 1
+					} else {
+						index = add
+					}
 				}
 			}
 			if index == -1 {

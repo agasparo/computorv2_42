@@ -118,7 +118,7 @@ func add(Finu *TmpComp, a float64, b float64) {
 	Finu.b = Finu.b + b
 }
 
-func mul(Finu *TmpComp, a float64, b float64) { // a finir
+func mul(Finu *TmpComp, a float64, b float64) {
 
 	Finu.a = ((Finu.a * a) - (Finu.b * b))
 	Finu.b = ((Finu.a * b) + (a * Finu.b))
