@@ -32,7 +32,7 @@ func main() {
 
 func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 
-	t := 254855115
+	t := -1
 
 	if parser.Array_search_count(Inputs.Input, "=") != 1 {
 		error.SetError("You must have just one =")
@@ -43,7 +43,12 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	str[0] = strings.ToLower((strings.Trim(str[0], " ")))
 	str[1] = strings.Trim(str[1], " ")
 
-	if strings.Index(str[1], "i") != -1 {
+	if parser.IsFunc(str[0]) == 1 {
+
+		Vars.Table[str[0]] = &types.Fonction{ str[1] }
+		t = 0
+
+	} else if strings.Index(str[1], "i") != -1 {
 
 		fmt.Println("imaginaires")
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
@@ -59,9 +64,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 		//Vars.Table[str[0]] = &types.Rationel{ val }
 		//t = 0
 		fmt.Println("rationel")
-	} else if strings.Index(str[0], "fun") != -1 {
-		
-		fmt.Println("function")
 	} else if val, ok := Vars.Table[str[1]]; ok {
 
 		fmt.Println("var")

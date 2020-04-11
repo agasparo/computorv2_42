@@ -52,12 +52,10 @@ func (i *Imaginaire) Value() (string) {
 
 func (m *Matrice) Value() (string) {
 
-	fmt.Println(m.Mat)
-	return "ok"
+	return (m.Mat)
 }
 
 func (f *Fonction) Value() (string) {
 
-	fmt.Println(f.Func)
-	return "ok"
+	return (f.Func)
 }

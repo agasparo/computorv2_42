@@ -39,6 +39,18 @@ func GetCararc(str string, c string) (int) {
 	return (min)
 }
 
+func IsFunc(str string) (int) {
+
+	p1 := strings.Index(str, "(")
+	p2 := strings.Index(str, ")")
+
+	if p1 != -1 && p2 != -1 && p1 < p2 {
+
+		return (1)
+	}
+	return (0)
+}
+
 func GetAllIma(str string) (map[int]string) {
 
 	data := make(map[int]string)
