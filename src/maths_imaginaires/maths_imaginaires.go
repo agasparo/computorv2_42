@@ -77,34 +77,22 @@ func CalcAddSous(data map[int]string) (map[int]string) {
 
 func Float2string(Calc TmpComp) (string) {
 
-	if Calc.b >= 0 {
+	if Calc.b > 0 {
 		return (fmt.Sprintf("%f+%fi", Calc.a, Calc.b))
+	} else if Calc.b == 0 {
+		return (fmt.Sprintf("%f", Calc.a))
 	}
 	return (fmt.Sprintf("%f%fi", Calc.a, Calc.b))
 }
 
 func ParseOne(str string) (x float64, y float64) {
 
-	var neg int = 0
-
-	if str[0] == '-' {
-		neg = 1
-		str = str[1:len(str)]
-	}
-	str_tmp := strings.ReplaceAll(str, "*", "")
-	str_tmp = strings.ReplaceAll(str_tmp, "-", "+-")
-	new_str := strings.Split(str_tmp, "+")
-
-	if neg == 1 {
-		new_str[0] = "-" + new_str[0]
-	}
-
-	if strings.Index(new_str[0], "i") != -1 {
-		y, _ = strconv.ParseFloat(strings.ReplaceAll(new_str[0], "i", ""), 64)
-		x, _ = strconv.ParseFloat(new_str[len(new_str) - 1], 64)
+	if strings.Index(str, "i") != -1 {
+		y, _ = strconv.ParseFloat(strings.ReplaceAll(str, "i", ""), 64)
+		x, _ = strconv.ParseFloat("0.000", 64)
 	} else {
-		x, _ = strconv.ParseFloat(new_str[0], 64)
-		y, _ = strconv.ParseFloat(strings.ReplaceAll(new_str[len(new_str) - 1], "i", ""), 64)
+		x, _ = strconv.ParseFloat(str, 64)
+		y, _ = strconv.ParseFloat("0.000", 64)
 	}
 
 	return x, y
