@@ -67,12 +67,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	/*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
 		
 		fmt.Println("matrice")
-	} else if  parser.IsNumeric(str[1]) {
-
-		//val, _ := strconv.ParseFloat(str[1], 64)
-		//Vars.Table[str[0]] = &types.Rationel{ val }
-		//t = 0
-		fmt.Println("rationel")
 	} else if val, ok := Vars.Table[str[1]]; ok {
 
 		fmt.Println("var")
