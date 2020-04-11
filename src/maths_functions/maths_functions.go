@@ -26,9 +26,10 @@ func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 	if CountSign(tab) == 1 {
 		return (JoinTab(tab))
 	}
-	fmt.Println(tab)
-	fmt.Println(CheckSign(tab))
-	return ("ok")
+	if CheckSign(tab) == 1 {
+		fmt.Println("nop")
+	}
+	return (JoinTab(tab))
 }
 
 func Getx(str string) (string) {

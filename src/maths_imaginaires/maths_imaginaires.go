@@ -84,9 +84,9 @@ func Float2string(Calc TmpComp) (string) {
 	} else if Calc.a == 0 {
 		return (fmt.Sprintf("%fi", Calc.b))
 	} else if Calc.b > 0 {
-		return (fmt.Sprintf("%f+%fi", Calc.a, Calc.b))
+		return (fmt.Sprintf("%f + %fi", Calc.a, Calc.b))
 	}
-	return (fmt.Sprintf("%f%fi", Calc.a, Calc.b))
+	return (fmt.Sprintf("%f %fi", Calc.a, Calc.b))
 }
 
 func ParseOne(str string, vars *types.Variable) (x float64, y float64) {

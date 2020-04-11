@@ -47,7 +47,7 @@ func (r *Rationel) Value() (string) {
 
 func (i *Imaginaire) Value() (string) {
 
-	return (fmt.Sprintf("%f+%fi", i.A, i.B))
+	return (fmt.Sprintf("%f + %fi", i.A, i.B))
 }
 
 func (m *Matrice) Value() (string) {
