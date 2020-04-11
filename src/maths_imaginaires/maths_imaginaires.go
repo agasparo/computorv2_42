@@ -141,8 +141,11 @@ func mul(Finu *TmpComp, a float64, b float64) {
 	Finu.a = tmp
 }
 
-func divi(Finu *TmpComp, a float64, b float64) { // a faire
+func divi(Finu *TmpComp, a float64, b float64) {
 
+	tmp := ((Finu.a * a) + (Finu.b * b)) / ((a * a) + (b * b))
+	Finu.b = ((Finu.b * a) - (Finu.a * b)) / ((a * a) + (b * b))
+	Finu.a = tmp
 }
 
 func sous(Finu *TmpComp, a float64, b float64) {
