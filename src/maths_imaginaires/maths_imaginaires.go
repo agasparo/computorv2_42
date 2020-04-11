@@ -120,8 +120,9 @@ func add(Finu *TmpComp, a float64, b float64) {
 
 func mul(Finu *TmpComp, a float64, b float64) {
 
-	Finu.a = ((Finu.a * a) - (Finu.b * b))
+	tmp := ((Finu.a * a) - (Finu.b * b))
 	Finu.b = ((Finu.a * b) + (a * Finu.b))
+	Finu.a = tmp
 }
 
 func divi(Finu *TmpComp, a float64, b float64) { // a faire
