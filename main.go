@@ -40,11 +40,12 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	str[1] = strings.Trim(str[1], " ")
 
 	if strings.Index(str[1], "i") != -1 {
-		
+
 		fmt.Println("imaginaires")
-		maths_imaginaires.GetAll(strings.ReplaceAll(str[1], " ", ""))
-		//Vars.Table[str[0]] = &types.Imaginaire{ nb1, nb2 }
-		//t = 0
+		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
+		x, y := maths_imaginaires.CalcVar(data)
+		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
+		t = 0
 	} /*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
 		
 		fmt.Println("matrice")

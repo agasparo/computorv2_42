@@ -3,6 +3,7 @@ package parser
 import (
 	"strconv"
 	"strings"
+	//"fmt"
 )
 
 func Array_search_count(array []string, to_search string) (res int) {
@@ -26,16 +27,16 @@ func IsNumeric(s string) (bool) {
 
 func GetCararc(str string, c string) (int) {
 
-	var index int
+	var index, min int = -1, -1
 
 	for i := 0; i < len(c); i++ {
 
 		index = strings.Index(str, string(c[i]))
-		if index != -1 {
-			return (index) 
+		if index != -1 && (index < min || min == -1) {
+			min = index
 		}
 	}
-	return (-1)
+	return (min)
 }
 
 func GetSign(str string, index int) (string, int) {
@@ -72,5 +73,52 @@ func GetSign(str string, index int) (string, int) {
 		return "+", add
 	}
 
-	return "+", add
+	return string(str[index]), add
+}
+
+func GetAllIma(str string) (map[int]string) {
+
+	data := make(map[int]string)
+	var index, itab, neg int
+	var tmp_str string
+
+	if str[0] == '+' {
+		str = str[1:len(str)]
+	}
+
+	itab = 0
+	for i := 0; i < len(str); i++ {
+
+		if str[i] == '-' {
+			
+			str = str[1:len(str)]
+			neg = 1
+		}
+		index = GetCararc(str, "+-/*")
+		tmp_str = str[i:i + index]
+		if neg == 1 {
+			data[itab] = ("-" + tmp_str)
+		} else {
+			data[itab] = tmp_str
+		}
+		sign, add := GetSign(str, index)
+		data[itab] += sign
+		i = index + add
+		index = GetCararc(str[i:len(str)], "+-/*")
+		if index == -1 {
+			tmp_str = str[i:len(str)]
+			data[itab] += tmp_str
+			i = len(str)
+		} else {
+			tmp_str = str[i:i + index]
+			data[itab] += tmp_str
+			itab++
+			data[itab] = string(str[i + index])
+			itab++
+			str = str[i + index + 1:len(str)]
+			i = -1
+		}
+		neg = 0
+	}
+	return (data)
 }

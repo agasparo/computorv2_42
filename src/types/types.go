@@ -47,7 +47,7 @@ func (r *Rationel) Value() {
 
 func (i *Imaginaire) Value() {
 
-	fmt.Printf("%f + i%f\n", i.A, i.B)
+	fmt.Printf("%f + %fi\n", i.A, i.B)
 	return
 }
 

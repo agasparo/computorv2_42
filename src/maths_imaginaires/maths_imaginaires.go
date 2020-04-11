@@ -1,9 +1,9 @@
 package maths_imaginaires
 
 import (
-	"parser"
 	"strings"
 	"strconv"
+	"maps"
 	"fmt"
 )
 
@@ -13,54 +13,88 @@ type TmpComp struct {
 	b float64
 }
 
-func GetAll(str string) {
+func CalcVar(data map[int]string) (float64, float64) {
 
-	data := make(map[int]string)
-	var index, itab, neg int
-	var tmp_str string
+	fmt.Println(data)
+	data = CalcMulDivi(data)
+	data = CalcAddSous(data)
+	return ParseOne(data[0])
+}
 
-	if str[0] == '+' {
-		str = str[1:len(str)]
+func CalcMulDivi(data map[int]string) (map[int]string) {
+
+	for i := 1; i < len(data); i += 2 {
+
+		if data[i] == "*" {
+			nb1, nb2 := ParseOne(data[i - 1])
+			Calc := TmpComp{nb1, nb2}
+			nb3, nb4 := ParseOne(data[i + 1])
+			mul(&Calc, nb3, nb4)
+			data = maps.MapSlice(data, i)
+			data[i - 1] = Float2string(Calc)
+			i = 1
+		}
+
+		if data[i] == "/" {
+			nb1, nb2 := ParseOne(data[i - 1])
+			Calc := TmpComp{nb1, nb2}
+			nb3, nb4 := ParseOne(data[i + 1])
+			divi(&Calc, nb3, nb4)
+			data = maps.MapSlice(data, i)
+			data[i - 1] = Float2string(Calc)
+			i = 1
+		}
 	}
+	return (data)
+}
 
-	itab = 0
-	for i := 0; i < len(str); i++ {
+func CalcAddSous(data map[int]string) (map[int]string) {
 
-		if str[i] == '-' {
-			
-			str = str[1:len(str)]
-			neg = 1
+	for i := 1; i < len(data); i += 2 {
+
+		if data[i] == "+" {
+			nb1, nb2 := ParseOne(data[i - 1])
+			Calc := TmpComp{nb1, nb2}
+			nb3, nb4 := ParseOne(data[i + 1])
+			add(&Calc, nb3, nb4)
+			data = maps.MapSlice(data, i)
+			data[i - 1] = Float2string(Calc)
+			i = 1
 		}
 
-		index = parser.GetCararc(str, "+-/*")
-		tmp_str = str[i:index]
-		if neg == 1 {
-			data[itab] = ("-" + tmp_str)
-		} else {
-			data[itab] = tmp_str
+		if data[i] == "-" {
+			nb1, nb2 := ParseOne(data[i - 1])
+			Calc := TmpComp{nb1, nb2}
+			nb3, nb4 := ParseOne(data[i + 1])
+			sous(&Calc, nb3, nb4)
+			data = maps.MapSlice(data, i)
+			data[i - 1] = Float2string(Calc)
+			i = 1
 		}
-		sign, add := parser.GetSign(str, index)
-		data[itab] += sign
-		i = index + add
-		index = parser.GetCararc(str[i:len(str)], "+-/*")
-		if index == -1 {
-			tmp_str = str[i:len(str)]
-			data[itab] += tmp_str
-		} else {
-			tmp_str = str[i:index]
-			data[itab] += tmp_str
-			itab++
-			data[itab] = str[index]
-			itab++
-		}
-		fmt.Println(data)
 	}
+	return (data)
+}
+
+func Float2string(Calc TmpComp) (string) {
+
+	return (fmt.Sprintf("%f%fi", Calc.a, Calc.b))
 }
 
 func ParseOne(str string) (x float64, y float64) {
 
+	var neg int = 0
+
+	if str[0] == '-' {
+		neg = 1
+		str = str[1:len(str)]
+	}
 	str_tmp := strings.ReplaceAll(str, "*", "")
+	str_tmp = strings.ReplaceAll(str, "-", "+-")
 	new_str := strings.Split(str_tmp, "+")
+
+	if neg == 1 {
+		new_str[0] = "-" + new_str[0]
+	}
 
 	if strings.Index(new_str[0], "i") != -1 {
 		y, _ = strconv.ParseFloat(strings.ReplaceAll(new_str[0], "i", ""), 64)
