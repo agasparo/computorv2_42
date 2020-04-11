@@ -6,6 +6,7 @@ import (
 	"maps"
 	"fmt"
 	"regexp"
+	"types"
 )
 
 type TmpComp struct {
@@ -14,21 +15,21 @@ type TmpComp struct {
 	b float64
 }
 
-func CalcVar(data map[int]string) (float64, float64) {
+func CalcVar(data map[int]string, vars *types.Variable) (float64, float64) {
 
-	data = CalcMulDivi(data)
-	data = CalcAddSous(data)
-	return ParseOne(data[0])
+	data = CalcMulDivi(data, vars)
+	data = CalcAddSous(data, vars)
+	return ParseOne(data[0], vars)
 }
 
-func CalcMulDivi(data map[int]string) (map[int]string) {
+func CalcMulDivi(data map[int]string, vars *types.Variable) (map[int]string) {
 
 	for i := 1; i < len(data); i += 2 {
 
 		if data[i] == "*" {
-			nb1, nb2 := ParseOne(data[i - 1])
+			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1])
+			nb3, nb4 := ParseOne(data[i + 1], vars)
 			mul(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
@@ -36,9 +37,9 @@ func CalcMulDivi(data map[int]string) (map[int]string) {
 		}
 
 		if data[i] == "/" {
-			nb1, nb2 := ParseOne(data[i - 1])
+			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1])
+			nb3, nb4 := ParseOne(data[i + 1], vars)
 			divi(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
@@ -48,14 +49,14 @@ func CalcMulDivi(data map[int]string) (map[int]string) {
 	return (data)
 }
 
-func CalcAddSous(data map[int]string) (map[int]string) {
+func CalcAddSous(data map[int]string, vars *types.Variable) (map[int]string) {
 
 	for i := 1; i < len(data); i += 2 {
 
 		if data[i] == "+" {
-			nb1, nb2 := ParseOne(data[i - 1])
+			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1])
+			nb3, nb4 := ParseOne(data[i + 1], vars)
 			add(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
@@ -63,9 +64,9 @@ func CalcAddSous(data map[int]string) (map[int]string) {
 		}
 
 		if data[i] == "-" {
-			nb1, nb2 := ParseOne(data[i - 1])
+			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1])
+			nb3, nb4 := ParseOne(data[i + 1], vars)
 			sous(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
@@ -87,11 +88,17 @@ func Float2string(Calc TmpComp) (string) {
 	return (fmt.Sprintf("%f%fi", Calc.a, Calc.b))
 }
 
-func ParseOne(str string) (x float64, y float64) {
+func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 
 	if str == "i" {
 		str = "1i"
 	}
+
+	if val, ok := vars.Table[str]; ok {
+
+		rep := val.Value()
+		str = rep
+    }
 
 	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 

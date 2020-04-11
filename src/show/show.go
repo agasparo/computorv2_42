@@ -8,7 +8,7 @@ import (
 func ShowVars(t int, v types.AllT) {
 
 	if t == 0 {
-		v.Value()
+		fmt.Println(v.Value())
 	} else {
 		fmt.Println("spevial")
 	}

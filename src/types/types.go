@@ -6,7 +6,7 @@ import (
 
 type AllT interface {
 
-	Value()
+	Value() (string)
 }
 
 /**************************************************************/
@@ -39,26 +39,25 @@ type Variable struct {
 
 /**************************************************************/
 
-func (r *Rationel) Value() {
+func (r *Rationel) Value() (string) {
 
 	fmt.Println(r.Number)
-	return
+	return "ok"
 }
 
-func (i *Imaginaire) Value() {
+func (i *Imaginaire) Value() (string) {
 
-	fmt.Printf("%f + %fi\n", i.A, i.B)
-	return
+	return (fmt.Sprintf("%f+%fi", i.A, i.B))
 }
 
-func (m *Matrice) Value() {
+func (m *Matrice) Value() (string) {
 
 	fmt.Println(m.Mat)
-	return
+	return "ok"
 }
 
-func (f *Fonction) Value() {
+func (f *Fonction) Value() (string) {
 
 	fmt.Println(f.Func)
-	return
+	return "ok"
 }
