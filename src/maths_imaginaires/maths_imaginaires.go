@@ -18,16 +18,16 @@ type TmpComp struct {
 
 func CalcVar(data map[int]string, vars *types.Variable) (float64, float64) {
 
-	data = CalcMulDivi(data, vars)
-	data = CalcAddSous(data, vars)
+	data = CalcMulDivi(data, vars, "")
+	data = CalcAddSous(data, vars, "")
 	return ParseOne(data[0], vars)
 }
 
-func CalcMulDivi(data map[int]string, vars *types.Variable) (map[int]string) {
+func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (map[int]string) {
 
 	for i := 1; i < len(data); i += 2 {
 
-		if data[i] == "*" {
+		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -37,7 +37,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable) (map[int]string) {
 			i = -1
 		}
 
-		if data[i] == "/" {
+		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -50,11 +50,11 @@ func CalcMulDivi(data map[int]string, vars *types.Variable) (map[int]string) {
 	return (data)
 }
 
-func CalcAddSous(data map[int]string, vars *types.Variable) (map[int]string) {
+func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (map[int]string) {
 
 	for i := 1; i < len(data); i += 2 {
 
-		if data[i] == "+" {
+		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -64,7 +64,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable) (map[int]string) {
 			i = -1
 		}
 
-		if data[i] == "-" {
+		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
