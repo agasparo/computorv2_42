@@ -16,6 +16,7 @@ type TmpComp struct {
 
 func CalcVar(data map[int]string) (float64, float64) {
 
+	fmt.Println(data)
 	data = CalcMulDivi(data)
 	data = CalcAddSous(data)
 	return ParseOne(data[0])
