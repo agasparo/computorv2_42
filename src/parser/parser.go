@@ -39,43 +39,6 @@ func GetCararc(str string, c string) (int) {
 	return (min)
 }
 
-func GetSign(str string, index int) (string, int) {
-
-	var add int = 0
-
-	if str[index] == '+' || str[index] == '-' {
-
-		add++
-	}
-
-	if str[index + 1] == '+' || str[index + 1] == '-' {
-
-		add++
-	} 
-
-	if str[index] == '+' && str[index + 1] == '-' {
-
-		return "-", add
-	}
-
-	if str[index] == '-' && str[index + 1] == '+' {
-
-		return "-", add
-	}
-
-	if str[index] == '-' && str[index + 1] == '-' {
-
-		return "+", add
-	}
-
-	if str[index] == '+' || str[index + 1] == '+' {
-
-		return "+", add
-	}
-
-	return string(str[index]), add
-}
-
 func GetAllIma(str string) (map[int]string) {
 
 	data := make(map[int]string)
