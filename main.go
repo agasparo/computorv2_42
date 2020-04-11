@@ -50,7 +50,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 
 	} else if strings.Index(str[1], "i") != -1 {
 
-		fmt.Println("imaginaires")
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
 		x, y := maths_imaginaires.CalcVar(data, Vars)
 		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
