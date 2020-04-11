@@ -89,6 +89,10 @@ func Float2string(Calc TmpComp) (string) {
 
 func ParseOne(str string) (x float64, y float64) {
 
+	if str == "i" {
+		str = "1i"
+	}
+
 	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
 	if r.MatchString(str) {
