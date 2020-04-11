@@ -45,13 +45,15 @@ func GetAll(str string) {
 		index = parser.GetCararc(str[i:len(str)], "+-/*")
 		if index == -1 {
 			tmp_str = str[i:len(str)]
+			data[itab] += tmp_str
 		} else {
 			tmp_str = str[i:index]
+			data[itab] += tmp_str
+			itab++
+			data[itab] = str[index]
+			itab++
 		}
-		data[itab] += tmp_str
-		itab++
 		fmt.Println(data)
-		return
 	}
 }
 
