@@ -32,7 +32,7 @@ func CalcMulDivi(data map[int]string) (map[int]string) {
 			mul(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
-			i = 1
+			i = -1
 		}
 
 		if data[i] == "/" {
@@ -42,7 +42,7 @@ func CalcMulDivi(data map[int]string) (map[int]string) {
 			divi(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
-			i = 1
+			i = -1
 		}
 	}
 	return (data)
@@ -59,7 +59,7 @@ func CalcAddSous(data map[int]string) (map[int]string) {
 			add(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
-			i = 1
+			i = -1
 		}
 
 		if data[i] == "-" {
@@ -69,7 +69,7 @@ func CalcAddSous(data map[int]string) (map[int]string) {
 			sous(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
-			i = 1
+			i = -1
 		}
 	}
 	return (data)

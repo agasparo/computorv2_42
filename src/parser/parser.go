@@ -140,7 +140,6 @@ func GetAllIma(str string) (map[int]string) {
 			data[itab] += sign
 			i = index + add
 			index = GetCararc(str[i:len(str)], "+-/*")
-			fmt.Println(data)
 			if str[index + i] == '*' && (str[index + 1 + i] == 'i' || str[index - 1 + i] == 'i') {
 				add := GetCararc(str[index + 1 + i:len(str)], "+-/*")
 				if add > -1 {
