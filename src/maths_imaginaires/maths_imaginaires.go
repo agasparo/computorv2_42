@@ -96,6 +96,7 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 	}
 
     str = replace_vars.GetVars(vars, str)
+    str = strings.ReplaceAll(str, " ", "")
 
 	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 

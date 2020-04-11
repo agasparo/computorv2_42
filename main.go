@@ -6,6 +6,7 @@ import (
 	"parser"
 	"error"
 	"show"
+	"commands"
 	"maths_imaginaires"
 	"maths_functions"
 	"fmt"
@@ -24,9 +25,11 @@ func main() {
 			fmt.Println("bye")
 			return
 		}
-		r, t, v := basic_check(Inputs, &Vars)
-		if r == 1 {
-			show.ShowVars(t, Vars.Table[v])
+		if commands.IsCommand(Inputs.Input[0], Vars) != 1 {
+			r, t, v := basic_check(Inputs, &Vars)
+			if r == 1 {
+				show.ShowVars(t, Vars.Table[v])
+			}
 		}
 	}
 }
@@ -52,7 +55,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
-
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
 		x, y := maths_imaginaires.CalcVar(data, Vars)
 		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
