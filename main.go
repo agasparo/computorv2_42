@@ -39,13 +39,13 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	str[0] = strings.ToLower((strings.Trim(str[0], " ")))
 	str[1] = strings.Trim(str[1], " ")
 
-	if strings.Index(str[0], "var") != -1 && strings.Index(str[1], "i") != -1 {
+	if strings.Index(str[1], "i") != -1 {
 		
 		fmt.Println("imaginaires")
-		nb1, nb2 := maths_imaginaires.GetAll(strings.ReplaceAll(str[1], " ", ""))
-		Vars.Table[str[0]] = &types.Imaginaire{ nb1, nb2 }
-		t = 0
-	} else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
+		maths_imaginaires.GetAll(strings.ReplaceAll(str[1], " ", ""))
+		//Vars.Table[str[0]] = &types.Imaginaire{ nb1, nb2 }
+		//t = 0
+	} /*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
 		
 		fmt.Println("matrice")
 	} else if  parser.IsNumeric(str[1]) {
@@ -62,7 +62,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 		fmt.Println("var")
     	Vars.Table[str[0]] = val
     	//t = 1
-    }
+    }*/
 
 	return 1, t, str[0]
 }
