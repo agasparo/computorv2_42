@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"regexp"
 	"types"
+	"replace_vars"
 )
 
 type TmpComp struct {
@@ -94,11 +95,7 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		str = "1i"
 	}
 
-	if val, ok := vars.Table[str]; ok {
-
-		rep := val.Value()
-		str = rep
-    }
+    str = replace_vars.GetVars(vars, str)
 
 	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
