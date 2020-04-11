@@ -66,12 +66,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	/*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
 		
 		fmt.Println("matrice")
-	} else if val, ok := Vars.Table[str[1]]; ok {
-
-		fmt.Println("var")
-    	Vars.Table[str[0]] = val
-    	//t = 1
-    }*/
+	}*/
 
 	return 1, t, str[0]
 }
