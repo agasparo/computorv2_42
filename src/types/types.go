@@ -41,8 +41,7 @@ type Variable struct {
 
 func (r *Rationel) Value() (string) {
 
-	fmt.Println(r.Number)
-	return "ok"
+	return (fmt.Sprintf("%f", r.Number))
 }
 
 func (i *Imaginaire) Value() (string) {

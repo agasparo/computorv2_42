@@ -58,7 +58,13 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 		x, y := maths_imaginaires.CalcVar(data, Vars)
 		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
 		t = 0
-	} /*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
+	} else {
+		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
+		x, _ := maths_imaginaires.CalcVar(data, Vars)
+		Vars.Table[str[0]] = &types.Rationel{ x }
+		t = 0
+	}
+	/*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
 		
 		fmt.Println("matrice")
 	} else if  parser.IsNumeric(str[1]) {
