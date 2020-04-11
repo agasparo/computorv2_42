@@ -77,6 +77,9 @@ func CalcAddSous(data map[int]string) (map[int]string) {
 
 func Float2string(Calc TmpComp) (string) {
 
+	if Calc.b >= 0 {
+		return (fmt.Sprintf("%f+%fi", Calc.a, Calc.b))
+	}
 	return (fmt.Sprintf("%f%fi", Calc.a, Calc.b))
 }
 
@@ -89,7 +92,7 @@ func ParseOne(str string) (x float64, y float64) {
 		str = str[1:len(str)]
 	}
 	str_tmp := strings.ReplaceAll(str, "*", "")
-	str_tmp = strings.ReplaceAll(str, "-", "+-")
+	str_tmp = strings.ReplaceAll(str_tmp, "-", "+-")
 	new_str := strings.Split(str_tmp, "+")
 
 	if neg == 1 {

@@ -96,7 +96,7 @@ func GetAllIma(str string) (map[int]string) {
 		}
 		index = GetCararc(str, "+-/*")
 		if str[index] == '*' && str[index + 1] == 'i' {
-			index = GetCararc(str[index:len(str)], "+-/*")
+			index += GetCararc(str[index + 1:len(str)], "+-/*") + 1
 		}
 		tmp_str = str[i:i + index]
 		if neg == 1 {
