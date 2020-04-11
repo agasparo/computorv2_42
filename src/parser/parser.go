@@ -128,39 +128,42 @@ func GetAllIma(str string) (map[int]string) {
 			}
 			str = n4 + str[index + tmp + i + 1:]
 			index = GetCararc(str, "+-/*")
-		}
-		tmp_str = str[i:i + index]
-		if neg == 1 {
-			data[itab] = ("-" + tmp_str)
-		} else {
-			data[itab] = tmp_str
-		}
-		sign, add := GetSign(str, index)
-		data[itab] += sign
-		i = index + add
-		index = GetCararc(str[i:len(str)], "+-/*")
-		if str[index + i] == '*' && (str[index + 1 + i] == 'i' || str[index - 1 + i] == 'i') {
-			add := GetCararc(str[index + 1 + i:len(str)], "+-/*")
-			if add > -1 {
-				index += add + 1
-			} else {
-				index = add
-			}
-		}
-		if index == -1 {
-			tmp_str = str[i:len(str)]
-			data[itab] += tmp_str
-			i = len(str)
+			i = -1
 		} else {
 			tmp_str = str[i:i + index]
-			data[itab] += tmp_str
-			itab++
-			data[itab] = string(str[i + index])
-			itab++
-			str = str[i + index + 1:len(str)]
-			i = -1
+			if neg == 1 {
+				data[itab] = ("-" + tmp_str)
+			} else {
+				data[itab] = tmp_str
+			}
+			sign, add := GetSign(str, index)
+			data[itab] += sign
+			i = index + add
+			index = GetCararc(str[i:len(str)], "+-/*")
+			fmt.Println(data)
+			if str[index + i] == '*' && (str[index + 1 + i] == 'i' || str[index - 1 + i] == 'i') {
+				add := GetCararc(str[index + 1 + i:len(str)], "+-/*")
+				if add > -1 {
+					index += add + 1
+				} else {
+					index = add
+				}
+			}
+			if index == -1 {
+				tmp_str = str[i:len(str)]
+				data[itab] += tmp_str
+				i = len(str)
+			} else {
+				tmp_str = str[i:i + index]
+				data[itab] += tmp_str
+				itab++
+				data[itab] = string(str[i + index])
+				itab++
+				str = str[i + index + 1:len(str)]
+				i = -1
+			}
+			neg = 0
 		}
-		neg = 0
 	}
 	return (data)
 }

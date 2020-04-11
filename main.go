@@ -19,6 +19,10 @@ func main() {
 	Vars.Table = make(map[string]types.AllT)
 	for i := 1; i == 1; i = 1 {
 		input.ReadSTDIN(&Inputs)
+		if Inputs.Input[0] == "exit" {
+			fmt.Println("bye")
+			return
+		}
 		r, t, v := basic_check(Inputs, &Vars)
 		if r == 1 {
 			show.ShowVars(t, Vars.Table[v])
