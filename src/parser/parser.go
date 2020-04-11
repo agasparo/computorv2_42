@@ -95,6 +95,14 @@ func GetAllIma(str string) (map[int]string) {
 			neg = 1
 		}
 		index = GetCararc(str, "+-/*")
+		if index == -1 {
+			if strings.Index(str, "i") != -1 {
+				str += "+0"
+			} else {
+				str += "+0i"
+			}
+			index = GetCararc(str, "+-/*")
+		}
 		if str[index] == '*' && str[index + 1] == 'i' {
 			index += GetCararc(str[index + 1:len(str)], "+-/*") + 1
 		}
