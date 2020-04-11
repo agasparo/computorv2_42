@@ -10,7 +10,6 @@ import (
 
 func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 
-	fmt.Println(tab)
 	x = Getx(x)
 	for i := 0; i < len(tab); i++ {
 
@@ -18,16 +17,10 @@ func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 			tab[i] = replace_vars.GetVars(vars, tab[i])
 		}
 	}
-	fmt.Println(tab)
-	fmt.Println(x)
 	tab = maths_imaginaires.CalcMulDivi(tab, vars, x)
 	tab = maths_imaginaires.CalcAddSous(tab, vars, x)
-	fmt.Println(CountSign(tab))
 	if CountSign(tab) == 1 {
 		return (JoinTab(tab))
-	}
-	if CheckSign(tab) == 1 {
-		fmt.Println("nop")
 	}
 	return (JoinTab(tab))
 }
@@ -62,23 +55,4 @@ func CountSign(tab map[int]string) (int) {
 		}
 	}
 	return (c)
-}
-
-func CheckSign(tab map[int]string) (int) { // a finir de modifier
-
-	cmp := "a"
-	type_a := "+-"
-	type_b := "*/%"
-
-	for i := 1; i < len(tab); i += 2 {
-
-		if cmp == "a" {
-			cmp = tab[i]
-		} else {
-			if cmp != tab[i] && tab[i] != "" {
-				return (0)
-			}
-		}
-	}
-	return (1)
 }
