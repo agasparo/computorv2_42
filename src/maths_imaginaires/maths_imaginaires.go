@@ -98,34 +98,56 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 	str = replace_vars.GetVars(vars, str)
     str = strings.ReplaceAll(str, " ", "")
 
-	if strings.Index(str, "ˆ") != -1 {
-		fmt.Println("Puissance")
-		//nstr := strings.Split(str, "ˆ")
-		//n1 := TmpComp{}
-		//n2 := TmpComp{}
-	}
+    r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
-	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
+	if strings.Index(str, "ˆ") != -1 {
+		nstr := strings.Split(str, "ˆ")
+		a, b := TransPow(nstr)
+		str = Float2string(TmpComp{ a, b })
+	}
 
 	if r.MatchString(str) {
 
-		neg := 0
-
-		if str[0] == '-' {
-			neg = 1
-			str = str[1:len(str)]
-		}
-		str = strings.ReplaceAll(str, "-", "+-")
-		nstr := strings.Split(str, "+")
-		if neg == 1 {
-			nstr[0] = "-" + nstr[0]
-		}
-		return Trans(nstr)
+		return Trans(str)
 	}
 	return TransN(str)
 }
 
-func Trans(nstr []string) (x float64, y float64) {
+func TransPow(nstr []string) (x float64, y float64) {
+	
+	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
+
+	var a, c, d float64
+
+	if r.MatchString(nstr[0]) {
+		c, d = Trans(nstr[0])
+	} else {
+		c, d = TransN(nstr[0])
+	}
+	Base := TmpComp{ c , d }
+
+	for i := 1; i < len(nstr); i++ {
+
+		a, _ = TransN(nstr[i])
+		Pow(&Base, int64(a))
+	}
+
+	return Base.a, Base.b
+}
+
+func Trans(str string) (x float64, y float64) {
+
+	neg := 0
+
+	if str[0] == '-' {
+		neg = 1
+		str = str[1:len(str)]
+	}
+	str = strings.ReplaceAll(str, "-", "+-")
+	nstr := strings.Split(str, "+")
+	if neg == 1 {
+		nstr[0] = "-" + nstr[0]
+	}
 	
 	if strings.Index(nstr[0], "i") != -1 {
 		y, _ = strconv.ParseFloat(strings.ReplaceAll(nstr[0], "i", ""), 64)
@@ -177,7 +199,12 @@ func sous(Finu *TmpComp, a float64, b float64) {
 	Finu.b = Finu.b - b
 }
 
-func Pow(x *TmpComp, n int) {
+func Pow(n1 *TmpComp, n2 int64) {
 
-    
+	coe := n1.a
+
+    for i := int64(1); i < n2; i++ {
+        
+        mul(n1, coe, 0)
+    }
 }
