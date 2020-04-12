@@ -54,7 +54,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 	for i := 1; i < len(data); i += 2 {
 
-		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue {
+		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -64,7 +64,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 			i = -1
 		}
 
-		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue {
+		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)

@@ -21,8 +21,8 @@ func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 			tab[i] = replace_vars.GetVars(vars, tab[i])
 		}
 	}
-	fmt.Println(tab)
 	tab = maths_imaginaires.CalcMulDivi(tab, vars, x)
+	fmt.Println(tab)
 	tab = maths_imaginaires.CalcAddSous(tab, vars, x)
 	return (JoinTab(tab))
 }
