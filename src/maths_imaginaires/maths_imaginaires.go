@@ -95,8 +95,15 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		str = "1i"
 	}
 
-    str = replace_vars.GetVars(vars, str)
+	str = replace_vars.GetVars(vars, str)
     str = strings.ReplaceAll(str, " ", "")
+
+	if strings.Index(str, "ˆ") != -1 {
+		fmt.Println("Puissance")
+		//nstr := strings.Split(str, "ˆ")
+		//n1 := TmpComp{}
+		//n2 := TmpComp{}
+	}
 
 	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
@@ -113,16 +120,24 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		if neg == 1 {
 			nstr[0] = "-" + nstr[0]
 		}
-
-		if strings.Index(nstr[0], "i") != -1 {
-			y, _ = strconv.ParseFloat(strings.ReplaceAll(nstr[0], "i", ""), 64)
-			x, _ = strconv.ParseFloat(nstr[1], 64)
-		} else {
-			x, _ = strconv.ParseFloat(nstr[0], 64)
-			y, _ = strconv.ParseFloat(strings.ReplaceAll(nstr[1], "i", ""), 64)
-		}
-		return x, y
+		return Trans(nstr)
 	}
+	return TransN(str)
+}
+
+func Trans(nstr []string) (x float64, y float64) {
+	
+	if strings.Index(nstr[0], "i") != -1 {
+		y, _ = strconv.ParseFloat(strings.ReplaceAll(nstr[0], "i", ""), 64)
+		x, _ = strconv.ParseFloat(nstr[1], 64)
+	} else {
+		x, _ = strconv.ParseFloat(nstr[0], 64)
+		y, _ = strconv.ParseFloat(strings.ReplaceAll(nstr[1], "i", ""), 64)
+	}
+	return x, y
+}
+
+func TransN(str string) (x float64, y float64) {
 
 	if strings.Index(str, "i") != -1 {
 		y, _ = strconv.ParseFloat(strings.ReplaceAll(str, "i", ""), 64)
@@ -131,7 +146,6 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		x, _ = strconv.ParseFloat(str, 64)
 		y, _ = strconv.ParseFloat("0.000", 64)
 	}
-
 	return x, y
 }
 
@@ -161,4 +175,9 @@ func sous(Finu *TmpComp, a float64, b float64) {
 
 	Finu.a = Finu.a - a
 	Finu.b = Finu.b - b
+}
+
+func Pow(x *TmpComp, n int) {
+
+    
 }
