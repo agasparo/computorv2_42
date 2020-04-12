@@ -119,17 +119,20 @@ func TransPow(nstr []string) (x float64, y float64) {
 
 	var a, c, d float64
 
-	if r.MatchString(nstr[0]) {
-		c, d = Trans(nstr[0])
-	} else {
-		c, d = TransN(nstr[0])
-	}
-	Base := TmpComp{ c , d }
+	Base := TmpComp{}
 
-	for i := 1; i < len(nstr); i++ {
+	for i := len(nstr) - 1; i > 0; i-- {
 
 		a, _ = TransN(nstr[i])
+		if r.MatchString(nstr[i - 1]) {
+			c, d = Trans(nstr[i - 1])
+		} else {
+			c, d = TransN(nstr[i - 1])
+		}
+		Base.a = c
+		Base.b = d
 		Pow(&Base, int64(a))
+		nstr[i - 1] = Float2string(Base)
 	}
 
 	return Base.a, Base.b
