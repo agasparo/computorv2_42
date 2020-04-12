@@ -211,10 +211,7 @@ func sous(Finu *TmpComp, a float64, b float64) {
 func Pow(n1 *TmpComp, n2 int64) {
 
 	coe := n1.a
-	im := float64(0)
-	if coe == 0 {
-		im = n1.b
-	}
+	im := n1.b
 
     for i := int64(1); i < n2; i++ {
         
