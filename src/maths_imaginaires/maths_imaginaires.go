@@ -123,6 +123,12 @@ func TransPow(nstr []string) (x float64, y float64) {
 
 	for i := len(nstr) - 1; i > 0; i-- {
 
+		if nstr[i] == "i" {
+			nstr[i] = "1i"
+		}
+		if nstr[i - 1] == "i" {
+			nstr[i - 1] = "1i"
+		}
 		a, _ = TransN(nstr[i])
 		if r.MatchString(nstr[i - 1]) {
 			c, d = Trans(nstr[i - 1])
@@ -205,9 +211,13 @@ func sous(Finu *TmpComp, a float64, b float64) {
 func Pow(n1 *TmpComp, n2 int64) {
 
 	coe := n1.a
+	im := float64(0)
+	if coe == 0 {
+		im = n1.b
+	}
 
     for i := int64(1); i < n2; i++ {
         
-        mul(n1, coe, 0)
+        mul(n1, coe, im)
     }
 }
