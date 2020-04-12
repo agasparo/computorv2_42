@@ -1,7 +1,7 @@
 package maths_functions
 
 import (
-	//"fmt"
+	"fmt"
 	"strings"
 	"types"
 	"replace_vars"
@@ -13,15 +13,17 @@ func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 	x = Getx(x)
 	for i := 0; i < len(tab); i++ {
 
+		if tab[i] != x && strings.Index(tab[i], x) != -1 {
+			AddMul(tab[i], x, tab, i)
+		}
+
 		if tab[i] != x {
 			tab[i] = replace_vars.GetVars(vars, tab[i])
 		}
 	}
+	fmt.Println(tab)
 	tab = maths_imaginaires.CalcMulDivi(tab, vars, x)
 	tab = maths_imaginaires.CalcAddSous(tab, vars, x)
-	if CountSign(tab) == 1 {
-		return (JoinTab(tab))
-	}
 	return (JoinTab(tab))
 }
 
@@ -44,15 +46,34 @@ func JoinTab(tab map[int]string) (string) {
 	return (str)
 }
 
-func CountSign(tab map[int]string) (int) {
+func SliceTab(tab map[int]string, a int, b int) (map[int]string) {
 
+	data := make(map[int]string)
 	c := 0
 
-	for i := 1; i < len(tab); i += 2 {
+	for i := a; i < b; i++ {
 
-		if tab[i] != "" {
-			c++
-		}
+		data[c] = tab[i]
+		c++
 	}
-	return (c)
+	return (data)
+}
+
+func RempTab(tab map[int]string, data map[int]string, a int) (map[int]string) {
+
+	for i := 0; i < len(data); i++ {
+
+		tab[a + i] = data[i]
+	}
+	return (tab)
+}
+
+func AddMul(str string, x string, tab map[int]string, i int) {
+
+	nstr := strings.Split(str, x)
+	Slice1 := SliceTab(tab, i + 1, len(tab))
+	tab[i + 0] = nstr[0]
+	tab[i + 1] = "*"
+	tab[i + 2] = x
+	tab = RempTab(tab, Slice1, i + 3)
 }
