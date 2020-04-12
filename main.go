@@ -11,6 +11,7 @@ import (
 	"maths_functions"
 	"fmt"
 	"strings"
+	"parentheses"
 )
 
 func main() {
@@ -47,21 +48,24 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	str[0] = strings.ToLower((strings.Trim(str[0], " ")))
 	str[1] = strings.Trim(str[1], " ")
 
-	if str[1] == "?" {
+	/*if str[1] == "?" {
 		fmt.Println("a faire")
-	} else if parser.IsFunc(str[0]) == 1 {
-
-		res := maths_functions.Init(parser.GetAllIma(strings.ReplaceAll(str[1], " ", "")), str[0], Vars)
+	} else */
+	if parser.IsFunc(str[0]) == 1 {
+		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
+		res := maths_functions.Init(data, str[0], Vars)
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
-		x, y := maths_imaginaires.CalcVar(data, Vars)
+		par := parentheses.Parse(data, Vars)
+		x, y := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
 		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
-		x, _ := maths_imaginaires.CalcVar(data, Vars)
+		par := parentheses.Parse(data, Vars)
+		x, _ := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table[str[0]] = &types.Rationel{ x }
 		t = 0
 	}
