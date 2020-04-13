@@ -3,27 +3,25 @@ package courbe
 import (
 	"replace_vars"
 	"types"
-	"os/exec"
   	"fmt"
-  	"os"
   	"strings"
   	"strconv"
   	"maths_functions"
+  	"github.com/wcharczuk/go-chart"
+  	"os"
 )
 
 type Complexe struct {
 
-	a float64
-	b float64
+	a_y float64
+	b_y float64
+	a_x float64
+	b_x float64
 }
 
 type Courbe struct {
 
 	Funct string
-	X int
-	Y int
-	Echelle_x int
-	Echelle_y int
 	Interval_i int
 	Interval_f int
 	Name string
@@ -33,9 +31,6 @@ func Init(vars *types.Variable, str string, C *Courbe) {
 
 
 	C.Funct = replace_vars.GetVars(vars, str)
-	size := strings.Split(strings.ReplaceAll(GetSize(), "\n", ""), " ")
-	C.X, _ = strconv.Atoi(size[0])
-	C.Y, _ = strconv.Atoi(size[1])
 	C.Interval_i = 0
 	C.Interval_f = 50
 	C.Name = str
@@ -47,6 +42,7 @@ func Trace(C Courbe, vars *types.Variable) {
 	CalcPoints(&C, tab, vars)
 	fmt.Println(C)
 	fmt.Println(tab)
+	//Draw()
 }
 
 func CalcPoints(C *Courbe, tab map[int]Complexe, vars *types.Variable) {
@@ -56,16 +52,22 @@ func CalcPoints(C *Courbe, tab map[int]Complexe, vars *types.Variable) {
 	for i := C.Interval_i; i < C.Interval_f; i++ {
 
 		a, b := maths_functions.Calc(C.Funct, maths_functions.Getx(C.Name), strconv.Itoa(i), vars)
-		tab[c] = Complexe{ a, b }
+		tab[c] = Complexe{ a, b, float64(i), 0 }
 		c++
 	}
-	C.Echelle_x = int(float64(C.X) / tab[c - 1].a)
-	C.Echelle_y = int(float64(C.Y) / tab[c - 1].b)
 }
 
-func GetSize() (string) {
-	cmd := exec.Command("stty", "size")
-  	cmd.Stdin = os.Stdin
-  	out, _ := cmd.Output()
-  	return (string(out))
-}
+/*func Draw() {
+	graph := chart.Chart{
+	    Series: []chart.Series{
+	        chart.ContinuousSeries{
+	            XValues: []float64{1.0, 2.0, 3.0, 4.0},
+	            YValues: []float64{1.0, 2.0, 3.0, 4.0},
+	        },
+	    },
+	}
+
+	f, _ := os.Create("output.png")
+	defer f.Close()
+	graph.Render(chart.PNG, f)
+}*/
