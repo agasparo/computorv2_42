@@ -102,8 +102,11 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 
     r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
-	if strings.Index(str, "ˆ") != -1 {
+	if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 {
 		nstr := strings.Split(str, "ˆ")
+		if len(nstr) == 1 {
+			nstr = strings.Split(str, "^")
+		}
 		a, b := TransPow(nstr)
 		str = Float2string(TmpComp{ a, b })
 	}
