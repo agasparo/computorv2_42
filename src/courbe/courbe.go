@@ -45,6 +45,7 @@ func Trace(C Courbe, vars *types.Variable) {
 
 	tab := make(map[int]Complexe)
 	CalcPoints(&C, tab, vars)
+	fmt.Println(C)
 	fmt.Println(tab)
 }
 

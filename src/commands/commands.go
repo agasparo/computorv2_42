@@ -50,6 +50,5 @@ func Grap(str string, Vars types.Variable) {
 
 	C := courbe.Courbe{}
 	courbe.Init(&Vars, str, &C)
-	fmt.Println(C)
 	courbe.Trace(C, &Vars)
 }
