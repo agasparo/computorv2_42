@@ -68,7 +68,7 @@ func GetAllIma(str string) (map[int]string) {
 			str = str[1:len(str)]
 			neg = 1
 		}
-		index := GetCararc(str, "+-/*")
+		index := GetCararc(str, "+-/*%")
 		if index == -1 {
 			data[itab] = str
 			return (data)

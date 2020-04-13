@@ -37,6 +37,16 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			i = -1
 		}
 
+		if data[i] == "%" && data[i - 1] != inconnue && data[i + 1] != inconnue {
+			nb1, nb2 := ParseOne(data[i - 1], vars)
+			Calc := TmpComp{nb1, nb2}
+			nb3, nb4 := ParseOne(data[i + 1], vars)
+			mod(&Calc, nb3, nb4)
+			data = maps.MapSlice(data, i)
+			data[i - 1] = Float2string(Calc)
+			i = -1
+		}
+
 		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
@@ -211,6 +221,17 @@ func sous(Finu *TmpComp, a float64, b float64) {
 
 	Finu.a = Finu.a - a
 	Finu.b = Finu.b - b
+}
+
+func mod(Finu *TmpComp, a float64, b float64) {
+
+	Calc := TmpComp{ Finu.a, Finu.b }
+	divi(&Calc, a, b)
+	Calc.a = float64(int64(Calc.a))
+	Calc.b = float64(int64(Calc.b))
+	mul(&Calc, a, b)
+	sous(Finu, Calc.a, Calc.b)
+
 }
 
 func Pow(n1 *TmpComp, n2 int64) {
