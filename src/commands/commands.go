@@ -38,4 +38,5 @@ func Help() {
 
 	fmt.Println("List of commands : ")
 	fmt.Println("1 : '-list' -> List all vars")
+	fmt.Println("2 : '-graph [function]' -> show a courbe of the function")
 }
