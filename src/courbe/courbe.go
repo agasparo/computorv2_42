@@ -79,4 +79,5 @@ func Draw(C Courbe, tabx []float64, taby []float64) {
     }
 
     fmt.Println(string(stdout))
+    os.Remove(C.Name + ".png")
 }
