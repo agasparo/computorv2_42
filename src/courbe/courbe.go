@@ -3,7 +3,6 @@ package courbe
 import (
 	"replace_vars"
 	"types"
-  	"fmt"
   	"strconv"
   	"maths_functions"
   	"github.com/wcharczuk/go-chart"
@@ -32,7 +31,6 @@ func Trace(C Courbe, vars *types.Variable) {
 	var tabx []float64
 	var taby []float64
 	tabx, taby = CalcPoints(&C, tabx, taby, vars)
-	fmt.Println(C)
 	Draw(C, tabx, taby)
 }
 
@@ -51,6 +49,7 @@ func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars *types.Variable)
 }
 
 func Draw(C Courbe, tabx []float64, taby []float64) {
+	
 	graph := chart.Chart{
 	    Series: []chart.Series{
 	        chart.ContinuousSeries{
@@ -60,10 +59,12 @@ func Draw(C Courbe, tabx []float64, taby []float64) {
 	        },
 	    },
 	}
+
 	graph.Elements = []chart.Renderable{
 		chart.Legend(&graph),
 	}
-	f, _ := os.Create("output.png")
+
+	f, _ := os.Create("res_graph/" + C.Name + ".png")
 	defer f.Close()
 	graph.Render(chart.PNG, f)
 }
