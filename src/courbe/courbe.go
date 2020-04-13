@@ -7,6 +7,8 @@ import (
   	"maths_functions"
   	"github.com/wcharczuk/go-chart"
   	"os"
+  	"fmt"
+  	"os/exec"
 )
 
 type Courbe struct {
@@ -64,7 +66,17 @@ func Draw(C Courbe, tabx []float64, taby []float64) {
 		chart.Legend(&graph),
 	}
 
-	f, _ := os.Create("res_graph/" + C.Name + ".png")
+	f, _ := os.Create(C.Name + ".png")
 	defer f.Close()
 	graph.Render(chart.PNG, f)
+	
+	cmd := exec.Command("sh", "catimg.sh", C.Name + ".png")
+    stdout, err := cmd.Output()
+
+    if err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+
+    fmt.Println(string(stdout))
 }
