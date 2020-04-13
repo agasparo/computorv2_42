@@ -5,9 +5,10 @@ import (
 	"types"
 	"text/tabwriter"
 	"os"
+	"courbe"
 )
 
-func IsCommand(str string, Vars types.Variable) (int) {
+func IsCommand(str string, str1 string, Vars types.Variable) (int) {
 
 	if str == "-list" {
 		GetAllVars(Vars.Table)
@@ -16,6 +17,10 @@ func IsCommand(str string, Vars types.Variable) (int) {
 	if str == "-help" {
 		Help()
 		return (1)
+	}
+	if str == "-graph" {
+		Grap(str1, Vars)
+		return(1)
 	}
 	return (0)
 }
@@ -39,4 +44,10 @@ func Help() {
 	fmt.Println("List of commands : ")
 	fmt.Println("1 : '-list' -> List all vars")
 	fmt.Println("2 : '-graph [function]' -> show a courbe of the function")
+}
+
+func Grap(str string, Vars types.Variable) {
+
+	C := courbe.Courbe{}
+	courbe.Init(Vars, 50, 50, str, &C)
 }

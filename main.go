@@ -26,7 +26,7 @@ func main() {
 			fmt.Println("bye")
 			return
 		}
-		if commands.IsCommand(Inputs.Input[0], Vars) != 1 {
+		if commands.IsCommand(Inputs.Input[0], Inputs.Input[1], Vars) != 1 {
 			r, t, v := basic_check(Inputs, &Vars)
 			if r == 1 {
 				show.ShowVars(t, Vars.Table[v])
