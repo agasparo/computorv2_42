@@ -13,6 +13,10 @@ func IsCommand(str string, Vars types.Variable) (int) {
 		GetAllVars(Vars.Table)
 		return (1)
 	}
+	if str == "-help" {
+		Help()
+		return (1)
+	}
 	return (0)
 }
 
@@ -28,4 +32,10 @@ func GetAllVars(tab map[string]types.AllT) {
 	}
     fmt.Fprintln(w)
     w.Flush()
+}
+
+func Help() {
+
+	fmt.Println("List of commands : ")
+	fmt.Println("1 : '-list' -> List all vars")
 }
