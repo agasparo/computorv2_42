@@ -4,20 +4,11 @@ import (
 	"replace_vars"
 	"types"
   	"fmt"
-  	"strings"
   	"strconv"
   	"maths_functions"
   	"github.com/wcharczuk/go-chart"
   	"os"
 )
-
-type Complexe struct {
-
-	a_y float64
-	b_y float64
-	a_x float64
-	b_x float64
-}
 
 type Courbe struct {
 
@@ -38,36 +29,41 @@ func Init(vars *types.Variable, str string, C *Courbe) {
 
 func Trace(C Courbe, vars *types.Variable) {
 
-	tab := make(map[int]Complexe)
-	CalcPoints(&C, tab, vars)
+	var tabx []float64
+	var taby []float64
+	tabx, taby = CalcPoints(&C, tabx, taby, vars)
 	fmt.Println(C)
-	fmt.Println(tab)
-	//Draw()
+	Draw(C, tabx, taby)
 }
 
-func CalcPoints(C *Courbe, tab map[int]Complexe, vars *types.Variable) {
+func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars *types.Variable) ([]float64, []float64) {
 
 	c := 0
 
 	for i := C.Interval_i; i < C.Interval_f; i++ {
 
-		a, b := maths_functions.Calc(C.Funct, maths_functions.Getx(C.Name), strconv.Itoa(i), vars)
-		tab[c] = Complexe{ a, b, float64(i), 0 }
+		a, _ := maths_functions.Calc(C.Funct, maths_functions.Getx(C.Name), strconv.Itoa(i), vars)
+		tabx = append(tabx, float64(i))
+		taby = append(taby, a)
 		c++
 	}
+	return tabx, taby
 }
 
-/*func Draw() {
+func Draw(C Courbe, tabx []float64, taby []float64) {
 	graph := chart.Chart{
 	    Series: []chart.Series{
 	        chart.ContinuousSeries{
-	            XValues: []float64{1.0, 2.0, 3.0, 4.0},
-	            YValues: []float64{1.0, 2.0, 3.0, 4.0},
+	        	Name:    C.Name + " = " + C.Funct,
+	            XValues: tabx,
+	            YValues: taby,
 	        },
 	    },
 	}
-
+	graph.Elements = []chart.Renderable{
+		chart.Legend(&graph),
+	}
 	f, _ := os.Create("output.png")
 	defer f.Close()
 	graph.Render(chart.PNG, f)
-}*/
+}
