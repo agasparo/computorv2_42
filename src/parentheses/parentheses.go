@@ -8,6 +8,7 @@ import (
 	"maths_functions"
 	"maps"
 	"parser"
+	"strconv"
 )
 
 type TmpComp struct {
@@ -23,8 +24,12 @@ func Parse(tab map[int]string, Vars *types.Variable) (map[int]string) {
 		return (tab)
 	}
 	for max := nb_par; max > 0; max-- {
+		fmt.Println("--------------------------------------------")
 		index_d := getIndexof(tab, "(", max, 0)
 		index_c := getIndexfin(tab, ")", index_d + 1)
+		if index_c == -1 {
+			index_c = index_d
+		}
 		ntab := maths_functions.SliceTab(tab, index_d, index_c + 1)
 		gn, powers, pl := PowerC(ntab[0], ntab[len(ntab) - 1])
 		if powers != "" {
@@ -34,17 +39,18 @@ func Parse(tab map[int]string, Vars *types.Variable) (map[int]string) {
 				ntab[len(ntab) - 1] = gn
 			}
 		}
-		add, pos := check(ntab)
+		add, pos, repete := check(ntab)
 		n1, n2 := maths_imaginaires.CalcVar(ntab, Vars)
 		res := Float2string(TmpComp{ n1, n2 })
 		if powers != "" {
-			fmt.Println(res)
-			po := parser.GetAllIma(strings.ReplaceAll(add_check(res, powers, pl), " ", ""))
+			po := parser.GetAllIma(strings.ReplaceAll(add_check(res, powers, pl, "1"), " ", ""))
+			fmt.Println(po)
 			a, b := maths_imaginaires.CalcVar(po, Vars)
 			res = Float2string(TmpComp{ a, b })
 		}
-		tab[index_d] = add_check(res, add, pos)
+		tab[index_d] = add_check(res, add, pos, repete)
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
+		fmt.Println(tab)
 	}
 	return (tab)
 }
@@ -56,38 +62,65 @@ func PowerC(str string, str1 string) (string, string, int) {
 		return str[index:len(str)], str[0:index], 0
 	}
 	if str1[len(str1) - 1] != ')' {
-		index := strings.Index(str1, ")")
+		index := indexString(str1, ")")
 		return str1[0:index + 1], str1[index + 1:len(str1)], 1
 	}
 	return str, "", 0
 }
 
-func add_check(str string, add string, pos int) (string) {
+func add_check(str string, add string, pos int, r string) (string) {
 
 	if add == "" {
 		return (str)
 	}
+	if pos == 2 {
+		nt := strings.Split(r, "|")
+		np := strings.Split(add, "|")
+		a, _ := strconv.Atoi(nt[0])
+		b, _ := strconv.Atoi(nt[1])
+		return (strings.Repeat(np[0], a) + str + strings.Repeat(np[1], b))
+	}
 	if pos == 0 {
-		return (add + str)
+		a, _ := strconv.Atoi(r)
+		return (strings.Repeat(add, a) + str)
 	}
 	if pos == 1 {
-		return (str + add)
+		a, _ := strconv.Atoi(r)
+		return (str + strings.Repeat(add, a))
 	}
 	return (str)
 }
 
-func check(tab map[int]string) (string, int) {
+func check(tab map[int]string) (string, int, string) {
 
 	c_d := countPara(tab, "(")
 	c_f := countPara(tab, ")")
 
+	fmt.Printf("c_f : %d, c_d : %d\n", c_f, c_d)
+
+	if c_f > 1 && c_d > 1 {
+		return "(|)", 2, fmt.Sprintf("%d|%d", c_d - 1, c_f - 1)
+	}
 	if c_d > 1 {
-		return "(", 0
+		return "(", 0, fmt.Sprintf("%d", c_d - 1)
 	}
 	if c_f > 1 {
-		return ")", 1
+		return ")", 1, fmt.Sprintf("%d", c_f - 1)
 	}
-	return "", 0
+	return "", 0,  fmt.Sprintf("%d", 0)
+}
+
+func indexString(str string, s string) (int) {
+
+	pos := -1
+
+	for i := 0; i < len(str); i++ {
+		
+		if string(str[i]) == s {
+			pos = i
+		}
+	}
+	return (pos)
 }
 
 func countPara(tab map[int]string, s string) (int) {
@@ -96,6 +129,7 @@ func countPara(tab map[int]string, s string) (int) {
 	for i := 0; i < len(tab); i++ {
 
 		if strings.Index(tab[i], s) != -1 {
+			fmt.Println(tab[i])
 			c += strings.Count(tab[i], s)
 		}
 	}
@@ -105,10 +139,11 @@ func countPara(tab map[int]string, s string) (int) {
 func getIndexof(tab map[int]string, x string, y int, z int) (int) {
 
 	c := 0
+	fmt.Println(tab)
 	for i := z; i < len(tab); i++ {
 
 		if strings.Index(tab[i], x) != -1 {
-			c++
+			c += strings.Count(tab[i], x)
 			if c == y {
 				return (i)
 			}
