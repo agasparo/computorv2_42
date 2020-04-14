@@ -7,6 +7,7 @@ import (
 	"types"
 	"fmt"
 	"maths_imaginaires"
+	"replace_vars"
 )
 
 type TmpComp struct {
@@ -73,7 +74,7 @@ func GetDataFunc(str string, tab map[string]types.AllT) (string, string) {
 
 	for index, element := range tab {
 
-		p2 := strings.Index(str, "(")
+		p2 := strings.Index(index, "(")
 		if p2 > 0 && cmp == index[0:p2] {
 			return index, element.Value()
 		}
@@ -91,7 +92,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
 			r := data[i][p1 + 1:p2]
-			a, b := Calc(value, x, r, &Vars)
+			a, b := Calc(value, x, replace_vars.GetVars(&Vars, r), &Vars)
 			data[i] = "(" + Float2string(TmpComp{ a, b }) + ")"
 		}
 	}
