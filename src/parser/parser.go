@@ -6,7 +6,6 @@ import (
 	"unicode"
 	"types"
 	"fmt"
-	"maths_imaginaires"
 	"replace_vars"
 	"maps"
 )
@@ -48,16 +47,6 @@ func GetCararc(str string, c string) (int) {
 		}
 	}
 	return (min)
-}
-
-func Calc(fu string, x string, r string, vars *types.Variable) (float64, float64) {
-
-	fu = strings.ReplaceAll(fu, x, r)
-	data := GetAllIma(fu)
-	par := parentheses.Parse(data, vars, false, "")
-	par = maths_imaginaires.CalcMulDivi(par, vars, x)
-	par = maths_imaginaires.CalcAddSous(par, vars, x)
-	return (maths_imaginaires.ParseOne(par[0], vars))
 }
 
 func Getx(str string) (string) {
