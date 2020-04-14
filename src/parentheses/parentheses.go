@@ -24,7 +24,6 @@ func Parse(tab map[int]string, Vars *types.Variable) (map[int]string) {
 		return (tab)
 	}
 	for max := nb_par; max > 0; max-- {
-		fmt.Println("--------------------------------------------")
 		index_d := getIndexof(tab, "(", max, 0)
 		index_c := getIndexfin(tab, ")", index_d + 1)
 		if index_c == -1 {
@@ -106,8 +105,6 @@ func check(tab map[int]string) (string, int, string) {
 	c_d := countPara(tab, "(")
 	c_f := countPara(tab, ")")
 
-	fmt.Printf("c_f : %d, c_d : %d\n", c_f, c_d)
-
 	if c_f > 1 && c_d > 1 {
 		return "(|)", 2, fmt.Sprintf("%d|%d", c_d - 1, c_f - 1)
 	}
@@ -139,7 +136,6 @@ func countPara(tab map[int]string, s string) (int) {
 	for i := 0; i < len(tab); i++ {
 
 		if strings.Index(tab[i], s) != -1 {
-			fmt.Println(tab[i])
 			c += strings.Count(tab[i], s)
 		}
 	}
@@ -149,7 +145,7 @@ func countPara(tab map[int]string, s string) (int) {
 func getIndexof(tab map[int]string, x string, y int, z int) (int) {
 
 	c := 0
-	fmt.Println(tab)
+
 	for i := z; i < len(tab); i++ {
 
 		if strings.Index(tab[i], x) != -1 {

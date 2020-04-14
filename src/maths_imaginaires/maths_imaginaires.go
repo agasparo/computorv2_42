@@ -242,5 +242,24 @@ func Pow(n1 *TmpComp, n2 int64) {
     for i := int64(1); i < n2; i++ {
         
         mul(n1, coe, im)
+        if Isinf(n1, coe, im) {
+        	return
+        }
     }
+    Isinf(n1, coe, im)
+}
+
+func IsNan(f float64) (bool) {
+
+	return f != f
+}
+
+func Isinf(n1 *TmpComp, coe float64, im float64) (bool) {
+	
+	Calc := TmpComp{n1.a, n1.b}
+	mul(&Calc, coe, im)
+	if IsNan(Calc.a) || IsNan(Calc.b) {
+		return (true)
+	}
+    return (false)
 }
