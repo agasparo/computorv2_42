@@ -33,7 +33,9 @@ func GetAllVars(tab map[string]types.AllT) {
 	w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
 	for index, element := range tab {
 
-		fmt.Fprintln(w, index + "\t" + element.Value() + "\t")
+		if index != "?" {
+			fmt.Fprintln(w, index + "\t" + element.Value() + "\t")
+		}
 	}
     fmt.Fprintln(w)
     w.Flush()
