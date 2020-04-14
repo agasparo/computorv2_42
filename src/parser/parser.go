@@ -5,6 +5,7 @@ import (
 	"strings"
 	"fmt"
 	"unicode"
+	"maths_functions"
 )
 
 func Array_search_count(array []string, to_search string) (res int) {
@@ -40,12 +41,14 @@ func GetCararc(str string, c string) (int) {
 	return (min)
 }
 
-func Checkfunc(data map[int]string) (map[int]string) {
+func Checkfunc(data map[int]string, Vars *types.Variable) (map[int]string) {
 
 	for i := 0; i < len(data); i++ {
 
 		if IsFunc(data[i]) == 1 {
-			fmt.Println("CalcFunc")
+			name, value := maths_functions.GetDataFunc(data[i], Vars)
+			fmt.Println(name)
+			fmt.Println(value)
 		}
 	}
 	return (data)

@@ -38,6 +38,22 @@ func Getx(str string) (string) {
 	return (str)
 }
 
+func GetDataFunc(str string, Vars *types.Variable) (string, string) {
+
+	p1 := strings.Index(str, "(")
+
+	cmp := str[0:p1]
+
+	for index, element := range tab {
+
+		p2 := strings.Index(str, "(")
+		if cmp == index[0:p2] {
+			return index, element
+		}
+	}
+	return "", ""
+}
+
 func JoinTab(tab map[int]string) (string) {
 
 	str := ""
