@@ -31,7 +31,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		}
 		ntab := maths_functions.SliceTab(tab, index_d, index_c + 1)
 		if is_f {
-			if maps.Array_search_count(tab, maths_functions.Getx(f_name)) >= 1 {
+			if maps.Array_search_count(ntab, maths_functions.Getx(f_name)) >= 1 {
 				return (tab)
 			}
 		}
