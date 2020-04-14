@@ -3,10 +3,17 @@ package parser
 import (
 	"strconv"
 	"strings"
-	"fmt"
 	"unicode"
-	"maths_functions"
+	"types"
+	"fmt"
+	"maths_imaginaires"
 )
+
+type TmpComp struct {
+
+	a float64
+	b float64
+}
 
 func Array_search_count(array []string, to_search string) (res int) {
 
@@ -41,20 +48,57 @@ func GetCararc(str string, c string) (int) {
 	return (min)
 }
 
-func Checkfunc(data map[int]string, Vars *types.Variable) (map[int]string) {
+func Calc(fu string, x string, r string, vars *types.Variable) (float64, float64) {
+
+	fu = strings.ReplaceAll(fu, x, r)
+	data := GetAllIma(fu)
+	data = maths_imaginaires.CalcMulDivi(data, vars, x)
+	data = maths_imaginaires.CalcAddSous(data, vars, x)
+	return (maths_imaginaires.ParseOne(data[0], vars))
+}
+
+func Getx(str string) (string) {
+
+	p1 := strings.Index(str, "(")
+	str = str[p1 + 1:len(str)]
+	str = strings.ReplaceAll(str, ")", "")
+	return (str)
+}
+
+func GetDataFunc(str string, tab map[string]types.AllT) (string, string) {
+
+	p1 := strings.Index(str, "(")
+
+	cmp := str[0:p1]
+
+	for index, element := range tab {
+
+		p2 := strings.Index(str, "(")
+		if cmp == index[0:p2] {
+			return index, element.Value()
+		}
+	}
+	return "", ""
+}
+
+func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 
 	for i := 0; i < len(data); i++ {
 
-		if IsFunc(data[i]) == 1 {
-			name, value := maths_functions.GetDataFunc(data[i], Vars)
-			fmt.Println(name)
-			fmt.Println(value)
+		if IsFunc(data[i], 1) == 1 {
+			name, value := GetDataFunc(data[i], Vars.Table)
+			x := Getx(name)
+			p1 := strings.Index(data[i], "(")
+			p2 := strings.Index(data[i], ")")
+			r := data[i][p1 + 1:p2]
+			a, b := Calc(value, x, r, &Vars)
+			data[i] = "(" + Float2string(TmpComp{ a, b }) + ")"
 		}
 	}
 	return (data)
 }
 
-func IsFunc(str string) (int) {
+func IsFunc(str string, t int) (int) {
 
 	p1 := strings.Index(str, "(")
 	p2 := strings.Index(str, ")")
@@ -63,7 +107,7 @@ func IsFunc(str string) (int) {
 		return (0)
 	}
 
-	if !IsLetter(str[p1 + 1:p2]) {
+	if t == 0 && !IsLetter(str[p1 + 1:p2]) {
 		return (0)
 	}
 
@@ -82,6 +126,18 @@ func IsLetter(s string) bool {
         }
     }
     return true
+}
+
+func Float2string(Calc TmpComp) (string) {
+
+	if Calc.b == 0 {
+		return (fmt.Sprintf("%f", Calc.a))
+	} else if Calc.a == 0 {
+		return (fmt.Sprintf("%fi", Calc.b))
+	} else if Calc.b > 0 {
+		return (fmt.Sprintf("%f + %fi", Calc.a, Calc.b))
+	}
+	return (fmt.Sprintf("%f %fi", Calc.a, Calc.b))
 }
 
 func GetAllIma(str string) (map[int]string) {

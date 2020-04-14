@@ -31,7 +31,7 @@ func main() {
     		arg = Inputs.Input[1]
 		}
 		if commands.IsCommand(Inputs.Input[0], arg, Vars) != 1 {
-			r, t, v := basic_check(Inputs, &Vars)
+			r, t, v := basic_check(Inputs, &Vars, Vars)
 			if r == 1 {
 				show.ShowVars(t, Vars.Table[v])
 			}
@@ -39,7 +39,7 @@ func main() {
 	}
 }
 
-func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
+func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (int, int, string) {
 
 	t := -1
 
@@ -55,13 +55,13 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 
 	if str[1] == "?" {
 		data := parser.GetAllIma(strings.ReplaceAll(str[0], " ", ""))
-		data = parser.Checkfunc(data, Vars)
+		data = parser.Checkfunc(data, Dat)
 		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table["?"] = &types.Imaginaire{ x, y }
 		str_ret = "?"
 		t = 0
-	} else if parser.IsFunc(str[0]) == 1 {
+	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
 		par := parentheses.Parse(data, Vars, true, str[0])
 		res := maths_functions.Init(par, str[0], Vars)
