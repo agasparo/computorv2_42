@@ -54,8 +54,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	str_ret := str[0]
 
 	if str[1] == "?" {
-		// check function
 		data := parser.GetAllIma(strings.ReplaceAll(str[0], " ", ""))
+		data = parser.Checkfunc(data)
 		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table["?"] = &types.Imaginaire{ x, y }

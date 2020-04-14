@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"strings"
 	"fmt"
+	"unicode"
 )
 
 func Array_search_count(array []string, to_search string) (res int) {
@@ -39,16 +40,45 @@ func GetCararc(str string, c string) (int) {
 	return (min)
 }
 
+func Checkfunc(data map[int]string) (map[int]string) {
+
+	for i := 0; i < len(data); i++ {
+
+		if IsFunc(data[i]) == 1 {
+			fmt.Println("CalcFunc")
+		}
+	}
+	return (data)
+}
+
 func IsFunc(str string) (int) {
 
 	p1 := strings.Index(str, "(")
 	p2 := strings.Index(str, ")")
+
+	if !IsLetter(str[0:p1]) {
+		return (0)
+	}
+
+	if !IsLetter(str[p1 + 1:p2]) {
+		return (0)
+	}
 
 	if p1 != -1 && p2 != -1 && p1 < p2 {
 
 		return (1)
 	}
 	return (0)
+}
+
+func IsLetter(s string) bool {
+
+    for _, r := range s {
+        if !unicode.IsLetter(r) {
+            return false
+        }
+    }
+    return true
 }
 
 func GetAllIma(str string) (map[int]string) {
@@ -86,6 +116,5 @@ func GetAllIma(str string) (map[int]string) {
 		str = str[i + 1:len(str)]
 		i = -1
 	}
-	fmt.Println(data)
 	return (data)
 }
