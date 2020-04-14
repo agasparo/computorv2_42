@@ -54,9 +54,10 @@ func Calc(fu string, x string, r string, vars *types.Variable) (float64, float64
 
 	fu = strings.ReplaceAll(fu, x, r)
 	data := GetAllIma(fu)
-	data = maths_imaginaires.CalcMulDivi(data, vars, x)
-	data = maths_imaginaires.CalcAddSous(data, vars, x)
-	return (maths_imaginaires.ParseOne(data[0], vars))
+	par := parentheses.Parse(data, vars, false, "")
+	par = maths_imaginaires.CalcMulDivi(par, vars, x)
+	par = maths_imaginaires.CalcAddSous(par, vars, x)
+	return (maths_imaginaires.ParseOne(par[0], vars))
 }
 
 func Getx(str string) (string) {
