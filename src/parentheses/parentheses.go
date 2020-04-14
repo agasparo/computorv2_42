@@ -35,8 +35,12 @@ func Parse(tab map[int]string, Vars *types.Variable) (map[int]string) {
 		if powers != "" {
 			if pl == 0 {
 				ntab[0] = gn
-			} else {
+			} else if pl == 1 {
 				ntab[len(ntab) - 1] = gn
+			} else {
+				nf := strings.Split(gn, "|")
+				ntab[0] = nf[0]
+				ntab[len(ntab) - 1] = nf[1]
 			}
 		}
 		add, pos, repete := check(ntab)
@@ -44,25 +48,28 @@ func Parse(tab map[int]string, Vars *types.Variable) (map[int]string) {
 		res := Float2string(TmpComp{ n1, n2 })
 		if powers != "" {
 			po := parser.GetAllIma(strings.ReplaceAll(add_check(res, powers, pl, "1"), " ", ""))
-			fmt.Println(po)
 			a, b := maths_imaginaires.CalcVar(po, Vars)
 			res = Float2string(TmpComp{ a, b })
 		}
 		tab[index_d] = add_check(res, add, pos, repete)
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
-		fmt.Println(tab)
 	}
 	return (tab)
 }
 
 func PowerC(str string, str1 string) (string, string, int) {
 
+	if str[0] != '(' && str1[len(str1) - 1] != ')' {
+		index_d := indexString(str, "(")
+		index_f := strings.Index(str1, ")")
+		return (str[index_d:len(str)] + "|" + str1[0:index_f + 1]), (str[0:index_d] + "|" + str1[index_f + 1:len(str1)]), 3
+	}
 	if str[0] != '(' {
-		index := strings.Index(str, "(")
+		index := indexString(str, "(")
 		return str[index:len(str)], str[0:index], 0
 	}
 	if str1[len(str1) - 1] != ')' {
-		index := indexString(str1, ")")
+		index := strings.Index(str1, ")")
 		return str1[0:index + 1], str1[index + 1:len(str1)], 1
 	}
 	return str, "", 0
@@ -72,6 +79,9 @@ func add_check(str string, add string, pos int, r string) (string) {
 
 	if add == "" {
 		return (str)
+	}
+	if pos == 3 {
+		return (strings.ReplaceAll(add, "|", str))
 	}
 	if pos == 2 {
 		nt := strings.Split(r, "|")

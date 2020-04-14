@@ -65,6 +65,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
 		par := parentheses.Parse(data, Vars)
+		fmt.Println(par)
 		x, _ := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table[str[0]] = &types.Rationel{ x }
 		t = 0
