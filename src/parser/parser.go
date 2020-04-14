@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"maths_imaginaires"
 	"replace_vars"
+	"maps"
 )
 
 type TmpComp struct {
@@ -92,8 +93,10 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
 			r := data[i][p1 + 1:p2]
-			a, b := Calc(value, x, replace_vars.GetVars(&Vars, r), &Vars)
-			data[i] = "(" + Float2string(TmpComp{ a, b }) + ")"
+			nstr := strings.ReplaceAll(value, x, replace_vars.GetVars(&Vars, r))
+			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""))
+			data = maps.CombineN(data, nt, i)
+			i = -1
 		}
 	}
 	return (data)

@@ -19,7 +19,7 @@ func IsCommand(str string, str1 string, Vars types.Variable) (int) {
 		return (1)
 	}
 	if str == "-graph" {
-		Grap(str1, Vars)
+		Graph(str1, Vars)
 		return(1)
 	}
 	return (0)
@@ -48,9 +48,9 @@ func Help() {
 	fmt.Println("2 : '-graph [function]' -> show a courbe of the function")
 }
 
-func Grap(str string, Vars types.Variable) {
+func Graph(str string, Vars types.Variable) {
 
 	C := courbe.Courbe{}
 	courbe.Init(&Vars, str, &C)
-	courbe.Trace(C, &Vars)
+	courbe.Trace(C, Vars)
 }

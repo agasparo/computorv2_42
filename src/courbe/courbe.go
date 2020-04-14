@@ -9,6 +9,7 @@ import (
   	"os"
   	"fmt"
   	"os/exec"
+  	"parser"
 )
 
 type Courbe struct {
@@ -28,7 +29,7 @@ func Init(vars *types.Variable, str string, C *Courbe) {
 	C.Name = str
 }
 
-func Trace(C Courbe, vars *types.Variable) {
+func Trace(C Courbe, vars types.Variable) {
 
 	var tabx []float64
 	var taby []float64
@@ -36,16 +37,17 @@ func Trace(C Courbe, vars *types.Variable) {
 	Draw(C, tabx, taby)
 }
 
-func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars *types.Variable) ([]float64, []float64) {
+func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars types.Variable) ([]float64, []float64) { // refaire
 
-	c := 0
+	tab := parser.GetAllIma(C.Name)
+	tab = parser.Checkfunc(tab, vars)
+	str := maths_functions.JoinTab(tab)
 
 	for i := C.Interval_i; i < C.Interval_f; i++ {
 
-		a, _ := maths_functions.Calc(C.Funct, maths_functions.Getx(C.Name), strconv.Itoa(i), vars)
+		a, _ := maths_functions.Calc(str, maths_functions.Getx(C.Name), strconv.Itoa(i), &vars)
 		tabx = append(tabx, float64(i))
 		taby = append(taby, a)
-		c++
 	}
 	return tabx, taby
 }
