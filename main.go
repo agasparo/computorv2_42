@@ -53,18 +53,19 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	} else */
 	if parser.IsFunc(str[0]) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
-		res := maths_functions.Init(data, str[0], Vars)
+		par := parentheses.Parse(data, Vars, true, str[0])
+		res := maths_functions.Init(par, str[0], Vars)
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
-		par := parentheses.Parse(data, Vars)
+		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
 		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
-		par := parentheses.Parse(data, Vars)
+		par := parentheses.Parse(data, Vars, false, "")
 		x, _ := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table[str[0]] = &types.Rationel{ x }
 		t = 0

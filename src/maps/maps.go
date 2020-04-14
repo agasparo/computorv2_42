@@ -1,7 +1,7 @@
 package maps
 
 import (
-
+	"strings"
 )
 
 func MapSlice(data map[int]string, index int) (map[int]string) {
@@ -24,14 +24,15 @@ func MapSliceCount(data map[int]string, index int, add int) (map[int]string) {
 	return (data)
 }
 
-func MapReindex(data map[int]string) (map[int]string) {
+func Array_search_count(array map[int]string, to_search string) (res int) {
 
-	tab := make(map[int]string)
-	c := 0
+	count := 0
 
-	for _, element := range data {
-		tab[c] = element
-		c++
+	for i := 0; i < len(array); i++ {
+
+		if strings.Index(array[i], to_search) != -1 {
+			count++;
+		}
 	}
-	return (tab)
+	return (count)
 }

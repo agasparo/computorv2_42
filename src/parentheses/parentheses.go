@@ -17,7 +17,7 @@ type TmpComp struct {
 	b float64
 }
 
-func Parse(tab map[int]string, Vars *types.Variable) (map[int]string) {
+func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (map[int]string) {
 
 	nb_par := countPara(tab, "(")
 	if nb_par == 0 {
@@ -30,6 +30,11 @@ func Parse(tab map[int]string, Vars *types.Variable) (map[int]string) {
 			index_c = index_d
 		}
 		ntab := maths_functions.SliceTab(tab, index_d, index_c + 1)
+		if is_f {
+			if maps.Array_search_count(tab, maths_functions.Getx(f_name)) >= 1 {
+				return (tab)
+			}
+		}
 		gn, powers, pl := PowerC(ntab[0], ntab[len(ntab) - 1])
 		if powers != "" {
 			if pl == 0 {
