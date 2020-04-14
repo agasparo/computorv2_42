@@ -18,6 +18,7 @@ func main() {
 
 	Inputs := input.Data{}
 	Vars := types.Variable{}
+	arg := ""
 
 	Vars.Table = make(map[string]types.AllT)
 	for i := 1; i == 1; i = 1 {
@@ -26,7 +27,10 @@ func main() {
 			fmt.Println("bye")
 			return
 		}
-		if commands.IsCommand(Inputs.Input[0], Inputs.Input[1], Vars) != 1 {
+		if Inputs.Length == 2 {
+    		arg = Inputs.Input[1]
+		}
+		if commands.IsCommand(Inputs.Input[0], arg, Vars) != 1 {
 			r, t, v := basic_check(Inputs, &Vars)
 			if r == 1 {
 				show.ShowVars(t, Vars.Table[v])
@@ -47,11 +51,17 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 	str := strings.Split(strings.Join(Inputs.Input, " "), "=")
 	str[0] = strings.ToLower((strings.Trim(str[0], " ")))
 	str[1] = strings.Trim(str[1], " ")
+	str_ret := str[0]
 
-	/*if str[1] == "?" {
-		fmt.Println("a faire")
-	} else */
-	if parser.IsFunc(str[0]) == 1 {
+	if str[1] == "?" {
+		// check function
+		data := parser.GetAllIma(strings.ReplaceAll(str[0], " ", ""))
+		par := parentheses.Parse(data, Vars, false, "")
+		x, y := maths_imaginaires.CalcVar(par, Vars)
+		Vars.Table["?"] = &types.Imaginaire{ x, y }
+		str_ret = "?"
+		t = 0
+	} else if parser.IsFunc(str[0]) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(str[1], " ", ""))
 		par := parentheses.Parse(data, Vars, true, str[0])
 		res := maths_functions.Init(par, str[0], Vars)
@@ -75,5 +85,5 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 		fmt.Println("matrice")
 	}*/
 
-	return 1, t, str[0]
+	return 1, t, str_ret
 }
