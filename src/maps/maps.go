@@ -16,6 +16,10 @@ func MapSlice(data map[int]string, index int) (map[int]string) {
 
 func MapSliceCount(data map[int]string, index int, add int) (map[int]string) {
 
+	if add == 0 {
+		return (data)
+	}
+
 	for i := index; i < len(data); i++ {
 
 		data[i] = data[i + add]

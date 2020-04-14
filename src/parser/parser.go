@@ -74,7 +74,7 @@ func GetDataFunc(str string, tab map[string]types.AllT) (string, string) {
 	for index, element := range tab {
 
 		p2 := strings.Index(str, "(")
-		if cmp == index[0:p2] {
+		if p2 > 0 && cmp == index[0:p2] {
 			return index, element.Value()
 		}
 	}
@@ -102,6 +102,10 @@ func IsFunc(str string, t int) (int) {
 
 	p1 := strings.Index(str, "(")
 	p2 := strings.Index(str, ")")
+
+	if p1 < 0 || p2 < 0 {
+		return (0)
+	}
 
 	if !IsLetter(str[0:p1]) {
 		return (0)
