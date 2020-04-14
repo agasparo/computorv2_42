@@ -43,7 +43,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable) (int, int, string) {
 
 	t := -1
 
-	if parser.Array_search_count(Inputs.Input, "=") != 1 {
+	if parser.Array_search_count(Inputs.Input, "=") != 1 { // a refaire
 		error.SetError("You must have just one =")
 		return 0, 0, ""
 	}
