@@ -79,10 +79,18 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 	for i := 0; i < len(data); i++ {
 
 		if IsFunc(data[i], 1) == 1 {
-			name, value := GetDataFunc(data[i], Vars.Table)
-			x := Getx(name)
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
+			add := 1
+			for p2 = -1; p2 < 0; p2 = strings.Index(data[i], ")") {
+				data[i] += data[i + add]
+				add++
+			}
+			if add > 1 {
+				data = maps.MapSlice(data, i + 1)
+			}
+			name, value := GetDataFunc(data[i], Vars.Table)
+			x := Getx(name)
 			r := data[i][p1 + 1:p2]
 			if strings.Index(value, "|") != -1 {
 				value = strings.ReplaceAll(value, "usu|", "")
@@ -94,7 +102,6 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			data = maps.CombineN(data, nt, i)
 			i = -1
 		}
-		return (data)
 	}
 	return (data)
 }
@@ -104,12 +111,16 @@ func IsFunc(str string, t int) (int) {
 	p1 := strings.Index(str, "(")
 	p2 := strings.Index(str, ")")
 
-	if p1 < 0 || p2 < 0 {
+	if p1 < 0 {
 		return (0)
 	}
 
-	if !IsLetter(str[0:p1]) {
+	if !IsLetter(str[0:p1]) || p1 == 0{
 		return (0)
+	}
+
+	if p2 < 0 {
+		return (1)
 	}
 
 	if t == 0 && !IsLetter(str[p1 + 1:p2]) {

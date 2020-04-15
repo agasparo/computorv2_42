@@ -4,7 +4,7 @@ import (
 	"types"
 	"maths_imaginaires"
 	"strings"
-	"fmt"
+	//"fmt"
 )
 
 
@@ -18,8 +18,15 @@ func Init(Vars *types.Variable) {
 
 func Abs(TC *maths_imaginaires.TmpComp) {
 
-	fmt.Println(TC)
-	// module nb complexe
+	Calc_x := maths_imaginaires.TmpComp{ TC.A, 0 }
+	Calc_y := maths_imaginaires.TmpComp{ TC.B, 0 }
+	maths_imaginaires.Pow(&Calc_x, int64(2))
+	maths_imaginaires.Pow(&Calc_y, int64(2))
+	tmp := maths_imaginaires.TmpComp{ Calc_x.A, Calc_x.B }
+	maths_imaginaires.Add(&tmp, Calc_y.A, Calc_y.B)
+	Racine(&tmp)
+	TC.A = tmp.A
+	TC.B = tmp.B
 }
 
 func Racine(TC *maths_imaginaires.TmpComp) {
