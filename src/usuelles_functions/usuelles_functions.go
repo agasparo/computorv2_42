@@ -10,6 +10,8 @@ import (
 
 func Init(Vars *types.Variable) {
 
+	Vars.Table["Interval_i"] = &types.Rationel{ 0 }
+	Vars.Table["Interval_f"] = &types.Rationel{ 50 }
 	Vars.Table["abs(x)"] = &types.Fonction{ "usu|Abs(x)" }
 	Vars.Table["v(x)"] = &types.Fonction{ "usu|V(x)" }
 }
@@ -25,7 +27,7 @@ func Racine(TC *maths_imaginaires.TmpComp) {
     Calc := maths_imaginaires.TmpComp{ TC.A, TC.B }
     maths_imaginaires.Divi(&Calc, float64(4), float64(0))
 
-    prec := 10000
+    prec := 100000
     if TC.A <= 0 {
     	TC.A = 0
     	TC.B = 0

@@ -10,6 +10,8 @@ import (
   	"fmt"
   	"os/exec"
   	"parser"
+  	"usuelles_functions"
+  	"strings"
 )
 
 type Courbe struct {
@@ -24,8 +26,10 @@ func Init(vars *types.Variable, str string, C *Courbe) {
 
 
 	C.Funct = replace_vars.GetVars(vars, str)
-	C.Interval_i = 0
-	C.Interval_f = 50
+	env_1, _ := strconv.ParseFloat(vars.Table["Interval_i"].Value(), 64)
+	env_2, _ := strconv.ParseFloat(vars.Table["Interval_f"].Value(), 64)
+	C.Interval_i = int(env_1)
+	C.Interval_f = int(env_2)
 	C.Name = str
 }
 
@@ -42,12 +46,26 @@ func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars types.Variable) 
 	tab := parser.GetAllIma(C.Name)
 	tab = parser.Checkfunc(tab, vars)
 	str := maths_functions.JoinTab(tab)
+	var a float64
+	var nn int
 
+	fmt.Println(C)
 	for i := C.Interval_i; i < C.Interval_f; i++ {
 
-		a, _ := maths_functions.Calc(str, maths_functions.Getx(C.Name), strconv.Itoa(i), &vars)
+		if strings.Index(C.Funct, "|") != -1 {
+			str = strings.ReplaceAll(C.Funct, "usu|", "")
+			str = strings.ReplaceAll(str, maths_functions.Getx(C.Name), replace_vars.GetVars(&vars, strconv.Itoa(i)))
+			str = usuelles_functions.GetUsuF(str, vars)
+			a, _ = strconv.ParseFloat(str, 64)
+			nn = 1
+		} else {
+			a, _ = maths_functions.Calc(str, maths_functions.Getx(C.Name), strconv.Itoa(i), &vars)
+		}
 		tabx = append(tabx, float64(i))
 		taby = append(taby, a)
+	}
+	if nn == 1 {
+		C.Funct = ""
 	}
 	return tabx, taby
 }
