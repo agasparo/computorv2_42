@@ -62,12 +62,23 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (map[int]string) {
 
+	var Calc TmpComp
+	var nb1, nb2, nb3, nb4 float64
+
 	for i := 1; i < len(data); i += 2 {
 
 		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" {
-			nb1, nb2 := ParseOne(data[i - 1], vars)
-			Calc := TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1], vars)
+			nb_puis := NegPui(data[i - 1], data[i + 1])
+			if nb_puis == data[i - 1] {
+				nb1, nb2 = ParseOne(data[i - 1], vars)
+				Calc = TmpComp{nb1, nb2}
+				nb3, nb4 = ParseOne(data[i + 1], vars)
+			} else {
+				nb1, nb2 = ParseOne(nb_puis, vars)
+				Calc = TmpComp{nb1, nb2}
+				nb3 = 0
+				nb4 = 0
+			}
 			add(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
@@ -75,16 +86,31 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 
 		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" {
-			nb1, nb2 := ParseOne(data[i - 1], vars)
-			Calc := TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1], vars)
-			sous(&Calc, nb3, nb4)
+			nb_puis := NegPui(data[i - 1], data[i + 1])
+			if nb_puis == data[i - 1] {
+				nb1, nb2 = ParseOne(data[i - 1], vars)
+				Calc = TmpComp{nb1, nb2}
+				nb3, nb4 = ParseOne(data[i + 1], vars)
+				sous(&Calc, nb3, nb4)
+			} else {
+				nb1, nb2 = ParseOne(nb_puis, vars)
+				Calc = TmpComp{1, 0}
+				divi(&Calc, nb1, nb2)
+			}
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
 			i = -1
 		}
 	}
 	return (data)
+}
+
+func NegPui(str string, m string) (string) {
+
+	if  str[len(str) - 1] == 134 || string(str[len(str) - 1]) == "^" {
+		return (str + m)
+	}
+	return (str)
 }
 
 func Float2string(Calc TmpComp) (string) {
@@ -238,6 +264,12 @@ func Pow(n1 *TmpComp, n2 int64) {
 
 	coe := n1.a
 	im := n1.b
+
+	if n2 == 0 {
+		n1.a = 1
+		n1.b = 0
+		return
+	}
 
     for i := int64(1); i < n2; i++ {
         
