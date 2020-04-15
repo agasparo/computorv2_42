@@ -73,12 +73,14 @@ func RempTab(tab map[int]string, data map[int]string, a int) (map[int]string) {
 
 func AddMul(str string, x string, tab map[int]string, i int) {
 
-	nstr := strings.Split(str, x)
-	Slice1 := SliceTab(tab, i + 1, len(tab))
-	tab[i + 0] = nstr[0]
-	tab[i + 1] = "*"
-	tab[i + 2] = x
-	tab = RempTab(tab, Slice1, i + 3)
+	if  strings.Index(str, "ˆ") == -1 && strings.Index(str, "^") == -1 {
+		nstr := strings.Split(str, x)
+		Slice1 := SliceTab(tab, i + 1, len(tab))
+		tab[i + 0] = nstr[0]
+		tab[i + 1] = "*"
+		tab[i + 2] = x
+		tab = RempTab(tab, Slice1, i + 3)
+	}
 }
 
 func Calc(fu string, x string, r string, vars *types.Variable) (float64, float64) {
