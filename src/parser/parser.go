@@ -94,16 +94,29 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			r := data[i][p1 + 1:p2]
 			if strings.Index(value, "|") != -1 {
 				value = strings.ReplaceAll(value, "usu|", "")
-				value = strings.ReplaceAll(value, x, replace_vars.GetVars(&Vars, r))
+				value = Remp(value, x, r, Vars)
 				value = usuelles_functions.GetUsuF(value, Vars)
 			}
-			nstr := strings.ReplaceAll(value, x, replace_vars.GetVars(&Vars, r))
+			nstr := Remp(value, x, r, Vars)
 			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""))
 			data = maps.CombineN(data, nt, i)
 			i = -1
 		}
 	}
 	return (data)
+}
+
+func Remp(str string, x string, r string,  Vars types.Variable) (string) {
+
+	p3 := strings.Index(str, "(")
+	p4 := strings.Index(str, ")")
+
+	if p3 < 0 || p4 < 0 {
+		return (str)
+	}
+	as := strings.ReplaceAll(str[p3 + 1:p4], x, replace_vars.GetVars(&Vars, r))
+	str = str[0:p3 + 1] + as + str[p4:len(str)]
+	return (str)
 }
 
 func IsFunc(str string, t int) (int) {

@@ -15,6 +15,7 @@ func Init(Vars *types.Variable) {
 	Vars.Table["abs(x)"] = &types.Fonction{ "usu|Abs(x)" }
 	Vars.Table["v(x)"] = &types.Fonction{ "usu|V(x)" }
 	Vars.Table["inv(x)"] = &types.Fonction{ "usu|inverse(x)" }
+	Vars.Table["exp(x)"] = &types.Fonction{ "usu|expo(x)" }
 }
 
 func Abs(TC *maths_imaginaires.TmpComp) {
@@ -64,6 +65,14 @@ func Inverse(TC *maths_imaginaires.TmpComp) {
 	TC.B = Calc.B
 }
 
+func Expo(TC *maths_imaginaires.TmpComp) {
+
+	Calc := maths_imaginaires.TmpComp{ 2.718281828459045, 0 }
+	maths_imaginaires.Pow(&Calc, int64(TC.A))
+	TC.A = Calc.A
+	TC.B = Calc.B
+}
+
 func GetUsuF(str string, Vars types.Variable) (string) {
 	
 	p1 := strings.Index(str, "(")
@@ -71,7 +80,6 @@ func GetUsuF(str string, Vars types.Variable) (string) {
 	nstr := str[0:p1]
 	nb1, nb2 := maths_imaginaires.ParseOne(str[p1 + 1:p2], &Vars)
 	Calc := maths_imaginaires.TmpComp{ nb1, nb2 }
-
 	switch t := nstr; t {
 	case "Abs":
 		Abs(&Calc)
@@ -79,6 +87,8 @@ func GetUsuF(str string, Vars types.Variable) (string) {
 		Racine(&Calc)
 	case "inverse":
 		Inverse(&Calc)
+	case "expo":
+		Expo(&Calc)
 	}
 	return (maths_imaginaires.Float2string(Calc))
 }

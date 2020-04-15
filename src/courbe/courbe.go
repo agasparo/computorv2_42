@@ -49,12 +49,11 @@ func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars types.Variable) 
 	var a float64
 	var nn int
 
-	fmt.Println(C)
 	for i := C.Interval_i; i < C.Interval_f; i++ {
 
 		if strings.Index(C.Funct, "|") != -1 {
 			str = strings.ReplaceAll(C.Funct, "usu|", "")
-			str = strings.ReplaceAll(str, maths_functions.Getx(C.Name), replace_vars.GetVars(&vars, strconv.Itoa(i)))
+			str = parser.Remp(str, maths_functions.Getx(C.Name), replace_vars.GetVars(&vars, strconv.Itoa(i)), vars)
 			str = usuelles_functions.GetUsuF(str, vars)
 			a, _ = strconv.ParseFloat(str, 64)
 			nn = 1
