@@ -12,8 +12,8 @@ import (
 
 type TmpComp struct {
 
-	a float64
-	b float64
+	A float64
+	B float64
 }
 
 func CalcVar(data map[int]string, vars *types.Variable) (float64, float64) {
@@ -31,7 +31,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
-			mul(&Calc, nb3, nb4)
+			Mul(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
 			i = -1
@@ -41,7 +41,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
-			mod(&Calc, nb3, nb4)
+			Mod(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
 			i = -1
@@ -51,7 +51,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
-			divi(&Calc, nb3, nb4)
+			Divi(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
 			i = -1
@@ -79,7 +79,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				nb3 = 0
 				nb4 = 0
 			}
-			add(&Calc, nb3, nb4)
+			Add(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
 			i = -1
@@ -91,11 +91,11 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				nb1, nb2 = ParseOne(data[i - 1], vars)
 				Calc = TmpComp{nb1, nb2}
 				nb3, nb4 = ParseOne(data[i + 1], vars)
-				sous(&Calc, nb3, nb4)
+				Sous(&Calc, nb3, nb4)
 			} else {
 				nb1, nb2 = ParseOne(nb_puis, vars)
 				Calc = TmpComp{1, 0}
-				divi(&Calc, nb1, nb2)
+				Divi(&Calc, nb1, nb2)
 			}
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
@@ -115,14 +115,14 @@ func NegPui(str string, m string) (string) {
 
 func Float2string(Calc TmpComp) (string) {
 
-	if Calc.b == 0 {
-		return (fmt.Sprintf("%f", Calc.a))
-	} else if Calc.a == 0 {
-		return (fmt.Sprintf("%fi", Calc.b))
-	} else if Calc.b > 0 {
-		return (fmt.Sprintf("%f + %fi", Calc.a, Calc.b))
+	if Calc.B == 0 {
+		return (fmt.Sprintf("%f", Calc.A))
+	} else if Calc.A == 0 {
+		return (fmt.Sprintf("%fi", Calc.B))
+	} else if Calc.B > 0 {
+		return (fmt.Sprintf("%f + %fi", Calc.A, Calc.B))
 	}
-	return (fmt.Sprintf("%f %fi", Calc.a, Calc.b))
+	return (fmt.Sprintf("%f %fi", Calc.A, Calc.B))
 }
 
 func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
@@ -176,13 +176,13 @@ func TransPow(nstr []string) (x float64, y float64) {
 		} else {
 			c, d = TransN(nstr[i - 1])
 		}
-		Base.a = c
-		Base.b = d
+		Base.A = c
+		Base.B = d
 		Pow(&Base, int64(a))
 		nstr[i - 1] = Float2string(Base)
 	}
 
-	return Base.a, Base.b
+	return Base.A, Base.B
 }
 
 func Trans(str string) (x float64, y float64) {
@@ -223,57 +223,56 @@ func TransN(str string) (x float64, y float64) {
 
 /************************************************************************************************/
 
-func add(Finu *TmpComp, a float64, b float64) {
+func Add(Finu *TmpComp, a float64, b float64) {
 
-	Finu.a = Finu.a + a
-	Finu.b = Finu.b + b
+	Finu.A = Finu.A + a
+	Finu.B = Finu.B + b
 }
 
-func mul(Finu *TmpComp, a float64, b float64) {
+func Mul(Finu *TmpComp, a float64, b float64) {
 
-	tmp := ((Finu.a * a) - (Finu.b * b))
-	Finu.b = ((Finu.a * b) + (a * Finu.b))
-	Finu.a = tmp
+	tmp := ((Finu.A * a) - (Finu.B * b))
+	Finu.B = ((Finu.A * b) + (a * Finu.B))
+	Finu.A = tmp
 }
 
-func divi(Finu *TmpComp, a float64, b float64) {
+func Divi(Finu *TmpComp, a float64, b float64) {
 
-	tmp := ((Finu.a * a) + (Finu.b * b)) / ((a * a) + (b * b))
-	Finu.b = ((Finu.b * a) - (Finu.a * b)) / ((a * a) + (b * b))
-	Finu.a = tmp
+	tmp := ((Finu.A * a) + (Finu.B * b)) / ((a * a) + (b * b))
+	Finu.B = ((Finu.B * a) - (Finu.A * b)) / ((a * a) + (b * b))
+	Finu.A = tmp
 }
 
-func sous(Finu *TmpComp, a float64, b float64) {
+func Sous(Finu *TmpComp, a float64, b float64) {
 
-	Finu.a = Finu.a - a
-	Finu.b = Finu.b - b
+	Finu.A = Finu.A - a
+	Finu.B = Finu.B - b
 }
 
-func mod(Finu *TmpComp, a float64, b float64) {
+func Mod(Finu *TmpComp, a float64, b float64) {
 
-	Calc := TmpComp{ Finu.a, Finu.b }
-	divi(&Calc, a, b)
-	Calc.a = float64(int64(Calc.a))
-	Calc.b = float64(int64(Calc.b))
-	mul(&Calc, a, b)
-	sous(Finu, Calc.a, Calc.b)
-
+	Calc := TmpComp{ Finu.A, Finu.B }
+	Divi(&Calc, a, b)
+	Calc.A = float64(int64(Calc.A))
+	Calc.B = float64(int64(Calc.B))
+	Mul(&Calc, a, b)
+	Sous(Finu, Calc.A, Calc.B)
 }
 
 func Pow(n1 *TmpComp, n2 int64) {
 
-	coe := n1.a
-	im := n1.b
+	coe := n1.A
+	im := n1.B
 
 	if n2 == 0 {
-		n1.a = 1
-		n1.b = 0
+		n1.A = 1
+		n1.B = 0
 		return
 	}
 
     for i := int64(1); i < n2; i++ {
         
-        mul(n1, coe, im)
+        Mul(n1, coe, im)
         if Isinf(n1, coe, im) {
         	return
         }
@@ -288,9 +287,9 @@ func IsNan(f float64) (bool) {
 
 func Isinf(n1 *TmpComp, coe float64, im float64) (bool) {
 	
-	Calc := TmpComp{n1.a, n1.b}
-	mul(&Calc, coe, im)
-	if IsNan(Calc.a) || IsNan(Calc.b) {
+	Calc := TmpComp{n1.A, n1.B}
+	Mul(&Calc, coe, im)
+	if IsNan(Calc.A) || IsNan(Calc.B) {
 		return (true)
 	}
     return (false)
