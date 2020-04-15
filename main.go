@@ -57,7 +57,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	if str[1] == "?" {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""))
-		fmt.Println(data)
 		data = parser.Checkfunc(data, Dat)
 		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
@@ -80,7 +79,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""))
-		fmt.Println(data)
 		data = parser.Checkfunc(data, Dat)
 		par := parentheses.Parse(data, Vars, false, "")
 		x, _ := maths_imaginaires.CalcVar(par, Vars)

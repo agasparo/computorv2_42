@@ -79,9 +79,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 	for i := 0; i < len(data); i++ {
 
 		if IsFunc(data[i], 1) == 1 {
-			fmt.Println(data[i])
 			name, value := GetDataFunc(data[i], Vars.Table)
-			fmt.Println(value)
 			x := Getx(name)
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
