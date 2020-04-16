@@ -79,6 +79,8 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 
 	for i := 0; i < len(data); i++ {
 
+		parser_err := 0
+
 		if IsFunc(data[i], 1) == 1 {
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
@@ -99,7 +101,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 				value = usuelles_functions.GetUsuF(value, Vars)
 			}
 			nstr := Remp(value, x, r, Vars)
-			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""))
+			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""), &parser_err)
 			data = maps.CombineN(data, nt, i)
 			i = -1
 		}
@@ -170,16 +172,18 @@ func Float2string(Calc TmpComp) (string) {
 	return (fmt.Sprintf("%f %fi", Calc.a, Calc.b))
 }
 
-func GetAllIma(str string) (map[int]string) {
+func GetAllIma(str string, pos *int) (map[int]string) {
 
 	data := make(map[int]string)
 	var itab, neg int
+	var anc string
 
 	if str[0] == '+' {
 		str = str[1:len(str)]
 	}
 
 	itab = 0
+	anc = ""
 	for i := 0; i < len(str); i++ {
 
 		if str[i] == '-' {
@@ -189,6 +193,10 @@ func GetAllIma(str string) (map[int]string) {
 		}
 		if str[i] == '+' {
 			str = str[1:len(str)]
+		}
+		if Impossible(string(str[i]), anc) {
+			*pos = 1
+			return (data)
 		}
 		index := GetCararc(str, "+-/*%")
 		if index == -1 {
@@ -212,7 +220,19 @@ func GetAllIma(str string) (map[int]string) {
 			itab++
 			str = str[i + 1:len(str)]
 		}
+		anc = data[len(data) - 1]
 		i = -1
 	}
 	return (data)
+}
+
+func Impossible(str string, cmp string) (bool) {
+
+	if cmp == "" {
+		return (false)
+	}
+	if (cmp == "*" || cmp == "/") && (str == "*" || str == "/") {
+		return (true)
+	}
+	return (false)
 }

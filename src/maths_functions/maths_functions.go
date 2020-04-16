@@ -91,8 +91,9 @@ func AddMul(str string, x string, tab map[int]string, i int) {
 
 func Calc(fu string, x string, r string, vars *types.Variable) (float64, float64) {
 
+	parser_err := 0
 	fu = strings.ReplaceAll(fu, x, r)
-	data := parser.GetAllIma(fu)
+	data := parser.GetAllIma(fu, &parser_err)
 	data = maths_imaginaires.CalcMulDivi(data, vars, x)
 	data = maths_imaginaires.CalcAddSous(data, vars, x)
 	return (maths_imaginaires.ParseOne(data[0], vars))

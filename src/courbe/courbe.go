@@ -43,7 +43,8 @@ func Trace(C Courbe, vars types.Variable) {
 
 func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars types.Variable) ([]float64, []float64) { // refaire
 
-	tab := parser.GetAllIma(C.Name)
+	parser_err := 0
+	tab := parser.GetAllIma(C.Name, &parser_err)
 	tab = parser.Checkfunc(tab, vars)
 	str := maths_functions.JoinTab(tab)
 	var a float64

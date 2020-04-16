@@ -84,22 +84,18 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	tmp := strings.Join(Inputs.Input, " ")
 	str := strings.Split(tmp, "=")
-	e := error.Syntaxe(tmp)
-
-	if e != "1" {
-		error.SetError(e)
+	if Err(0, error.Syntaxe(tmp)) {
 		return 0, 0, ""
 	}
 
 	str[0] = strings.ToLower((strings.Trim(str[0], " ")))
 	str[1] = strings.Trim(str[1], " ")
 	str_ret := str[0]
+	err_pars := 0
 
 	if str[1] == "?" {
-		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""))
-		e = error.In(data, 0, "")
-		if e != "1" {
-			error.SetError(e)
+		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
+		if Err(err_pars, error.In(data, 0, "")) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -109,10 +105,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		str_ret = "?"
 		t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
-		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""))
-		e = error.In(data, 1, str[0])
-		if e != "1" {
-			error.SetError(e)
+		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
+		if Err(err_pars, error.In(data, 1, str[0])) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -121,10 +115,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
-		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""))
-		e = error.In(data, 0, "")
-		if e != "1" {
-			error.SetError(e)
+		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
+		if Err(err_pars, error.In(data, 0, "")) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -133,10 +125,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
 		t = 0
 	} else {
-		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""))
-		e = error.In(data, 0, "")
-		if e != "1" {
-			error.SetError(e)
+		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
+		if Err(err_pars, error.In(data, 0, "")) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -151,4 +141,17 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	}*/
 
 	return 1, t, str_ret
+}
+
+func Err(err_parse int, e string) (bool) {
+
+	if e != "1" {
+		error.SetError(e)
+		return (true)
+	}
+	if err_parse == 1 {
+		error.SetError("You have a mistake with your sign")
+		return (true)
+	}
+	return (false)
 }

@@ -103,6 +103,8 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[20] = Testes{ "teste avec les signes : 4", "x = -2 * 3", "-6" }
 	Tvars[21] = Testes{ "teste avec les signes : 5", "x = 2 * -3", "-6" }
 	Tvars[22] = Testes{ "teste avec les signes : 6", "x = -2 * -3", "6" }
+	Tvars[23] = Testes{ "teste avec les signes : 7", "x = 2 */ 3", "You have a mistake with your sign" }
+	Tvars[24] = Testes{ "teste avec les signes : 8", "x = 2 /* 3", "You have a mistake with your sign" }
 
 	return (Tvars)
 }
