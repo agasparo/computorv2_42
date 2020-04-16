@@ -13,10 +13,24 @@ import (
 	"strings"
 	"parentheses"
 	"usuelles_functions"
+	"test"
+	"os"
 )
 
 func main() {
 
+	args := os.Args[1:]
+
+	if len(args) == 1 && args[0] == "test" {
+		test.DefineAndRun()
+	} else if len(args) == 1 {
+		RunTest(args[0])
+	} else {
+		Run()
+	}
+}
+
+func Run() {
 	Inputs := input.Data{}
 	Vars := types.Variable{}
 	arg := ""
@@ -38,6 +52,29 @@ func main() {
 				show.ShowVars(t, Vars.Table[v])
 			}
 		}
+	}	
+}
+
+func RunTest(str string) {
+
+	Inputs := input.Data{ strings.Split(str, " "), 1 }
+	Vars := types.Variable{}
+	arg := ""
+
+	Vars.Table = make(map[string]types.AllT)
+	usuelles_functions.Init(&Vars)
+	if Inputs.Input[0] == "exit" {
+		fmt.Println("bye")
+		return
+	}
+	if Inputs.Length == 2 {
+   		arg = Inputs.Input[1]
+	}
+	if commands.IsCommand(Inputs.Input[0], arg, Vars) != 1 {
+		r, t, v := basic_check(Inputs, &Vars, Vars)
+		if r == 1 {
+			show.ShowVars(t, Vars.Table[v])
+		}
 	}
 }
 
@@ -45,12 +82,15 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	t := -1
 
-	if parser.Array_search_count(Inputs.Input, "=") != 1 { // a refaire
-		error.SetError("You must have just one =")
+	tmp := strings.Join(Inputs.Input, " ")
+	str := strings.Split(tmp, "=")
+	e := error.Syntaxe(tmp)
+
+	if e != "1" {
+		error.SetError(e)
 		return 0, 0, ""
 	}
 
-	str := strings.Split(strings.Join(Inputs.Input, " "), "=")
 	str[0] = strings.ToLower((strings.Trim(str[0], " ")))
 	str[1] = strings.Trim(str[1], " ")
 	str_ret := str[0]

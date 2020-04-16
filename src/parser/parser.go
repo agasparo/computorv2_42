@@ -30,6 +30,7 @@ func Array_search_count(array []string, to_search string) (res int) {
 	return (count)
 }
 
+
 func IsNumeric(s string) (bool) {
 
     _, err := strconv.ParseFloat(s, 64)
