@@ -28,9 +28,9 @@ func DefineAndRun() {
 	Syn := Cat{ "Syntaxe" ,  Syntaxe(), 0 }
 	Syn.Length = len(Syn.tab)
 	Run(Syn.tab, Syn)
-	Vars := Cat{ "Variables" ,  Vars(), 0 }
-	Vars.Length = len(Vars.tab)
-	Run(Vars.tab, Vars)
+	//Vars := Cat{ "Variables" ,  Vars(), 0 }
+	//Vars.Length = len(Vars.tab)
+	//Run(Vars.tab, Vars)
 }
 
 func Run(table map[int]Testes, C Cat) {
@@ -78,13 +78,20 @@ func CheckRes(Outpout string, attOuput string) (bool) {
 func Syntaxe() (map[int]Testes) {
 
 	Tvars := make(map[int]Testes)
-	Tvars[0] = Testes{ "teste du =  : 1", "i= 2 * 3", "6" }
-	Tvars[1] = Testes{ "teste du =  : 2", "i =2 * 3", "6" }
-	Tvars[2] = Testes{ "teste du =  : 3", "i=2 * 3", "6" }
-	Tvars[3] = Testes{ "teste du =  : 4", "i = 2 * 3", "6" }
-	Tvars[4] = Testes{ "teste du =  : 5", "i 2 * 3", "You must have just one =" }
-	Tvars[5] = Testes{ "teste du =  : 6", "i == 2 * 3", "You must have just one =" }
-	Tvars[6] = Testes{ "teste du =  : 7", "i = 2 * 3 = 4", "You must have just one =" }
+	Tvars[0] = Testes{ "teste du =  : 1", "x= 2 * 3", "6" }
+	Tvars[1] = Testes{ "teste du =  : 2", "x =2 * 3", "6" }
+	Tvars[2] = Testes{ "teste du =  : 3", "x=2 * 3", "6" }
+	Tvars[3] = Testes{ "teste du =  : 4", "x = 2 * 3", "6" }
+	Tvars[4] = Testes{ "teste du =  : 5", "x 2 * 3", "You must have just one =" }
+	Tvars[5] = Testes{ "teste du =  : 6", "x == 2 * 3", "You must have just one =" }
+	Tvars[6] = Testes{ "teste du =  : 7", "x = 2 * 3 = 4", "You must have just one =" }
+
+	Tvars[7] = Testes{ "teste avec des lettres  : 1", "x = 23a", "'23a' isn't a number" }
+	Tvars[8] = Testes{ "teste avec des lettres  : 2", "f(x) = 23a", "'23a' isn't a number" }
+	Tvars[9] = Testes{ "teste avec des lettres  : 3", "f(x) = a23", "'a23' isn't a number" }
+	Tvars[10] = Testes{ "teste avec des lettres  : 4", "f(a) = 23a", "23 * a" }
+	Tvars[11] = Testes{ "teste avec des lettres  : 5", "f(a) = a23", "a * 23" }
+	Tvars[12] = Testes{ "teste avec des lettres  : 6", "f(a) = 23a23", "'23a23' isn't a number" }
 	return (Tvars)
 }
 

@@ -97,6 +97,11 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	if str[1] == "?" {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""))
+		e = error.In(data, 0, "")
+		if e != "1" {
+			error.SetError(e)
+			return 0, 0, ""
+		}
 		data = parser.Checkfunc(data, Dat)
 		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
@@ -105,6 +110,11 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""))
+		e = error.In(data, 1, str[0])
+		if e != "1" {
+			error.SetError(e)
+			return 0, 0, ""
+		}
 		data = parser.Checkfunc(data, Dat)
 		par := parentheses.Parse(data, Vars, true, str[0])
 		res := maths_functions.Init(par, str[0], Vars)
@@ -112,6 +122,11 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""))
+		e = error.In(data, 0, "")
+		if e != "1" {
+			error.SetError(e)
+			return 0, 0, ""
+		}
 		data = parser.Checkfunc(data, Dat)
 		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
@@ -119,6 +134,11 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""))
+		e = error.In(data, 0, "")
+		if e != "1" {
+			error.SetError(e)
+			return 0, 0, ""
+		}
 		data = parser.Checkfunc(data, Dat)
 		par := parentheses.Parse(data, Vars, false, "")
 		x, _ := maths_imaginaires.CalcVar(par, Vars)
