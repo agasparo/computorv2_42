@@ -44,6 +44,7 @@ func Run(table map[int]Testes, C Cat) {
 
 	color.Magenta("Categorie : %s : (%d teste(s))\n", C.Name, C.Length)
 	fmt.Println("")
+	c := 0
 
 	for i := 0; i < len(table); i++ {
 
@@ -67,9 +68,13 @@ func Run(table map[int]Testes, C Cat) {
 			fmt.Println("Return : ")
 			fmt.Println(outb.String())
 			fmt.Printf("You must return : \n%s\n", table[i].Outpout)
+			color.Magenta("Success : %d / %d", c, C.Length)
+			fmt.Println("")
 			return
 		}
+		c++
 	}
+	color.Magenta("Success : %d / %d", c, C.Length)
 	fmt.Println("")
 }
 
@@ -174,5 +179,7 @@ func Functions() (map[int]Testes) {
 	Tvars[2] = Testes{ "teste avec les fonctions (syntaxe): 3", "f() = 3 + 2x", "You must have an unknown" }
 	Tvars[3] = Testes{ "teste avec les fonctions (syntaxe): 4", "f(x) = 3 + 2", "in your function (or not an other unknown)" }
 	Tvars[4] = Testes{ "teste avec les fonctions (syntaxe): 5", "f(x) = 3 + 2y", "in your function (or not an other unknown)" }
+	Tvars[5] = Testes{ "teste avec les fonctions (syntaxe): 6", "f(x) = 3x + 2y", "isn't a number" }
+	Tvars[6] = Testes{ "teste avec les fonctions (syntaxe): 7", "f(x) = 3x + 2", "3 * x + 2" }
 	return (Tvars)
 }
