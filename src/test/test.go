@@ -28,9 +28,14 @@ func DefineAndRun() {
 	Syn := Cat{ "Syntaxe" ,  Syntaxe(), 0 }
 	Syn.Length = len(Syn.tab)
 	Run(Syn.tab, Syn)
+
 	Vars := Cat{ "Variables" ,  Vars(), 0 }
 	Vars.Length = len(Vars.tab)
 	Run(Vars.tab, Vars)
+
+	Func := Cat{ "Fonctions", Functions(), 0}
+	Func.Length = len(Func.tab)
+	Run(Func.tab, Func)
 }
 
 func Run(table map[int]Testes, C Cat) {
@@ -154,5 +159,15 @@ func Vars() (map[int]Testes) {
 	Tvars[31] = Testes{ "nom variable -> +Inf", "+Inf = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[32] = Testes{ "nom variable -> -Inf", "-Inf = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[33] = Testes{ "nom variable -> NaN", "NaN = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	return (Tvars)
+}
+
+func Functions() (map[int]Testes) {
+
+	Tvars := make(map[int]Testes)
+	Tvars[0] = Testes{ "teste avec les fonctions (syntaxe) : 1", "f(x = 3 + 2x", "jsp" }
+	Tvars[1] = Testes{ "teste avec les fonctions (syntaxe): 2", "fx) = 3 + 2x", "jsp" }
+	Tvars[2] = Testes{ "teste avec les fonctions (syntaxe): 3", "f(x) = 3 + 2", "jsp" }
+	Tvars[3] = Testes{ "teste avec les fonctions (syntaxe): 4", "f(x) = 3 + 2y", "jsp" }
 	return (Tvars)
 }
