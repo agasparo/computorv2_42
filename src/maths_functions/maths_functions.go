@@ -76,9 +76,15 @@ func AddMul(str string, x string, tab map[int]string, i int) {
 	if  strings.Index(str, "ˆ") == -1 && strings.Index(str, "^") == -1 {
 		nstr := strings.Split(str, x)
 		Slice1 := SliceTab(tab, i + 1, len(tab))
-		tab[i + 0] = nstr[0]
-		tab[i + 1] = "*"
-		tab[i + 2] = x
+		if nstr[0] == "" {
+			tab[i + 0] = x
+			tab[i + 1] = "*"
+			tab[i + 2] = nstr[1]
+		} else {
+			tab[i + 0] = nstr[0]
+			tab[i + 1] = "*"
+			tab[i + 2] = x
+		}
 		tab = RempTab(tab, Slice1, i + 3)
 	}
 }

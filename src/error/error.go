@@ -53,5 +53,8 @@ func checktab(tes []string) (bool) {
 	if tes[1] != "" && !parser.IsNumeric(tes[1]) {
 		return (false)
 	}
+	if tes[0] != "" && tes[1] != "" {
+		return (false)
+	}
 	return (true)
 }
