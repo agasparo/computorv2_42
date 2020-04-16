@@ -6,6 +6,7 @@ import (
 	"parser"
 	//"fmt"
 	"maths_functions"
+	"types"
 )
 
 func SetError(str string) {
@@ -21,7 +22,7 @@ func Syntaxe(str string) (string) {
 	return ("1")
 }
 
-func In(tab map[int]string, t int, f string) (string) {
+func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 
 	a := 0
 
@@ -29,7 +30,7 @@ func In(tab map[int]string, t int, f string) (string) {
 		a++
 	}
 	for i := a; i < len(tab); i += 2 {
-		if !parser.IsNumeric(tab[i]) && t == 0 {
+		if !parser.IsNumeric(tab[i]) && t == 0 && !IsUsu(tab, Dat) {
 			return ("'" + tab[i] + "' isn't a number")
 		}
 		if t == 1 {
@@ -41,6 +42,23 @@ func In(tab map[int]string, t int, f string) (string) {
 		}
 	}
 	return ("1")
+}
+
+func IsUsu(data map[int]string, vars types.Variable) (bool) {
+	
+	for i := 0; i < len(data); i++ {
+
+		p1 := strings.Index(data[i], "(")
+		if p1 == -1 {
+			return (false)
+		}
+		nstr := data[i][0:p1] + "(x)"
+		if _, ok := vars.Table[strings.ToLower(nstr)]; ok {
+
+			return (true)
+    	}
+	}
+	return (false)
 }
 
 func Checkvars(str string) (bool) {

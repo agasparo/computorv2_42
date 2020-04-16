@@ -95,10 +95,14 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	if str[1] == "?" { // cas particulier ppur check les variables
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 0, ""), true, "1") {
+		if Err(err_pars, error.In(data, 0, "", Dat), true, "1") {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
+		if strings.Index(data[0], "Impossible") != -1 {
+			fmt.Println(data[0])
+			return 1, -1, str_ret
+		}
 		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table["?"] = &types.Imaginaire{ x, y }
@@ -106,30 +110,42 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.Checkfuncx(str[0], str[1]), error.Checkfuncpa(str[0]), error.In(data, 1, str[0])) {
+		if Err(err_pars, error.Checkfuncx(str[0], str[1]), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
+		if strings.Index(data[0], "Impossible") != -1 {
+			fmt.Println(data[0])
+			return 1, -1, str_ret
+		}
 		par := parentheses.Parse(data, Vars, true, str[0])
 		res := maths_functions.Init(par, str[0], Vars)
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 0, ""), error.Checkvars(str[0]), "1") {
+		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
+		if strings.Index(data[0], "Impossible") != -1 {
+			fmt.Println(data[0])
+			return 1, -1, str_ret
+		}
 		par := parentheses.Parse(data, Vars, false, "")
 		x, y := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
 		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 0, ""), error.Checkvars(str[0]), "1") {
+		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
+		if strings.Index(data[0], "Impossible") != -1 {
+			fmt.Println(data[0])
+			return 1, -1, str_ret
+		}
 		par := parentheses.Parse(data, Vars, false, "")
 		x, _ := maths_imaginaires.CalcVar(par, Vars)
 		Vars.Table[str[0]] = &types.Rationel{ x }

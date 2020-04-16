@@ -99,6 +99,10 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 				value = strings.ReplaceAll(value, "usu|", "")
 				value = Remp(value, x, r, Vars)
 				value = usuelles_functions.GetUsuF(value, Vars)
+				if strings.Index(value, "Impossible") != -1 {
+					data[0] = value
+					return (data)
+				}
 			}
 			nstr := Remp(value, x, r, Vars)
 			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""), &parser_err)

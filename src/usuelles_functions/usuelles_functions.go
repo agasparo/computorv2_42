@@ -4,7 +4,6 @@ import (
 	"types"
 	"maths_imaginaires"
 	"strings"
-	//"fmt"
 )
 
 
@@ -12,8 +11,8 @@ func Init(Vars *types.Variable) {
 
 	Vars.Table["Interval_i"] = &types.Rationel{ 0 }
 	Vars.Table["Interval_f"] = &types.Rationel{ 50 }
-	Vars.Table["abs(x)"] = &types.Fonction{ "usu|Abs(x)" }
-	Vars.Table["v(x)"] = &types.Fonction{ "usu|V(x)" }
+	Vars.Table["abs(x)"] = &types.Fonction{ "usu|abs(x)" }
+	Vars.Table["v(x)"] = &types.Fonction{ "usu|v(x)" }
 	Vars.Table["inv(x)"] = &types.Fonction{ "usu|inverse(x)" }
 	Vars.Table["exp(x)"] = &types.Fonction{ "usu|expo(x)" }
 }
@@ -81,9 +80,12 @@ func GetUsuF(str string, Vars types.Variable) (string) {
 	nb1, nb2 := maths_imaginaires.ParseOne(str[p1 + 1:p2], &Vars)
 	Calc := maths_imaginaires.TmpComp{ nb1, nb2 }
 	switch t := nstr; t {
-	case "Abs":
+	case "abs":
 		Abs(&Calc)
-	case "V":
+	case "v":
+		if nb1 < 0 {
+			return ("Impossible v(x) : [0; +Inf]")
+		}
 		Racine(&Calc)
 	case "inverse":
 		Inverse(&Calc)

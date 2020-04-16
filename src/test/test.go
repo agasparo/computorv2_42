@@ -9,8 +9,6 @@ import (
 	"github.com/fatih/color"
 )
 
-// faire check pour les fonctions usuelles
-
 type Cat struct {
 
 	Name 	string
@@ -38,6 +36,10 @@ func DefineAndRun() {
 	Func := Cat{ "Fonctions", Functions(), 0}
 	Func.Length = len(Func.tab)
 	Run(Func.tab, Func)
+
+	Func_usu := Cat{ "Fonctions usuelles", Functions_usuelles(), 0}
+	Func_usu.Length = len(Func_usu.tab)
+	Run(Func_usu.tab, Func_usu)
 }
 
 func Run(table map[int]Testes, C Cat) {
@@ -187,5 +189,20 @@ func Functions() (map[int]Testes) {
 	Tvars[7] = Testes{ "teste avec les fonctions (syntaxe): 8", "f(x) = x", "x" }
 	Tvars[8] = Testes{ "teste avec les fonctions (syntaxe): 9", "f(x) = ", "in your function (or not an other unknown)" }
 	//Tvars[9] = Testes{ "teste avec les fonctions (syntaxe): 10", "f(x) = xx", "jsp" }
+	//teste de remplacer les fonctions usuelles
+	return (Tvars)
+}
+
+func Functions_usuelles() (map[int]Testes) {
+
+	Tvars := make(map[int]Testes)
+	Tvars[0] = Testes{ "abs function : 1 abs(1)", "c = abs(1)", "1" }
+	Tvars[1] = Testes{ "abs function : 2 abs(-1)", "c = abs(-1)", "1" }
+	Tvars[2] = Testes{ "abs function : 3 abs(-0)", "c = abs(-0)", "0" }
+	Tvars[3] = Testes{ "abs function : 4 abs(0)", "c = abs(0)", "0" }
+
+	Tvars[4] = Testes{ "racinne carre function : 1 v(0)", "c = v(0)", "0" }
+	Tvars[5] = Testes{ "racinne carre function : 2 v(1)", "c = v(1)", "1" }
+	Tvars[6] = Testes{ "racinne carre function : 2 v(-1)", "c = v(-1)", "Impossible v(x) : [0; +Inf]" }
 	return (Tvars)
 }
