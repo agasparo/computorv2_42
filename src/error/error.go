@@ -70,6 +70,19 @@ func Checkfuncpa(str string) (bool) {
 	return (true)
 }
 
+func Checkfuncx(str string, str1 string) (string) {
+
+	x := maths_functions.Getx(str)
+
+	if x == "" {
+		return ("You must have an unknown")
+	}
+	if strings.Count(str1, x) == 0 {
+		return ("You must have '" + x + "' in your function (or not an other unknown)")
+	}
+	return ("1")
+}
+
 func checktab(tes []string) (bool) {
 
 	if tes[0] != "" && !parser.IsNumeric(tes[0]) {

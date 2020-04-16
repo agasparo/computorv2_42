@@ -94,8 +94,8 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[6] = Testes{ "teste du =  : 7", "x = 2 * 3 = 4", "You must have just one =" }
 
 	Tvars[7] = Testes{ "teste avec des lettres  : 1", "x = 23a", "'23a' isn't a number" }
-	Tvars[8] = Testes{ "teste avec des lettres  : 2", "f(x) = 23a", "'23a' isn't a number" }
-	Tvars[9] = Testes{ "teste avec des lettres  : 3", "f(x) = a23", "'a23' isn't a number" }
+	Tvars[8] = Testes{ "teste avec des lettres  : 2", "f(x) = 23a", "in your function (or not an other unknown)" }
+	Tvars[9] = Testes{ "teste avec des lettres  : 3", "f(x) = a23", "in your function (or not an other unknown)" }
 	Tvars[10] = Testes{ "teste avec des lettres  : 4", "f(a) = 23a", "23 * a" }
 	Tvars[11] = Testes{ "teste avec des lettres  : 5", "f(a) = a23", "a * 23" }
 	Tvars[12] = Testes{ "teste avec des lettres  : 6", "f(a) = 23a23", "'23a23' isn't a number" }
@@ -161,6 +161,8 @@ func Vars() (map[int]Testes) {
 	Tvars[31] = Testes{ "nom variable -> +Inf", "+Inf = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[32] = Testes{ "nom variable -> -Inf", "-Inf = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[33] = Testes{ "nom variable -> NaN", "NaN = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[34] = Testes{ "nom variable -> 0", "0 = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[35] = Testes{ "nom variable -> a0", "a0 = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	return (Tvars)
 }
 
@@ -169,7 +171,8 @@ func Functions() (map[int]Testes) {
 	Tvars := make(map[int]Testes)
 	Tvars[0] = Testes{ "teste avec les fonctions (syntaxe) : 1", "f(x = 3 + 2x", "Your var must be just with alpha caracteres and not i" }
 	Tvars[1] = Testes{ "teste avec les fonctions (syntaxe): 2", "fx) = 3 + 2x", "'2x' isn't a number" }
-	Tvars[2] = Testes{ "teste avec les fonctions (syntaxe): 3", "f(x) = 3 + 2", "jsp" }
-	Tvars[3] = Testes{ "teste avec les fonctions (syntaxe): 4", "f(x) = 3 + 2y", "jsp" }
+	Tvars[2] = Testes{ "teste avec les fonctions (syntaxe): 3", "f() = 3 + 2x", "You must have an unknown" }
+	Tvars[3] = Testes{ "teste avec les fonctions (syntaxe): 4", "f(x) = 3 + 2", "in your function (or not an other unknown)" }
+	Tvars[4] = Testes{ "teste avec les fonctions (syntaxe): 5", "f(x) = 3 + 2y", "in your function (or not an other unknown)" }
 	return (Tvars)
 }
