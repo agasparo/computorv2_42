@@ -106,7 +106,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 1, str[0]), true) {
+		if Err(err_pars, error.In(data, 1, str[0]), error.Checkfuncpa(str[0])) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)

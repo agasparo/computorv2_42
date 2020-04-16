@@ -9,6 +9,8 @@ import (
 	"github.com/fatih/color"
 )
 
+// faire check pour les fonctions usuelles
+
 type Cat struct {
 
 	Name 	string
@@ -165,8 +167,8 @@ func Vars() (map[int]Testes) {
 func Functions() (map[int]Testes) {
 
 	Tvars := make(map[int]Testes)
-	Tvars[0] = Testes{ "teste avec les fonctions (syntaxe) : 1", "f(x = 3 + 2x", "jsp" }
-	Tvars[1] = Testes{ "teste avec les fonctions (syntaxe): 2", "fx) = 3 + 2x", "jsp" }
+	Tvars[0] = Testes{ "teste avec les fonctions (syntaxe) : 1", "f(x = 3 + 2x", "Your var must be just with alpha caracteres and not i" }
+	Tvars[1] = Testes{ "teste avec les fonctions (syntaxe): 2", "fx) = 3 + 2x", "'2x' isn't a number" }
 	Tvars[2] = Testes{ "teste avec les fonctions (syntaxe): 3", "f(x) = 3 + 2", "jsp" }
 	Tvars[3] = Testes{ "teste avec les fonctions (syntaxe): 4", "f(x) = 3 + 2y", "jsp" }
 	return (Tvars)

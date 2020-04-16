@@ -131,7 +131,7 @@ func IsFunc(str string, t int) (int) {
 		return (0)
 	}
 
-	if !IsLetter(str[0:p1]) || p1 == 0{
+	if !IsLetter(str[0:p1]) || p1 == 0 {
 		return (0)
 	}
 

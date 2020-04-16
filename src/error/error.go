@@ -4,7 +4,7 @@ import (
 	"github.com/fatih/color"
 	"strings"
 	"parser"
-	"fmt"
+	//"fmt"
 	"maths_functions"
 )
 
@@ -25,7 +25,6 @@ func In(tab map[int]string, t int, f string) (string) {
 
 	a := 0
 
-	fmt.Println(tab)
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
 	}
@@ -36,7 +35,6 @@ func In(tab map[int]string, t int, f string) (string) {
 		if t == 1 {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
-			fmt.Println(tes)
 			if !checktab(tes) {
 				return ("'" + tab[i] + "' isn't a number")
 			}
@@ -61,15 +59,26 @@ func Checkvars(str string) (bool) {
 	return (true)
 }
 
+func Checkfuncpa(str string) (bool) {
+
+	c := strings.Count(str, ")")
+	d := strings.Count(str, "(")
+
+	if c + d != 2 {
+		return (false)
+	}
+	return (true)
+}
+
 func checktab(tes []string) (bool) {
 
 	if tes[0] != "" && !parser.IsNumeric(tes[0]) {
 		return (false)
 	}
-	if tes[1] != "" && !parser.IsNumeric(tes[1]) {
+	if len(tes) >= 2 && tes[1] != "" && !parser.IsNumeric(tes[1]) {
 		return (false)
 	}
-	if tes[0] != "" && tes[1] != "" {
+	if tes[0] != "" && (len(tes) >= 2 && tes[1] != "") {
 		return (false)
 	}
 	return (true)
