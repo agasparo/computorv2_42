@@ -66,10 +66,22 @@ func Inverse(TC *maths_imaginaires.TmpComp) {
 
 func Expo(TC *maths_imaginaires.TmpComp) {
 
+	neg := 0
+	if TC.A < 0 {
+		neg = 1
+		TC.A *= -1
+	}
 	Calc := maths_imaginaires.TmpComp{ 2.718281828459045, 0 }
 	maths_imaginaires.Pow(&Calc, int64(TC.A))
-	TC.A = Calc.A
-	TC.B = Calc.B
+	tmp := maths_imaginaires.TmpComp{ 1, 0 }
+	if neg == 1 {
+		maths_imaginaires.Divi(&tmp, Calc.A, Calc.B)
+		TC.A = tmp.A
+		TC.B = tmp.B
+	} else {
+		TC.A = Calc.A
+		TC.B = Calc.B
+	}
 }
 
 func GetUsuF(str string, Vars types.Variable) (string) {
@@ -88,6 +100,9 @@ func GetUsuF(str string, Vars types.Variable) (string) {
 		}
 		Racine(&Calc)
 	case "inverse":
+		if nb1 == 0 {
+			return ("Impossible inv(x) : [-Inf; 0[ U ]0; +Inf]")
+		}
 		Inverse(&Calc)
 	case "expo":
 		Expo(&Calc)

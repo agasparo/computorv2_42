@@ -203,6 +203,14 @@ func Functions_usuelles() (map[int]Testes) {
 
 	Tvars[4] = Testes{ "racinne carre function : 1 v(0)", "c = v(0)", "0" }
 	Tvars[5] = Testes{ "racinne carre function : 2 v(1)", "c = v(1)", "1" }
-	Tvars[6] = Testes{ "racinne carre function : 2 v(-1)", "c = v(-1)", "Impossible v(x) : [0; +Inf]" }
+	Tvars[6] = Testes{ "racinne carre function : 3 v(-1)", "c = v(-1)", "Impossible v(x) : [0; +Inf]" }
+
+	Tvars[7] = Testes{ "inverse function : 1 inv(0)", "c = inv(0)", "Impossible inv(x) : [-Inf; 0[ U ]0; +Inf]" }
+	Tvars[8] = Testes{ "inverse function : 2 inv(15)", "c = inv(15)", "0.06666" }
+	Tvars[9] = Testes{ "inverse function : 3 inv(-20)", "c = inv(-20)", "-0.05" }
+
+	Tvars[10] = Testes{ "expo function : 1 exp(0)", "c = exp(0)", "1" }
+	Tvars[11] = Testes{ "expo function : 2 exp(10)", "c = exp(10)", "22026.4657" }
+	Tvars[12] = Testes{ "expo function : 3 exp(-2)", "c = exp(-2)", "0.1353" }
 	return (Tvars)
 }
