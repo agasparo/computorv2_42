@@ -150,5 +150,8 @@ func Vars() (map[int]Testes) {
 	Tvars[27] = Testes{ "nom variable -> ˜", "˜ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[28] = Testes{ "nom variable -> `", "` = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[29] = Testes{ "nom variable -> ^", "^ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[30] = Testes{ "nom variable -> Inf", "Inf = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[31] = Testes{ "nom variable -> +Inf", "+Inf = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[32] = Testes{ "nom variable -> -Inf", "-Inf = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	return (Tvars)
 }
