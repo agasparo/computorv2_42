@@ -84,7 +84,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	tmp := strings.Join(Inputs.Input, " ")
 	str := strings.Split(tmp, "=")
-	if Err(0, error.Syntaxe(tmp)) {
+	if Err(0, error.Syntaxe(tmp), true) {
 		return 0, 0, ""
 	}
 
@@ -93,9 +93,9 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	str_ret := str[0]
 	err_pars := 0
 
-	if str[1] == "?" {
+	if str[1] == "?" { // cas particulier ppur check les variables
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 0, "")) {
+		if Err(err_pars, error.In(data, 0, ""), true) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -106,7 +106,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 1, str[0])) {
+		if Err(err_pars, error.In(data, 1, str[0]), true) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -116,7 +116,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 0, "")) {
+		if Err(err_pars, error.In(data, 0, ""), error.Checkvars(str[0])) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -126,7 +126,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 0, "")) {
+		if Err(err_pars, error.In(data, 0, ""), error.Checkvars(str[0])) {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -143,7 +143,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	return 1, t, str_ret
 }
 
-func Err(err_parse int, e string) (bool) {
+func Err(err_parse int, e string, a bool) (bool) {
 
 	if e != "1" {
 		error.SetError(e)
@@ -151,6 +151,10 @@ func Err(err_parse int, e string) (bool) {
 	}
 	if err_parse == 1 {
 		error.SetError("You have a mistake with your sign")
+		return (true)
+	}
+	if !a {
+		error.SetError("Your var must be just with alpha caracteres and not i")
 		return (true)
 	}
 	return (false)

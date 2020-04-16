@@ -28,9 +28,9 @@ func DefineAndRun() {
 	Syn := Cat{ "Syntaxe" ,  Syntaxe(), 0 }
 	Syn.Length = len(Syn.tab)
 	Run(Syn.tab, Syn)
-	//Vars := Cat{ "Variables" ,  Vars(), 0 }
-	//Vars.Length = len(Vars.tab)
-	//Run(Vars.tab, Vars)
+	Vars := Cat{ "Variables" ,  Vars(), 0 }
+	Vars.Length = len(Vars.tab)
+	Run(Vars.tab, Vars)
 }
 
 func Run(table map[int]Testes, C Cat) {
@@ -120,6 +120,35 @@ func Syntaxe() (map[int]Testes) {
 func Vars() (map[int]Testes) {
 
 	Tvars := make(map[int]Testes)
-	Tvars[0] = Testes{ "nom variable -> i", "i = 2 * 3", "cant have var with name 'i'" }
+	Tvars[0] = Testes{ "nom variable -> i", "i = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[1] = Testes{ "nom variable -> a+", "a+ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[2] = Testes{ "nom variable -> a-", "a- = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[3] = Testes{ "nom variable -> a*", "a* = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[4] = Testes{ "nom variable -> a/", "a/ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[5] = Testes{ "nom variable -> a%", "a% = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[6] = Testes{ "nom variable -> -", "- = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[7] = Testes{ "nom variable -> +", "+ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[8] = Testes{ "nom variable -> *", "* = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[9] = Testes{ "nom variable -> a[", "a[ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[10] = Testes{ "nom variable -> a]", "a] = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[11] = Testes{ "nom variable -> ()", "() = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[12] = Testes{ "nom variable -> (", "( = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[13] = Testes{ "nom variable -> )", ") = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[14] = Testes{ "nom variable -> [", "[ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[15] = Testes{ "nom variable -> a]", "a] = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[16] = Testes{ "nom variable -> ]", "] = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[17] = Testes{ "nom variable -> []", "[] = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[18] = Testes{ "nom variable -> a[]", "a[] = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[19] = Testes{ "nom variable -> @", "@ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[20] = Testes{ "nom variable -> !", "! = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[21] = Testes{ "nom variable -> ?", "? = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[22] = Testes{ "nom variable -> ˆ", "ˆ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[23] = Testes{ "nom variable -> |", "| = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[24] = Testes{ "nom variable -> \\", "\\ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[25] = Testes{ "nom variable -> .", ". = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[26] = Testes{ "nom variable -> ,", ", = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[27] = Testes{ "nom variable -> ˜", "˜ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[28] = Testes{ "nom variable -> `", "` = 2 * 3", "Your var must be just with alpha caracteres and not i" }
+	Tvars[29] = Testes{ "nom variable -> ^", "^ = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	return (Tvars)
 }

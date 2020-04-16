@@ -45,6 +45,22 @@ func In(tab map[int]string, t int, f string) (string) {
 	return ("1")
 }
 
+func Checkvars(str string) (bool) {
+
+	str = strings.ReplaceAll(str, " ", "")
+
+	if str == "i" || str == "ˆ" {
+		return (false)
+	}
+
+	for i := 0; i < len(str); i++ {
+		if !parser.IsLetter(string(str)) {
+			return (false)
+		}
+	}
+	return (true)
+}
+
 func checktab(tes []string) (bool) {
 
 	if tes[0] != "" && !parser.IsNumeric(tes[0]) {
