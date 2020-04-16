@@ -47,7 +47,11 @@ func In(tab map[int]string, t int, f string) (string) {
 
 func checktab(tes []string) (bool) {
 
-	if !parser.IsNumeric(tes[0]) {
-		return ("'" + tab[i] + "' isn't a number")
+	if tes[0] != "" && !parser.IsNumeric(tes[0]) {
+		return (false)
 	}
+	if tes[1] != "" && !parser.IsNumeric(tes[1]) {
+		return (false)
+	}
+	return (true)
 }
