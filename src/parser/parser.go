@@ -178,6 +178,9 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 	var itab, neg int
 	var anc string
 
+	if len(str) == 0 {
+		return (data)
+	}
 	if str[0] == '+' {
 		str = str[1:len(str)]
 	}
