@@ -187,22 +187,31 @@ func GetAllIma(str string) (map[int]string) {
 			str = str[1:len(str)]
 			neg = 1
 		}
+		if str[i] == '+' {
+			str = str[1:len(str)]
+		}
 		index := GetCararc(str, "+-/*%")
 		if index == -1 {
-			data[itab] = str
+			if neg == 1 {
+				data[itab] = "-" + str
+			} else {
+				data[itab] = str
+			}
 			return (data)
 		}
-		if neg == 1 {
-			data[itab] = "-" + str[i:index]
-		} else {
-			data[itab] = str[i:index]
+		if index > 0 {
+			if neg == 1 {
+				data[itab] = "-" + str[i:index]
+			} else {
+				data[itab] = str[i:index]
+			}
+			itab++
+			neg = 0
+			i = i + index
+			data[itab] = string(str[i])
+			itab++
+			str = str[i + 1:len(str)]
 		}
-		itab++
-		neg = 0
-		i = i + index
-		data[itab] = string(str[i])
-		itab++
-		str = str[i + 1:len(str)]
 		i = -1
 	}
 	return (data)

@@ -95,6 +95,14 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[13] = Testes{ "teste avec des lettres  : 7", "c = 23i", "23i" }
 	Tvars[14] = Testes{ "teste avec des lettres  : 8", "c = i23i", "'i23i' isn't a number" }
 	Tvars[15] = Testes{ "teste avec des lettres  : 9", "x = a23", "'a23' isn't a number" }
+	Tvars[16] = Testes{ "teste avec des lettres  : 9", "x = x23", "'x23' isn't a number" }
+
+	Tvars[17] = Testes{ "teste avec les signes : 1", "x = 2 * 3", "6" }
+	Tvars[18] = Testes{ "teste avec les signes : 2", "x = 2 * +3", "6" }
+	Tvars[19] = Testes{ "teste avec les signes : 3", "x = +2 * +3", "6" }
+	Tvars[20] = Testes{ "teste avec les signes : 4", "x = -2 * 3", "-6" }
+	Tvars[21] = Testes{ "teste avec les signes : 5", "x = 2 * -3", "-6" }
+	Tvars[22] = Testes{ "teste avec les signes : 6", "x = -2 * -3", "6" }
 
 	return (Tvars)
 }
