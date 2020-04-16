@@ -49,7 +49,7 @@ func Checkvars(str string) (bool) {
 
 	str = strings.ReplaceAll(str, " ", "")
 
-	if str == "i" || str == "ˆ" || strings.Index(str, "inf") != -1 {
+	if str == "i" || str == "ˆ" || strings.Index(str, "inf") != -1 || strings.Index(str, "nan") != -1 {
 		return (false)
 	}
 
