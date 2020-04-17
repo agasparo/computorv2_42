@@ -6,9 +6,11 @@ import (
 	"text/tabwriter"
 	"os"
 	"courbe"
+	"parser"
+	"strconv"
 )
 
-func IsCommand(str string, str1 string, Vars types.Variable) (int) {
+func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) {
 
 	if str == "-list" {
 		GetAllVars(Vars.Table)
@@ -21,6 +23,10 @@ func IsCommand(str string, str1 string, Vars types.Variable) (int) {
 	if str == "-graph" {
 		Graph(str1, Vars)
 		return(1)
+	}
+	if str == "-set" {
+		SetVars(str1, str2, Vars)
+		return (1)
 	}
 	return (0)
 }
@@ -53,4 +59,21 @@ func Graph(str string, Vars types.Variable) {
 	C := courbe.Courbe{}
 	courbe.Init(&Vars, str, &C)
 	courbe.Trace(C, Vars)
+}
+
+func SetVars(str string, str1 string, Vars types.Variable) {
+
+	if str == "Interval_i" || str == "Interval_f" {
+		
+		if _, ok := Vars.Table[str]; ok {
+
+			if parser.IsNumeric(str1) {
+				
+				a, _ := strconv.ParseFloat(str1, 64)
+				b := int(a)
+				a = float64(b)
+				Vars.Table[str] = &types.Rationel{ a }
+			}
+   		}
+	}
 }

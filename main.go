@@ -34,6 +34,7 @@ func Run() {
 	Inputs := input.Data{}
 	Vars := types.Variable{}
 	arg := ""
+	arg1 := ""
 
 	Vars.Table = make(map[string]types.AllT)
 	usuelles_functions.Init(&Vars)
@@ -43,10 +44,13 @@ func Run() {
 			fmt.Println("bye")
 			return
 		}
-		if Inputs.Length == 2 {
+		if Inputs.Length >= 2 {
     		arg = Inputs.Input[1]
 		}
-		if commands.IsCommand(Inputs.Input[0], arg, Vars) != 1 {
+		if Inputs.Length == 3 {
+    		arg1 = Inputs.Input[2]
+		}
+		if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars) != 1 {
 			r, t, v := basic_check(Inputs, &Vars, Vars)
 			if r == 1 {
 				show.ShowVars(t, Vars.Table[v])
@@ -60,6 +64,7 @@ func RunTest(str string) {
 	Inputs := input.Data{ strings.Split(str, " "), 1 }
 	Vars := types.Variable{}
 	arg := ""
+	arg1 := ""
 
 	Vars.Table = make(map[string]types.AllT)
 	usuelles_functions.Init(&Vars)
@@ -70,7 +75,10 @@ func RunTest(str string) {
 	if Inputs.Length == 2 {
    		arg = Inputs.Input[1]
 	}
-	if commands.IsCommand(Inputs.Input[0], arg, Vars) != 1 {
+	if Inputs.Length == 3 {
+    	arg1 = Inputs.Input[2]
+	}
+	if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars) != 1 {
 		r, t, v := basic_check(Inputs, &Vars, Vars)
 		if r == 1 {
 			show.ShowVars(t, Vars.Table[v])
