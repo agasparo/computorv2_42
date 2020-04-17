@@ -185,6 +185,10 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 	if len(str) == 0 {
 		return (data)
 	}
+	if !DebCheck(str) {
+		*pos = 1
+		return (data)
+	}
 	if str[0] == '+' {
 		str = str[1:len(str)]
 	}
@@ -231,6 +235,14 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 		i = -1
 	}
 	return (data)
+}
+
+func DebCheck(str string) (bool) {
+
+	if strings.Index("+-/*%", string(str[0])) != -1 && strings.Index("+-/*%", string(str[1])) != -1 {
+		return (false)
+	}
+	return (true)
 }
 
 func Impossible(str string, cmp string) (bool) {
