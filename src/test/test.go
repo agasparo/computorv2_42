@@ -146,6 +146,14 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[47] = Testes{ "teste avec i : 5", "x = 2ai", "'2a' isn't a number" }
 	Tvars[48] = Testes{ "teste avec i : 6", "x = i2i", "'i2i' isn't a number" }
 
+	Tvars[49] = Testes{ "teste avec ˆ : 1", "x = i2ˆ2", "-4.000000 + 0.000000i" }
+	Tvars[50] = Testes{ "teste avec ˆ : 2", "x = 3ˆ3", "27.000000" }
+	Tvars[51] = Testes{ "teste avec ˆ : 3", "x = 3ˆ3ˆ3", "7625597484987.000000" }
+	Tvars[52] = Testes{ "teste avec ˆ : 4", "x = 3ˆ0", "1" }
+	Tvars[53] = Testes{ "teste avec ˆ : 5", "x = 0ˆ0", "1" }
+	Tvars[53] = Testes{ "teste avec ˆ : 6", "x = 0ˆ1", "0" }
+	Tvars[53] = Testes{ "teste avec ˆ : 7", "x = 1ˆ1.23", "1" }
+
 	return (Tvars)
 }
 

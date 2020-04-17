@@ -4,7 +4,6 @@ import (
 	"github.com/fatih/color"
 	"strings"
 	"parser"
-	"fmt"
 	"maths_functions"
 	"types"
 )
