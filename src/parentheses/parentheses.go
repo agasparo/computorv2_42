@@ -49,11 +49,19 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 			}
 		}
 		add, pos, repete := check(ntab)
-		n1, n2 := maths_imaginaires.CalcVar(ntab, Vars)
+		n1, n2, err := maths_imaginaires.CalcVar(ntab, Vars)
+		if err != "" {
+			tab[0] = err
+			return (tab)
+		}
 		res := Float2string(TmpComp{ n1, n2 })
 		if powers != "" {
 			po := parser.GetAllIma(strings.ReplaceAll(add_check(res, powers, pl, "1"), " ", ""), &parser_err)
-			a, b := maths_imaginaires.CalcVar(po, Vars)
+			a, b, err := maths_imaginaires.CalcVar(po, Vars)
+			if err != "" {
+				tab[0] = err
+				return (tab)
+			}
 			res = Float2string(TmpComp{ a, b })
 		}
 		tab[index_d] = add_check(res, add, pos, repete)

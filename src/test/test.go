@@ -40,6 +40,10 @@ func DefineAndRun() {
 	Func_usu := Cat{ "Fonctions usuelles", Functions_usuelles(), 0}
 	Func_usu.Length = len(Func_usu.tab)
 	Run(Func_usu.tab, Func_usu)
+
+	Calcul := Cat{ "Calcul" ,  Calcul(), 0 }
+	Calcul.Length = len(Calcul.tab)
+	Run(Calcul.tab, Calcul)
 }
 
 func Run(table map[int]Testes, C Cat) {
@@ -151,8 +155,10 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[51] = Testes{ "teste avec ˆ : 3", "x = 3ˆ3ˆ3", "7625597484987.000000" }
 	Tvars[52] = Testes{ "teste avec ˆ : 4", "x = 3ˆ0", "1" }
 	Tvars[53] = Testes{ "teste avec ˆ : 5", "x = 0ˆ0", "1" }
-	Tvars[53] = Testes{ "teste avec ˆ : 6", "x = 0ˆ1", "0" }
-	Tvars[53] = Testes{ "teste avec ˆ : 7", "x = 1ˆ1.23", "1" }
+	Tvars[54] = Testes{ "teste avec ˆ : 6", "x = 0ˆ1", "0" }
+	Tvars[55] = Testes{ "teste avec ˆ : 7", "x = 1ˆ1.23", "1" }
+	Tvars[56] = Testes{ "teste avec ˆ : 8", "x = 2ˆ-3", "0.125000" }
+	Tvars[57] = Testes{ "teste avec ˆ : 9", "x = 1ˆ-9", "1" }
 
 	return (Tvars)
 }
@@ -238,5 +244,13 @@ func Functions_usuelles() (map[int]Testes) {
 	Tvars[10] = Testes{ "expo function : 1 exp(0)", "c = exp(0)", "1" }
 	Tvars[11] = Testes{ "expo function : 2 exp(10)", "c = exp(10)", "22026.4657" }
 	Tvars[12] = Testes{ "expo function : 3 exp(-2)", "c = exp(-2)", "0.1353" }
+	return (Tvars)
+}
+
+func Calcul() (map[int]Testes) {
+
+	Tvars := make(map[int]Testes)
+	Tvars[0] = Testes{ "division par 0", "c = 4/0", "Division with 0 not possible" }
+	Tvars[1] = Testes{ "modulo par 0", "c = 4%0", "Modulo with 0 not possible" }
 	return (Tvars)
 }

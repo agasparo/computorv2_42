@@ -16,11 +16,15 @@ type TmpComp struct {
 	B float64
 }
 
-func CalcVar(data map[int]string, vars *types.Variable) (float64, float64) {
+func CalcVar(data map[int]string, vars *types.Variable) (float64, float64, string) {
 
 	data = CalcMulDivi(data, vars, "")
 	data = CalcAddSous(data, vars, "")
-	return ParseOne(data[0], vars)
+	if strings.Index(data[0], "by 0") != -1 {
+		return 0, 0, data[0]
+	}
+	a, b := ParseOne(data[0], vars)
+	return a, b, ""
 }
 
 func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (map[int]string) {
@@ -41,6 +45,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
+			if nb3 == 0 {
+				data[0] = "Can't do modulo by 0"
+				return (data)
+			}
 			Mod(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
@@ -51,6 +59,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
+			if nb3 == 0 {
+				data[0] = "can't do division by 0"
+				return (data)
+			}
 			Divi(&Calc, nb3, nb4)
 			data = maps.MapSlice(data, i)
 			data[i - 1] = Float2string(Calc)
