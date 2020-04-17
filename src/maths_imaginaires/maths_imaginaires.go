@@ -60,7 +60,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
 			if nb3 == 0 {
-				data[0] = "can't do division by 0"
+				data[0] = "Can't do division by 0"
 				return (data)
 			}
 			Divi(&Calc, nb3, nb4)
