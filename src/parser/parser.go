@@ -95,7 +95,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			name, value := GetDataFunc(data[i], Vars.Table)
 			x := Getx(name)
 			r := data[i][p1 + 1:p2]
-			if IsExpression(r) {
+			if IsExpression(r, x) {
 				data[0] = "You must have only one number for unknown not an expression"
 				return (data)
 			}
@@ -117,7 +117,11 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 	return (data)
 }
 
-func IsExpression(str string) (bool) {
+func IsExpression(str string, x string) (bool) {
+
+	if str == x {
+		return (false)
+	}
 
 	m := strings.Count(str, "-")
 	m += strings.Count(str, "*")
