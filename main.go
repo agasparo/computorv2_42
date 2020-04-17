@@ -107,8 +107,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
-		if strings.Index(data[0], "Impossible") != -1 {
-			fmt.Println(data[0])
+		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
+			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
 		par := parentheses.Parse(data, Vars, false, "")
@@ -122,8 +122,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
-		if strings.Index(data[0], "Impossible") != -1 {
-			fmt.Println(data[0])
+		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
+			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
 		par := parentheses.Parse(data, Vars, true, str[0])
@@ -136,8 +136,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
-		if strings.Index(data[0], "Impossible") != -1 {
-			fmt.Println(data[0])
+		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
+			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
 		par := parentheses.Parse(data, Vars, false, "")
@@ -150,8 +150,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
-		if strings.Index(data[0], "Impossible") != -1 {
-			fmt.Println(data[0])
+		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
+			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
 		par := parentheses.Parse(data, Vars, false, "")

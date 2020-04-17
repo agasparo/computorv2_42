@@ -95,6 +95,10 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			name, value := GetDataFunc(data[i], Vars.Table)
 			x := Getx(name)
 			r := data[i][p1 + 1:p2]
+			if IsExpression(r) {
+				data[0] = "You must have only one number for unknown not an expression"
+				return (data)
+			}
 			if strings.Index(value, "|") != -1 {
 				value = strings.ReplaceAll(value, "usu|", "")
 				value = Remp(value, x, r, Vars)
@@ -107,10 +111,50 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			nstr := Remp(value, x, r, Vars)
 			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""), &parser_err)
 			data = maps.CombineN(data, nt, i)
+			fmt.Println(data)
 			i = -1
 		}
 	}
 	return (data)
+}
+
+func IsExpression(str string) (bool) {
+
+	m := strings.Count(str, "-")
+	m += strings.Count(str, "*")
+	m += strings.Count(str, "/")
+	m += strings.Count(str, "+")
+	m += strings.Count(str, "%")
+	m += strings.Count(str, "=")
+
+	if m >= 2 {
+		return (true)
+	}
+	if str[0] == '*' || str[0] == '/' || str[0] == '%' {
+		return (true)
+	}
+	if str[0] == '+' || str[0] == '-' {
+		str = str[0:len(str)]
+	}
+	index := GetCararc(str, "+-/*%")
+	if index == -1 && ! IsNumeric(str) {
+		return (true)
+	}
+	e := strings.Split(str, string(str[index]))
+	c := 0
+	for i := 0; i < len(e); i++ {
+
+		if !IsNumeric(e[i]) && e[i] != "" {
+			return (true)
+		} else if e[i] != "" {
+			c++
+		}
+	}
+	fmt.Println(c)
+	if c > 1 {
+		return (true)
+	}
+	return (false)
 }
 
 func Remp(str string, x string, r string,  Vars types.Variable) (string) {
