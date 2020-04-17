@@ -7,6 +7,7 @@ import (
 	"maths_imaginaires"
 	"parser"
 	"maps"
+	//"fmt"
 )
 
 func Init(tab map[int]string, x string, vars *types.Variable) (string) {
@@ -89,11 +90,24 @@ func AddMul(str string, x string, tab map[int]string, i int) {
 	}
 }
 
+func PuiSign(data map[int]string) (map[int]string) {
+
+	for i := 0; i < len(data); i++ {
+
+		if (strings.Index(data[i], "ˆ") != -1 || strings.Index(data[i], "^") != -1) && i - 1 >= 0 && (data[i - 1] == "-" || data[i - 1] == "+") {
+			data[i - 2] = data[i - 2] + data[i - 1] + data[i]
+			data = maps.MapSlice(data, i - 1)
+		}
+	}
+	return (data)
+}
+
 func Calc(fu string, x string, r string, vars *types.Variable) (float64, float64) {
 
 	parser_err := 0
 	fu = strings.ReplaceAll(fu, x, r)
 	data := parser.GetAllIma(fu, &parser_err)
+	data = PuiSign(data)
 	data = maths_imaginaires.CalcMulDivi(data, vars, x)
 	data = maths_imaginaires.CalcAddSous(data, vars, x)
 	return (maths_imaginaires.ParseOne(data[0], vars))

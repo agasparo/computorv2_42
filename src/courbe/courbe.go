@@ -50,7 +50,7 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 	tab = parser.Checkfunc(tab, vars)
 	str := maths_functions.JoinTab(tab)
 	br := 0
-	var a, k float64
+	var a, k, g float64
 	var doi, nn int
 	var tabx []float64
 	var taby []float64
@@ -91,6 +91,10 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 	       	br = 1
 	       	k = i
 		}
+		g = i
+	}
+	if k == 0 {
+		k = g + C.Step
 	}
 	if nn == 1 {
 		title = C.Name + " | " + GetInterval(k, C, br)
