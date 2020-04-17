@@ -11,6 +11,7 @@ func Init(Vars *types.Variable) {
 
 	Vars.Table["Interval_i"] = &types.Rationel{ 0 }
 	Vars.Table["Interval_f"] = &types.Rationel{ 50 }
+	Vars.Table["Interval_step"] = &types.Rationel{ 1 }
 	Vars.Table["abs(x)"] = &types.Fonction{ "usu|abs(x)" }
 	Vars.Table["v(x)"] = &types.Fonction{ "usu|v(x)" }
 	Vars.Table["inv(x)"] = &types.Fonction{ "usu|inverse(x)" }

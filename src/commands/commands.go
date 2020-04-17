@@ -64,16 +64,25 @@ func Graph(str string, Vars types.Variable) {
 func SetVars(str string, str1 string, Vars types.Variable) {
 
 	if str == "Interval_i" || str == "Interval_f" {
-		
-		if _, ok := Vars.Table[str]; ok {
 
-			if parser.IsNumeric(str1) {
-				
-				a, _ := strconv.ParseFloat(str1, 64)
-				b := int(a)
-				a = float64(b)
+		if parser.IsNumeric(str1) {
+			
+			a, _ := strconv.ParseFloat(str1, 64)
+			b := int(a)
+			a = float64(b)
+			Vars.Table[str] = &types.Rationel{ a }
+		}
+	}
+
+	if str == "Interval_step" {
+
+		if parser.IsNumeric(str1) {
+
+			a, _ := strconv.ParseFloat(str1, 64)
+			b := int(a)
+			if a - float64(b) >= 0.2 {
 				Vars.Table[str] = &types.Rationel{ a }
 			}
-   		}
+		}
 	}
 }
