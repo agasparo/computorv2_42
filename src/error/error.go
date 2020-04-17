@@ -32,7 +32,7 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 	}
 	for i := a; i < len(tab); i += 2 {
 
-		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) {
+		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i]) {
 			if strings.Count(tab[i], "i") > 1 {
 				return ("'" + tab[i] + "' isn't a number")
 			}
@@ -40,7 +40,7 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 			is_i = 1
 		}
 
-		if !parser.IsNumeric(tab[i]) && t == 0 && !IsUsu(tab, Dat) && tab[i] != "i" {
+		if !parser.IsNumeric(tab[i]) && t == 0 && !IsUsu(tab, Dat) && tab[i] != "i" && !IsPower(tab[i]) {
 			return ("'" + tab[i] + "' isn't a number")
 		}
 		if t == 1 {
@@ -56,6 +56,15 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 		is_i = 0
 	}
 	return ("1")
+}
+
+func IsPower(str string) (bool) {
+
+	if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 {
+
+		return (true)
+	}
+	return (false)
 }
 
 func IsUsu(data map[int]string, vars types.Variable) (bool) {
