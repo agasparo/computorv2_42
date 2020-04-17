@@ -4,7 +4,7 @@ import (
 	"github.com/fatih/color"
 	"strings"
 	"parser"
-	//"fmt"
+	"fmt"
 	"maths_functions"
 	"types"
 )
@@ -126,10 +126,10 @@ func Checkfuncx(str string, str1 string) (string) {
 
 func checktab(tes []string) (bool) {
 
-	if tes[0] != "" && !parser.IsNumeric(tes[0]) {
+	if tes[0] != "" && !parser.IsNumeric(tes[0]) && !IsPower(tes[0]) {
 		return (false)
 	}
-	if len(tes) >= 2 && tes[1] != "" && !parser.IsNumeric(tes[1]) {
+	if len(tes) >= 2 && tes[1] != "" && !parser.IsNumeric(tes[1]) && !IsPower(tes[1]) {
 		return (false)
 	}
 	if tes[0] != "" && (len(tes) >= 2 && tes[1] != "") {
