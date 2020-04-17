@@ -49,11 +49,13 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 	tab := parser.GetAllIma(C.Name, &parser_err)
 	tab = parser.Checkfunc(tab, vars)
 	str := maths_functions.JoinTab(tab)
-	var a float64
-	var doi int
+	br := 0
+	var a, k float64
+	var doi, nn int
 	var tabx []float64
 	var taby []float64
 	var tmp []float64
+	var title string
 
 	for i := float64(C.Interval_i); i < float64(C.Interval_f); i += C.Step {
 
@@ -65,6 +67,7 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 			if strings.Index(str, "Impossible") != -1 {
 				doi = 1
 			}
+			nn = 1
 			a, _ = strconv.ParseFloat(str, 64)
 		} else {
 			a, _ = maths_functions.Calc(str, maths_functions.Getx(C.Name), fmt.Sprintf("%f", i), &vars)
@@ -73,21 +76,52 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 			tabx = append(tabx, i)
 			taby = append(taby, a)
 		} else {
+			if nn == 1 {
+				title = C.Name + " | " + GetInterval(i, C, br)
+			} else {
+				title = C.Name + " = " + C.Funct + " | " + GetInterval(i, C, br)
+			}
 			All = append(All, chart.ContinuousSeries {
-	        	Name:    C.Name + " = " + C.Funct,
+	        	Name:    title,
 	            XValues: tabx,
 	            YValues: taby,
 	        })
 	       	tabx = tmp
 	       	taby = tmp
+	       	br = 1
+	       	k = i
 		}
 	}
+	if nn == 1 {
+		title = C.Name + " | " + GetInterval(k, C, br)
+	} else {
+		title = C.Name + " = " + C.Funct + " | " + GetInterval(k, C, br)
+	}
 	All = append(All, chart.ContinuousSeries {
-	    Name:    C.Name + " = " + C.Funct,
+	    Name:    title,
 	    XValues: tabx,
 	    YValues: taby,
 	})
 	return (All)
+}
+
+func GetInterval(i float64, C *Courbe, br int) (string) {
+
+	a := float64(C.Interval_i)
+	b := float64(C.Interval_f)
+
+	if br == 1 {
+		return (fmt.Sprintf("] %f ; %d ]", i, C.Interval_f))
+	}
+
+	if i > a && i < b {
+		return (fmt.Sprintf("[ %d ; %f [", C.Interval_i, i))
+	}
+
+	if i > a && i >= b {
+		return (fmt.Sprintf("[ %d ; %d ]", C.Interval_i, C.Interval_f))
+	}
+	return ("")
 }
 
 func Draw(C Courbe, All []chart.Series) {
