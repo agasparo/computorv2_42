@@ -250,7 +250,7 @@ func Functions_usuelles() (map[int]Testes) {
 func Calcul() (map[int]Testes) {
 
 	Tvars := make(map[int]Testes)
-	Tvars[0] = Testes{ "division par 0", "c = 4/0", "Division with 0 not possible" }
-	Tvars[1] = Testes{ "modulo par 0", "c = 4%0", "Modulo with 0 not possible" }
+	Tvars[0] = Testes{ "division par 0", "c = 4/0", "can't do division by 0" }
+	Tvars[1] = Testes{ "modulo par 0", "c = 4%0", "can't do modulo by 0" }
 	return (Tvars)
 }
