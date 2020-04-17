@@ -57,7 +57,7 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 	var tmp []float64
 	var title string
 
-	for i := float64(C.Interval_i); i < float64(C.Interval_f); i += C.Step {
+	for i := float64(C.Interval_i); i <= float64(C.Interval_f); i += C.Step {
 
 		doi = 0
 		if strings.Index(C.Funct, "|") != -1 {
@@ -94,7 +94,7 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 		g = i
 	}
 	if k == 0 {
-		k = g + C.Step
+		k = g
 	}
 	if nn == 1 {
 		title = C.Name + " | " + GetInterval(k, C, br)
