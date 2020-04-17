@@ -48,21 +48,27 @@ func CalcPoints(C *Courbe, tabx []float64, taby []float64, vars types.Variable) 
 	tab = parser.Checkfunc(tab, vars)
 	str := maths_functions.JoinTab(tab)
 	var a float64
-	var nn int
+	var nn, doi int
 
 	for i := C.Interval_i; i < C.Interval_f; i++ {
 
+		doi = 0
 		if strings.Index(C.Funct, "|") != -1 {
 			str = strings.ReplaceAll(C.Funct, "usu|", "")
 			str = parser.Remp(str, maths_functions.Getx(C.Name), replace_vars.GetVars(&vars, strconv.Itoa(i)), vars)
 			str = usuelles_functions.GetUsuF(str, vars)
+			if strings.Index(str, "Impossible") != -1 {
+				doi = 1
+			}
 			a, _ = strconv.ParseFloat(str, 64)
 			nn = 1
 		} else {
 			a, _ = maths_functions.Calc(str, maths_functions.Getx(C.Name), strconv.Itoa(i), &vars)
 		}
-		tabx = append(tabx, float64(i))
-		taby = append(taby, a)
+		if doi == 0 {
+			tabx = append(tabx, float64(i))
+			taby = append(taby, a)
+		}
 	}
 	if nn == 1 {
 		C.Funct = ""
