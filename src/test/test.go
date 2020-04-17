@@ -106,7 +106,7 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[10] = Testes{ "teste avec des lettres  : 4", "f(a) = 23a", "23 * a" }
 	Tvars[11] = Testes{ "teste avec des lettres  : 5", "f(a) = a23", "a * 23" }
 	Tvars[12] = Testes{ "teste avec des lettres  : 6", "f(a) = 23a23", "'23a23' isn't a number" }
-	Tvars[13] = Testes{ "teste avec des lettres  : 7", "c = 23i", "23i" }
+	Tvars[13] = Testes{ "teste avec des lettres  : 7", "c = 23i", "0.000000 + 23.000000i" }
 	Tvars[14] = Testes{ "teste avec des lettres  : 8", "c = i23i", "'i23i' isn't a number" }
 	Tvars[15] = Testes{ "teste avec des lettres  : 9", "x = a23", "'a23' isn't a number" }
 	Tvars[16] = Testes{ "teste avec des lettres  : 9", "x = x23", "'x23' isn't a number" }
@@ -138,6 +138,13 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[40] = Testes{ "teste avec les signes : 24", "x = -/2", "You have a mistake with your sign" }
 	Tvars[41] = Testes{ "teste avec les signes : 25", "x = -%2", "You have a mistake with your sign" }
 	Tvars[42] = Testes{ "teste avec les signes : 26", "x = *%2", "You have a mistake with your sign" }
+
+	Tvars[43] = Testes{ "teste avec i : 1", "x = 2 * i", "0.000000 + 2.000000i" }
+	Tvars[44] = Testes{ "teste avec i : 2", "x = 2i", "0.000000 + 2.000000i" }
+	Tvars[45] = Testes{ "teste avec i : 3", "x = i2", "0.000000 + 2.000000i" }
+	Tvars[46] = Testes{ "teste avec i : 4", "x = ia2", "'a2' isn't a number" }
+	Tvars[47] = Testes{ "teste avec i : 5", "x = 2ai", "'2a' isn't a number" }
+	Tvars[48] = Testes{ "teste avec i : 6", "x = i2i", "'i2i' isn't a number" }
 
 	return (Tvars)
 }

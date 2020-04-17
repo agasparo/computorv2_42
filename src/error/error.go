@@ -25,12 +25,22 @@ func Syntaxe(str string) (string) {
 func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 
 	a := 0
+	is_i := 0
 
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
 	}
 	for i := a; i < len(tab); i += 2 {
-		if !parser.IsNumeric(tab[i]) && t == 0 && !IsUsu(tab, Dat) {
+
+		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" {
+			if strings.Count(tab[i], "i") > 1 {
+				return ("'" + tab[i] + "' isn't a number")
+			}
+			tab[i] = strings.ReplaceAll(tab[i], "i", "")
+			is_i = 1
+		}
+
+		if !parser.IsNumeric(tab[i]) && t == 0 && !IsUsu(tab, Dat) && tab[i] != "i" {
 			return ("'" + tab[i] + "' isn't a number")
 		}
 		if t == 1 {
@@ -40,6 +50,10 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 				return ("'" + tab[i] + "' isn't a number")
 			}
 		}
+		if is_i == 1 {
+			tab[i] += "i"
+		}
+		is_i = 0
 	}
 	return ("1")
 }
