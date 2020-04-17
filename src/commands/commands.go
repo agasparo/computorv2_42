@@ -80,7 +80,7 @@ func SetVars(str string, str1 string, Vars types.Variable) {
 
 			a, _ := strconv.ParseFloat(str1, 64)
 			b := int(a)
-			if a - float64(b) >= 0.2 {
+			if a - float64(b) >= 0.1 {
 				Vars.Table[str] = &types.Rationel{ a }
 			}
 		}
