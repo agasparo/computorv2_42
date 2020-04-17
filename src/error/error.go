@@ -32,7 +32,7 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 	}
 	for i := a; i < len(tab); i += 2 {
 
-		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" {
+		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 {
 			if strings.Count(tab[i], "i") > 1 {
 				return ("'" + tab[i] + "' isn't a number")
 			}
