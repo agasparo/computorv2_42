@@ -109,10 +109,8 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 				}
 			}
 			nstr := Remp(value, x, r, Vars)
-			fmt.Println(nstr)
 			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""), &parser_err)
 			data = maps.CombineN(data, nt, i)
-			fmt.Println(data)
 			i = -1
 		}
 	}
@@ -138,8 +136,11 @@ func IsExpression(str string) (bool) {
 		str = str[0:len(str)]
 	}
 	index := GetCararc(str, "+-/*%")
-	if index == -1 && ! IsNumeric(str) {
+	if index == -1 && !IsNumeric(str) {
 		return (true)
+	}
+	if index == -1 && IsNumeric(str) {
+		return (false)
 	}
 	e := strings.Split(str, string(str[index]))
 	c := 0
@@ -151,7 +152,6 @@ func IsExpression(str string) (bool) {
 			c++
 		}
 	}
-	fmt.Println(c)
 	if c > 1 {
 		return (true)
 	}
@@ -164,7 +164,7 @@ func Remp(str string, x string, r string,  Vars types.Variable) (string) {
 	p4 := strings.Index(str, ")")
 
 	if p3 < 0 || p4 < 0 {
-		return (str)
+		return (strings.ReplaceAll(str, x, r))
 	}
 	as := strings.ReplaceAll(str[p3 + 1:p4], x, replace_vars.GetVars(&Vars, r))
 	str = str[0:p3 + 1] + as + str[p4:len(str)]
