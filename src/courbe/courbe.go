@@ -94,7 +94,7 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 		g = i
 	}
 	if k == 0 {
-		k = g
+		k = g + C.Step
 	}
 	if nn == 1 {
 		title = C.Name + " | " + GetInterval(k, C, br)
