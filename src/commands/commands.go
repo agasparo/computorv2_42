@@ -9,6 +9,7 @@ import (
 	"parser"
 	"strconv"
 	"error"
+	"strings"
 )
 
 func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) {
