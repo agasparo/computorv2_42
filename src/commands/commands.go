@@ -60,9 +60,13 @@ func Graph(str string, Vars types.Variable) {
 
 	if _, ok := Vars.Table[strings.ToLower(str)]; ok {
 
-		C := courbe.Courbe{}
-		courbe.Init(&Vars, str, &C)
-		courbe.Trace(C, Vars)
+		if parser.IsFunc(str, 0) == 1 {
+			C := courbe.Courbe{}
+			courbe.Init(&Vars, str, &C)
+			courbe.Trace(C, Vars)
+		} else {
+			error.SetError(str + " isn't a function")
+		}
     } else {
     	error.SetError(str + " function doesn't exist")
     }
