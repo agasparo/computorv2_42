@@ -109,7 +109,8 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 				}
 			}
 			nstr := Remp(value, x, r, Vars)
-			nt := GetAllIma(strings.ReplaceAll(nstr, " ", ""), &parser_err)
+			tmp := strings.ReplaceAll(data[i], strings.ReplaceAll(name, x, r), nstr)
+			nt := GetAllIma(strings.ReplaceAll(tmp, " ", ""), &parser_err)
 			data = maps.CombineN(data, nt, i)
 			i = -1
 		}
