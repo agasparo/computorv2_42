@@ -8,6 +8,7 @@ import (
 	"courbe"
 	"parser"
 	"strconv"
+	"error"
 )
 
 func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) {
@@ -56,9 +57,14 @@ func Help() {
 
 func Graph(str string, Vars types.Variable) {
 
-	C := courbe.Courbe{}
-	courbe.Init(&Vars, str, &C)
-	courbe.Trace(C, Vars)
+	if _, ok := Vars.Table[strings.ToLower(str)]; ok {
+
+		C := courbe.Courbe{}
+		courbe.Init(&Vars, str, &C)
+		courbe.Trace(C, Vars)
+    } else {
+    	error.SetError(str + " function doesn't exist")
+    }
 }
 
 func SetVars(str string, str1 string, Vars types.Variable) {
