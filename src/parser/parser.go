@@ -85,7 +85,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
 			add := 1
-			for p2 = -1; p2 < 0; p2 = strings.Index(data[i], ")") {
+			for p2 = p2; p2 < 0; p2 = strings.Index(data[i], ")") {
 				data[i] += data[i + add]
 				add++
 			}
