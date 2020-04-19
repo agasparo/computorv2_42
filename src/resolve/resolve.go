@@ -33,7 +33,7 @@ func IsSoluble(U Unknown) (bool) {
 	return (true)
 }
 
-func Init(data map[int]string) {
+func Init(data map[int]string, U Unknown) {
 
 }
 

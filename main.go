@@ -119,7 +119,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
 			}
-			resolve.Init(data)
+			resolve.Init(Resol, Eq_Data)
 		} else {
 			par := parentheses.Parse(data, Vars, false, "")
 			if strings.Index(par[0], "by 0") != -1 {
