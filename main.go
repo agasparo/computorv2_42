@@ -101,9 +101,11 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	str[1] = strings.Trim(str[1], " ")
 	str_ret := str[0]
 	err_pars := 0
+	Eq_Data := resolve.Unknown{}
 
 	if str[1] == "?" { // cas particulier ppur check les variables
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
+		Resol := data
 		if Err(err_pars, error.In(data, 0, "", Dat), true, "1") {
 			return 0, 0, ""
 		}
@@ -112,7 +114,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
-		if resolve.IsEquation(data) {
+		if resolve.IsEquation(data, Resol, &Eq_Data, Dat) {
 			resolve.Init(data)
 		} else {
 			par := parentheses.Parse(data, Vars, false, "")
@@ -127,8 +129,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			}
 			Vars.Table["?"] = &types.Imaginaire{ x, y }
 			str_ret = "?"
+			t = 0
 		}
-		t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
 		if Err(err_pars, error.Checkfuncx(str[0], str[1]), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
