@@ -1,7 +1,7 @@
 package resolve
 
 import (
-	"fmt"
+	//"fmt"
 	"parser"
 	"maths_functions"
 	"types"
@@ -22,10 +22,26 @@ type Unknown struct {
 	Deg_max map[int]int
 }
 
+func IsSoluble(U Unknown) (bool) {
+
+	for i := 0; i < len(U.Deg_max); i++ {
+
+		if U.Deg_max[i] > 2 || U.Deg_max[i] < 0 {
+			return (false)
+		}
+	}
+	return (true)
+}
+
+func Init(data map[int]string) {
+
+}
+
 func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.Variable) (bool) {
 	
 	U.Tab = make(map[int]string)
 	U.Deg_max = make(map[int]int)
+	f := 0
 
 	for i := 0; i < len(tab); i += 2 {
 
@@ -43,9 +59,12 @@ func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.V
 			}
 			U.Tab[len(U.Tab)] = x
 			U.Deg_max[len(U.Deg_max)] = GetMaxDeg(val, x)
+			f++
 		}
 	}
-	fmt.Println(U)
+	if f == 0 {
+		return (false)
+	}
 	return (true)
 }
 
@@ -102,12 +121,4 @@ func GetDeg(sign byte, str string, deb int, x string) (int, int) {
 		}
 	}
 	return puis, i
-}
-
-func IsSoluble() {
-
-}
-
-func Init(data map[int]string) {
-
 }

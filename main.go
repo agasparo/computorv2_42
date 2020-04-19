@@ -115,6 +115,10 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 1, -1, str_ret
 		}
 		if resolve.IsEquation(data, Resol, &Eq_Data, Dat) {
+			if !resolve.IsSoluble(Eq_Data) {
+				error.SetError("This equation isn't soluble")
+				return 1, -1, str_ret
+			}
 			resolve.Init(data)
 		} else {
 			par := parentheses.Parse(data, Vars, false, "")
