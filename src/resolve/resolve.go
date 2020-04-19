@@ -58,6 +58,7 @@ func GetMaxDeg(str string, x string) (int) {
 		return (-1)
 	}
 	max := 1
+	str = strings.ReplaceAll(str, "ˆ", "^")
 	for a = a; a != -1; a = strings.Index(str, x) {
 
 		if a + 1 >= len(str) {
@@ -68,28 +69,13 @@ func GetMaxDeg(str string, x string) (int) {
 			if z > max {
 				max = z
 			}
-		} else if string(str[a + 1]) == "ˆ" {
-			fmt.Println("la")
-			str = strings.Replace(str, "ˆ", "", 1)
+		} else if string(str[a + 1]) == "^" {
 			z, _ = strconv.Atoi(string(str[a + 2]))
-			i = a + 2
-			if z > max {
-				max = z
-			}
-		} else if str[a + 1] == '^' {
-			z, _ = strconv.Atoi(string(str[a + 3]))
 			i = a + 3
 			if z > max {
 				max = z
 			}
-		} else if a - 1 >= 0 && string(str[a - 1]) == "ˆ" {
-			str = strings.Replace(str, "ˆ", "", 1)
-			z, _ = strconv.Atoi(string(str[a - 3]))
-			i = a
-			if z > max {
-				max = z
-			}
-		} else if a - 1 >= 0 && str[a - 1] == '^' {
+		} else if a - 1 >= 0 && string(str[a - 1]) == "^" {
 			z, _ = strconv.Atoi(string(str[a - 2]))
 			i = a
 			if z > max {
