@@ -6,6 +6,7 @@ import (
 	"maths_functions"
 	"types"
 	"strings"
+	"strconv"
 )
 
 type Equation struct {
@@ -56,30 +57,47 @@ func GetMaxDeg(str string, x string) (int) {
 	if a == -1 {
 		return (-1)
 	}
-	max := 0
+	max := 1
 	for a = a; a != -1; a = strings.Index(str, x) {
 
 		if a + 1 >= len(str) {
 			return (max)
 		}
 		if str[a + 1] == '*' {
-			fmt.Println("ici")
 			z, i = GetDeg('*', str, a + 1, x)
 			if z > max {
 				max = z
 			}
-		} else if str[a + 1] == 134 {
-			fmt.Println("ici2")
-			z, i = GetDeg(134, str, a + 1, x)
+		} else if string(str[a + 1]) == "ˆ" {
+			fmt.Println("la")
+			str = strings.Replace(str, "ˆ", "", 1)
+			z, _ = strconv.Atoi(string(str[a + 2]))
+			i = a + 2
 			if z > max {
 				max = z
 			}
 		} else if str[a + 1] == '^' {
-			fmt.Println("ici3")
-			z, i = GetDeg('^', str, a + 1, x)
+			z, _ = strconv.Atoi(string(str[a + 3]))
+			i = a + 3
 			if z > max {
 				max = z
 			}
+		} else if a - 1 >= 0 && string(str[a - 1]) == "ˆ" {
+			str = strings.Replace(str, "ˆ", "", 1)
+			z, _ = strconv.Atoi(string(str[a - 3]))
+			i = a
+			if z > max {
+				max = z
+			}
+		} else if a - 1 >= 0 && str[a - 1] == '^' {
+			z, _ = strconv.Atoi(string(str[a - 2]))
+			i = a
+			if z > max {
+				max = z
+			}
+		}
+		if i + 1 >= len(str) {
+			return (max)
 		}
 		str = str[i + 1:len(str)]
 	}
