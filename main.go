@@ -15,6 +15,7 @@ import (
 	"usuelles_functions"
 	"test"
 	"os"
+	"resolve"
 )
 
 func main() {
@@ -111,18 +112,22 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
-		par := parentheses.Parse(data, Vars, false, "")
-		if strings.Index(par[0], "by 0") != -1 {
-			error.SetError(par[0])
-			return 1, -1, str_ret
+		if resolve.IsEquation(data) {
+			resolve.Init(data)
+		} else {
+			par := parentheses.Parse(data, Vars, false, "")
+			if strings.Index(par[0], "by 0") != -1 {
+				error.SetError(par[0])
+				return 1, -1, str_ret
+			}
+			x, y, err := maths_imaginaires.CalcVar(par, Vars)
+			if err != "" {
+				error.SetError(err)
+				return 1, -1, str_ret
+			}
+			Vars.Table["?"] = &types.Imaginaire{ x, y }
+			str_ret = "?"
 		}
-		x, y, err := maths_imaginaires.CalcVar(par, Vars)
-		if err != "" {
-			error.SetError(err)
-			return 1, -1, str_ret
-		}
-		Vars.Table["?"] = &types.Imaginaire{ x, y }
-		str_ret = "?"
 		t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
