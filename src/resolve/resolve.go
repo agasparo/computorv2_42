@@ -26,7 +26,7 @@ func IsSoluble(U Unknown) (bool) {
 
 	for i := 0; i < len(U.Deg_max); i++ {
 
-		if U.Deg_max[i] > 2 || U.Deg_max[i] < 0 {
+		if U.Deg_max[i] > 2 || U.Deg_max[i] < -2 {
 			return (false)
 		}
 	}
@@ -74,7 +74,7 @@ func GetMaxDeg(str string, x string) (int) {
 	str = strings.ReplaceAll(str, " ", "")
 	a := strings.Index(str, x)
 	if a == -1 {
-		return (-1)
+		return (-3)
 	}
 	max := 1
 	str = strings.ReplaceAll(str, "ˆ", "^")
