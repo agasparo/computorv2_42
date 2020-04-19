@@ -53,11 +53,11 @@ func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.V
 			if parser.IsExpression(x, r) {
 				return (false)
 			}
-			_, val := parser.GetDataFunc(tab[i], Dat.Table)
+			name, val := parser.GetDataFunc(tab[i], Dat.Table)
 			if val == "" {
 				return (false)
 			}
-			U.Tab[len(U.Tab)] = x
+			U.Tab[len(U.Tab)] = name + "|" + x
 			U.Deg_max[len(U.Deg_max)] = GetMaxDeg(val, x)
 			f++
 		}
