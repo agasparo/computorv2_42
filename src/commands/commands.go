@@ -80,8 +80,12 @@ func SetVars(str string, str1 string, Vars types.Variable) {
 			
 			a, _ := strconv.ParseFloat(str1, 64)
 			b := int(a)
-			a = float64(b)
-			Vars.Table[str] = &types.Rationel{ a }
+			if a >= -50 && a <= 50 {
+				a = float64(b)
+				Vars.Table[str] = &types.Rationel{ a }
+			} else {
+				error.SetError(str + " must be between -50 and 50")
+			}
 		}
 	}
 
@@ -91,8 +95,10 @@ func SetVars(str string, str1 string, Vars types.Variable) {
 
 			a, _ := strconv.ParseFloat(str1, 64)
 			b := int(a)
-			if a - float64(b) >= 0.1 {
+			if a - float64(b) >= 0.1 && a - float64(b) <= 2 {
 				Vars.Table[str] = &types.Rationel{ a }
+			} else {
+				error.SetError(str + " must be between 0.1 and 2")
 			}
 		}
 	}
