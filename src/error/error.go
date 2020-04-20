@@ -33,7 +33,7 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
 	}
-	for i := a; i < len(tab); i += 2 { // check if is function
+	for i := a; i < len(tab); i += 2 {
 
 		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i]) {
 			if strings.Count(tab[i], "i") > 1 {
