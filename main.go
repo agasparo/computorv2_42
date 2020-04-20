@@ -105,8 +105,13 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	if strings.Index(str[1], "?") != -1 { // cas particulier ppur check les variables et les fonctions
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
-		Resol := data
+		data_r := parser.GetAllIma(strings.ReplaceAll(strings.ReplaceAll(strings.ToLower(str[1]), "?", ""), " ", ""), &err_pars)
+		Eq_Data.Part1 = data
+		Eq_Data.Part2 = data_r
 		if Err(err_pars, error.In(data, 0, "", Dat), true, "1") {
+			return 0, 0, ""
+		}
+		if Err(err_pars, error.In(data_r, 0, "", Dat), true, "1") {
 			return 0, 0, ""
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -114,8 +119,15 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
-		if str[1] != "?" && resolve.IsEquation(data, Resol, &Eq_Data, Dat) {
-			if !resolve.IsSoluble(Eq_Data) {
+		data_r = parser.Checkfunc(data_r, Dat)
+		if strings.Index(data_r[0], "Impossible") != -1 || strings.Index(data_r[0], "for unknown not an expression") != -1 {
+			error.SetError(data_r[0])
+			return 1, -1, str_ret
+		}
+		if data_r[0] != "" {
+			fmt.Println("la")
+			//resolve.IsEquation(data, Resol, &Eq_Data, Dat, Resol_r)
+			/*if !resolve.IsSoluble(Eq_Data) {
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
 			}
@@ -126,7 +138,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			}
 			//Vars.Table["?"] = &types.Imaginaire{ x, y }
 			//str_ret = "?"
-			//t = 0
+			//t = 0*/
 		} else {
 			par := parentheses.Parse(data, Vars, false, "")
 			if strings.Index(par[0], "by 0") != -1 {

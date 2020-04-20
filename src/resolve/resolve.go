@@ -7,13 +7,15 @@ import (
 	"types"
 	"strings"
 	"strconv"
-	"equations"
+	//"equations"
 )
 
 type Unknown struct {
 
 	Tab map[int]string
 	Deg_max map[int]int
+	Part1 map[int]string
+	Part2 map[int]string
 }
 
 type Resol struct {
@@ -41,7 +43,7 @@ func Init(data map[int]string, U Unknown, Dat types.Variable) (string) {
 	return ("|")
 }
 
-func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.Variable) (bool) {
+func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.Variable, tabs map[int]string) (bool) {
 	
 	U.Tab = make(map[int]string)
 	U.Deg_max = make(map[int]int)
