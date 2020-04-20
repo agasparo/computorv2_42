@@ -36,7 +36,7 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 			if strings.Count(tab[i], "i") > 1 {
 				
 				if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
-					return ("'" + tab[i] + "' isn't defined 1")
+					return ("'" + tab[i] + "' isn't defined")
 				}
 			}
 			tab[i] = strings.ReplaceAll(tab[i], "i", "")
@@ -46,14 +46,14 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i]) {
 
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
-				return ("'" + tab[i] + "' isn't defined 2")
+				return ("'" + tab[i] + "' isn't defined")
 			}
 		}
 		if t == 1 {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
 			if !checktab(tes) && !Is_defined(strings.Join(tes, ""), Dat) {
-				return ("'" + tab[i] + "' isn't defined 3")
+				return ("'" + tab[i] + "' isn't defined")
 			}
 		}
 		if is_i == 1 {
