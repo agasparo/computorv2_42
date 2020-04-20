@@ -162,11 +162,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if Err(err_pars, error.Checkfuncx(str[0], str[1]), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
 			return 0, 0, ""
 		}
-		data = parser.Checkfunc(data, Dat)
-		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
-			error.SetError(data[0])
-			return 1, -1, str_ret
-		}
 		par := parentheses.Parse(data, Vars, true, str[0])
 		if strings.Index(par[0], "by 0") != -1 {
 			error.SetError(par[0])
@@ -180,6 +175,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
 			return 0, 0, ""
 		}
+		// chekc si on a une fonction et si il y a en a check si interieur est defini sinon dire que cets pas possible
 		data = parser.Checkfunc(data, Dat)
 		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
 			error.SetError(data[0])
