@@ -37,7 +37,10 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 
 		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i]) {
 			if strings.Count(tab[i], "i") > 1 {
-				return ("'" + tab[i] + "' isn't a number 1")
+				
+				if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
+					return ("'" + tab[i] + "' isn't defined 2")
+				}
 			}
 			tab[i] = strings.ReplaceAll(tab[i], "i", "")
 			is_i = 1
