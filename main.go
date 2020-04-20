@@ -103,7 +103,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	err_pars := 0
 	Eq_Data := resolve.Unknown{}
 
-	if str[1] == "?" { // cas particulier ppur check les variables
+	if strings.Index(str[1], "?") != -1 { // cas particulier ppur check les variables et les fonctions
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
 		Resol := data
 		if Err(err_pars, error.In(data, 0, "", Dat), true, "1") {
@@ -114,12 +114,12 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
-		if resolve.IsEquation(data, Resol, &Eq_Data, Dat) {
+		if str[1] != "?" && resolve.IsEquation(data, Resol, &Eq_Data, Dat) {
 			if !resolve.IsSoluble(Eq_Data) {
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
 			}
-			response := resolve.Init(Resol, Eq_Data)
+			response := resolve.Init(Resol, Eq_Data, Dat)
 			if strings.Index(response, "|") == -1 {
 				error.SetError(response)
 				return 1, -1, str_ret

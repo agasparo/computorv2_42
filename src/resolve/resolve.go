@@ -7,14 +7,8 @@ import (
 	"types"
 	"strings"
 	"strconv"
+	"equations"
 )
-
-type Equation struct {
-
-	A float64
-	B float64
-	C float64
-}
 
 type Unknown struct {
 
@@ -38,7 +32,7 @@ func IsSoluble(U Unknown) (bool) {
 	return (true)
 }
 
-func Init(data map[int]string, U Unknown) (string) {
+func Init(data map[int]string, U Unknown, Dat types.Variable) (string) {
 
 	sign := ""
 	if data[1] == "*" {
@@ -53,6 +47,10 @@ func Init(data map[int]string, U Unknown) (string) {
 	err := checkSign(data, sign)
 	if err != "" {
 		return (err)
+	}
+
+	if sign == "/" {
+		equations.ResolveDivi(U.Tab[0], U.Deg_max[0], Dat)
 	}
 
 	for i := 0; i < len(data); i += 2 {
