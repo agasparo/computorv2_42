@@ -26,27 +26,31 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 	a := 0
 	is_i := 0
 
+	//if len(tab) > 2 && t == 1 {
+		// a finir
+	//} 
+
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
 	}
-	for i := a; i < len(tab); i += 2 {
+	for i := a; i < len(tab); i += 2 { // check if is function
 
 		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i]) {
 			if strings.Count(tab[i], "i") > 1 {
-				return ("'" + tab[i] + "' isn't a number")
+				return ("'" + tab[i] + "' isn't a number 1")
 			}
 			tab[i] = strings.ReplaceAll(tab[i], "i", "")
 			is_i = 1
 		}
 
 		if !parser.IsNumeric(tab[i]) && t == 0 && !IsUsu(tab, Dat) && tab[i] != "i" && !IsPower(tab[i]) {
-			return ("'" + tab[i] + "' isn't a number")
+			return ("'" + tab[i] + "' isn't a number 2")
 		}
 		if t == 1 {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
 			if !checktab(tes) {
-				return ("'" + tab[i] + "' isn't a number")
+				return ("'" + tab[i] + "' isn't a number 3")
 			}
 		}
 		if is_i == 1 {
@@ -55,6 +59,16 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 		is_i = 0
 	}
 	return ("1")
+}
+
+func IsFunction(f string, str string) (bool) {
+	
+	x := maths_functions.Getx(f)
+	tes := strings.Split(strings.ReplaceAll(str, " ", ""), x)
+	if !checktab(tes) {
+		return (false)
+	}
+	return (true)
 }
 
 func IsPower(str string) (bool) {
