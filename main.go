@@ -176,7 +176,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 0, 0, ""
 		}
 		if !Function_var(data, Dat) {
-			error.SetError("variable can't be equation to a function")
+			error.SetError("variable can't be equal to a function")
 			return 1, -1, str_ret
 		}
 		data = parser.Checkfunc(data, Dat)
@@ -202,7 +202,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 0, 0, ""
 		}
 		if !Function_var(data, Dat) {
-			error.SetError("variable can't be equation to a function")
+			error.SetError("variable can't be equal to a function")
 			return 1, -1, str_ret
 		}
 		data = parser.Checkfunc(data, Dat)
