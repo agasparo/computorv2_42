@@ -175,7 +175,10 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
 			return 0, 0, ""
 		}
-		// chekc si on a une fonction et si il y a en a check si interieur est defini sinon dire que cets pas possible
+		if !Function_var(data, Dat) {
+			error.SetError("variable can't be equation to a function")
+			return 1, -1, str_ret
+		}
 		data = parser.Checkfunc(data, Dat)
 		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
 			error.SetError(data[0])
@@ -198,7 +201,10 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
 			return 0, 0, ""
 		}
-		// chekc si on a une fonction et si il y a en a check si interieur est defini sinon dire que cets pas possible
+		if !Function_var(data, Dat) {
+			error.SetError("variable can't be equation to a function")
+			return 1, -1, str_ret
+		}
 		data = parser.Checkfunc(data, Dat)
 		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
 			error.SetError(data[0])
@@ -223,6 +229,29 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	}*/
 
 	return 1, t, str_ret
+}
+
+func Function_var(data map[int] string, Dat types.Variable) (bool) {
+
+	inter := 0
+
+	for i := 0; i < len(data); i++ {
+
+		if parser.IsFunc(data[i], 1) == 1 || parser.IsFunc(data[i], 0) == 1 {
+
+			inter++
+			p1 := strings.Index(data[i], "(")
+			p2 := strings.Index(data[i], ")")
+			nstr := data[i][p1 + 1:p2]
+			if parser.IsNumeric(nstr) || error.Is_defined(nstr, Dat) {
+				return (true)
+			}
+		}
+	}
+	if inter > 0 {
+		return (false)
+	}
+	return (true)
 }
 
 func Err(err_parse int, e string, a bool, b string) (bool) {
