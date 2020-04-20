@@ -52,7 +52,6 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 		if t == 1 {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
-			fmt.Println(tes)
 			if !checktab(tes) && !Is_defined(strings.Join(tes, ""), Dat) {
 				return ("'" + tab[i] + "' isn't defined 3")
 			}
