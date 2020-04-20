@@ -119,7 +119,14 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
 			}
-			resolve.Init(Resol, Eq_Data)
+			response := resolve.Init(Resol, Eq_Data)
+			if strings.Index(response, "|") == -1 {
+				error.SetError(response)
+				return 1, -1, str_ret
+			}
+			//Vars.Table["?"] = &types.Imaginaire{ x, y }
+			//str_ret = "?"
+			//t = 0
 		} else {
 			par := parentheses.Parse(data, Vars, false, "")
 			if strings.Index(par[0], "by 0") != -1 {

@@ -22,6 +22,11 @@ type Unknown struct {
 	Deg_max map[int]int
 }
 
+type Resol struct {
+
+	Tab map[int]string
+}
+
 func IsSoluble(U Unknown) (bool) {
 
 	for i := 0; i < len(U.Deg_max); i++ {
@@ -33,8 +38,47 @@ func IsSoluble(U Unknown) (bool) {
 	return (true)
 }
 
-func Init(data map[int]string, U Unknown) {
+func Init(data map[int]string, U Unknown) (string) {
 
+	sign := ""
+	if data[1] == "*" {
+		sign = "*"
+	} else if data[1] == "/" {
+		sign = "/"
+	} else if data[1] == "+" || data[1] == "-" {
+		sign = "+-"
+	} else if data[1] == "%" {
+		return ("Sorry i can't resolve equation with %")
+	}
+	err := checkSign(data, sign)
+	if err != "" {
+		return (err)
+	}
+
+	for i := 0; i < len(data); i += 2 {
+
+		/*if parser.IsFunc(data[i], 0) == 1 {
+			// si ya un * entre 2 fonctions (check quil y ai que des * entre toutes les fonctions)
+			// sinon pas soluble
+			// sinon si pas de fois
+			// regrouper les thermes ensemble
+		} else {
+			// si jai un chiffre
+		}*/
+	}
+	return ("|")
+}
+
+func checkSign(data map[int]string, sign string) (string) {
+
+	for i := 1; i < len(data); i += 2 {
+
+		if strings.Index(sign, data[i]) == -1 {
+			
+			return ("Sorry, i can't resolve this equation")
+		}
+	}
+	return ("")
 }
 
 func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.Variable) (bool) {
