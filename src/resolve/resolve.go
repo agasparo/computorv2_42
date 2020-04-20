@@ -43,8 +43,16 @@ func Init(data map[int]string, U Unknown, Dat types.Variable) (string) {
 	return ("|")
 }
 
-func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.Variable, tabs map[int]string) (bool) {
+func IsEquation(U *Unknown, Dat types.Variable, t int) (bool) {
 	
+	var tab map[int]string
+
+	if t == 0 {
+		tab = U.Part1
+	} else {
+		tab = U.Part2
+	}
+
 	U.Tab = make(map[int]string)
 	U.Deg_max = make(map[int]int)
 	f := 0
@@ -65,6 +73,8 @@ func IsEquation(data map[int]string, tab map[int]string, U *Unknown, Dat types.V
 			}
 			U.Tab[len(U.Tab)] = name + "|" + x
 			U.Deg_max[len(U.Deg_max)] = GetMaxDeg(val, x)
+			f++
+		} else {
 			f++
 		}
 	}

@@ -125,8 +125,10 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 1, -1, str_ret
 		}
 		if data_r[0] != "" {
-			fmt.Println("la")
-			//resolve.IsEquation(data, Resol, &Eq_Data, Dat, Resol_r)
+			if !resolve.IsEquation(&Eq_Data, Dat, 0) || !resolve.IsEquation(&Eq_Data, Dat, 1) {
+				error.SetError("This equation isn't soluble")
+				return 1, -1, str_ret
+			}
 			/*if !resolve.IsSoluble(Eq_Data) {
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
