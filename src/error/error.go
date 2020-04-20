@@ -26,10 +26,6 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 	a := 0
 	is_i := 0
 
-	//if len(tab) > 2 && t == 1 {
-		// a finir
-	//} 
-
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
 	}
