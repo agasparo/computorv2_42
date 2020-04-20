@@ -43,14 +43,17 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 			is_i = 1
 		}
 
-		if !parser.IsNumeric(tab[i]) && t == 0 && !IsUsu(tab, Dat) && tab[i] != "i" && !IsPower(tab[i]) {
-			return ("'" + tab[i] + "' isn't a number 2")
+		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i]) {
+
+			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
+				return ("'" + tab[i] + "' isn't defined 2")
+			}
 		}
 		if t == 1 {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
 			if !checktab(tes) {
-				return ("'" + tab[i] + "' isn't a number 3")
+				return ("'" + tab[i] + "' isn't defined 3")
 			}
 		}
 		if is_i == 1 {
@@ -61,16 +64,6 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 	return ("1")
 }
 
-func IsFunction(f string, str string) (bool) {
-	
-	x := maths_functions.Getx(f)
-	tes := strings.Split(strings.ReplaceAll(str, " ", ""), x)
-	if !checktab(tes) {
-		return (false)
-	}
-	return (true)
-}
-
 func IsPower(str string) (bool) {
 
 	if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 {
@@ -78,6 +71,15 @@ func IsPower(str string) (bool) {
 		return (true)
 	}
 	return (false)
+}
+
+func Is_defined(str string, vars types.Variable) (bool) {
+
+	if _, ok := vars.Table[strings.ToLower(str)]; ok {
+
+		return (true)
+    }
+    return (false)
 }
 
 func IsUsu(data map[int]string, vars types.Variable) (bool) {
