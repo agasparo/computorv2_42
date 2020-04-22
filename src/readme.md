@@ -11,6 +11,7 @@ bonus :
   - modifer le min 
   - modifier le max
   - modifier le step
+  - calcul de lénsemble de definition
   - affichage dans le terminal du graphique
 
  - fonction ajoutes :
