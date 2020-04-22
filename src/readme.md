@@ -1,0 +1,34 @@
+Correction :
+
+ - installer golang : apt install golang
+ - modifier path dans le .env
+ - export le path
+
+bonus :
+
+ - graphiques :
+
+  - modifer le min 
+  - modifier le max
+  - modifier le step
+  - affichage dans le terminal du graphique
+
+ - fonction ajoutes :
+
+  - fonction inverse
+  - fonction abs
+  - fonction racine carre
+  - fonction exponentielle
+
+ - couleures
+
+ - calculs :
+
+  - puissance negatives
+  // calcul de deg to rad
+  // calcul rad to deg
+
+ - commandes :
+
+  - affiche les variables stockes
+  - avec exit le programme quite auto 
