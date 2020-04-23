@@ -1,7 +1,7 @@
 package resolve
 
 import (
-	//"fmt"
+	"fmt"
 	"parser"
 	"maths_functions"
 	"types"
@@ -25,9 +25,11 @@ type Resol struct {
 
 func IsSoluble(U Unknown) (bool) {
 
+	fmt.Println(U)
+
 	for i := 0; i < len(U.Deg_max); i++ {
 
-		if U.Deg_max[i] > 2 || U.Deg_max[i] < -2 {
+		if U.Deg_max[i] > 2 || U.Deg_max[i] < 0 {
 			return (false)
 		}
 	}
@@ -53,8 +55,10 @@ func IsEquation(U *Unknown, Dat types.Variable, t int) (bool) {
 		tab = U.Part2
 	}
 
-	U.Tab = make(map[int]string)
-	U.Deg_max = make(map[int]int)
+	if len(U.Tab) == 0 {
+		U.Tab = make(map[int]string)
+		U.Deg_max = make(map[int]int)
+	}
 	f := 0
 
 	for i := 0; i < len(tab); i += 2 {
@@ -75,6 +79,8 @@ func IsEquation(U *Unknown, Dat types.Variable, t int) (bool) {
 			U.Deg_max[len(U.Deg_max)] = GetMaxDeg(val, x)
 			f++
 		} else {
+			U.Tab[len(U.Tab)] = tab[i]
+			U.Deg_max[len(U.Deg_max)] = 0
 			f++
 		}
 	}
@@ -130,7 +136,7 @@ func GetDeg(sign byte, str string, deb int, x string) (int, int) {
 	puis := 1
 	i := deb
 
-	for i = i; str[i] == sign; i += 2 {
+	for i = i; i < len(str) && str[i] == sign; i += 2 {
 
 		if string(str[i - 1]) == x {
 			puis++

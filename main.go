@@ -129,10 +129,11 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
 			}
-			/*if !resolve.IsSoluble(Eq_Data) {
+			if !resolve.IsSoluble(Eq_Data) {
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
 			}
+			/*
 			response := resolve.Init(Resol, Eq_Data, Dat)
 			if strings.Index(response, "|") == -1 {
 				error.SetError(response)
