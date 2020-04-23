@@ -3,6 +3,7 @@ package equations
 import (
 	"maths_imaginaires"
 	"fmt"
+	"fractions"
 )
 
 type Equation struct {
@@ -84,10 +85,22 @@ func Delta(Eq Equation) (int, float64, string) {
 
 func DeltaNil(Eq Equation, delta float64) (string) {
 	
+	var str string
+
 	b := Eq.B * -1
 	other := Eq.A * 2
 	res := b / other
-	return (fmt.Sprintf("x0 = %f", res))
+	if isFloatInt(res) {
+		str = fmt.Sprintf("x0 = %d", int64(res))
+		return (str)
+	}
+	str = fmt.Sprintf("x0 = %f", res)
+	Rational := fractions.Rational{res, 0, 0, "", 3, ""}
+	fractions.Trasnform(&Rational)
+	if len(Rational.Frac) > 0 {
+		str += fmt.Sprintf("ou x0 = %s", Rational.Frac)
+	}
+	return (str)
 }
 
 func Deltainf(Eq Equation, delta float64) (string) {
@@ -121,5 +134,8 @@ func Inverse(a float64) (float64) {
 
 func isFloatInt(floatValue float64) (bool) {
 
-    return floatValue == float64(int(floatValue))
+	if floatValue >= 9223372036854775807 || floatValue <= -9223372036854775808 {
+		return false
+	}
+    return floatValue == float64(int64(floatValue))
 }
