@@ -86,6 +86,9 @@ func getNumber(str string, x string) (string) {
 	str = strings.ReplaceAll(str, "*", "")
 	str = strings.ReplaceAll(str, "^", "")
 	str = strings.ReplaceAll(str, x, "")
+	if str == "" {
+		return ("1")
+	}
 	return (str)
 }
 
