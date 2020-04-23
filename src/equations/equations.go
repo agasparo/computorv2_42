@@ -186,7 +186,7 @@ func ResolveDeg1(eq Equation) (int, string) {
 	if !isFloatInt(sol) {
 		Rational := fractions.Rational{sol, 0, 0, "", 3, ""}
 		fractions.Trasnform(&Rational)
-		return 1, fmt.Sprintf("x0 = %s", Rational.Frac)
+		return 1, fmt.Sprintf("x0 = %f ou x0 = %s", sol, Rational.Frac)
 	}
 	return 1, fmt.Sprintf("x0 = %f", sol)
 }
