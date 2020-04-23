@@ -133,8 +133,9 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				error.SetError("This equation isn't soluble")
 				return 1, -1, str_ret
 			}
+			response := resolve.Init(&Eq_Data, Dat)
+			fmt.Println(response)
 			/*
-			response := resolve.Init(Resol, Eq_Data, Dat)
 			if strings.Index(response, "|") == -1 {
 				error.SetError(response)
 				return 1, -1, str_ret

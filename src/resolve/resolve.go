@@ -7,7 +7,7 @@ import (
 	"types"
 	"strings"
 	"strconv"
-	//"equations"
+	"equations"
 )
 
 type Unknown struct {
@@ -16,6 +16,7 @@ type Unknown struct {
 	Deg_max map[int]int
 	Part1 map[int]string
 	Part2 map[int]string
+	Eqs map[int]equations.Equation
 }
 
 type Resol struct {
@@ -24,8 +25,6 @@ type Resol struct {
 }
 
 func IsSoluble(U Unknown) (bool) {
-
-	fmt.Println(U)
 
 	for i := 0; i < len(U.Deg_max); i++ {
 
@@ -36,13 +35,91 @@ func IsSoluble(U Unknown) (bool) {
 	return (true)
 }
 
-func Init(data map[int]string, U Unknown, Dat types.Variable) (string) {
+func Init(U *Unknown, Dat types.Variable) (string) {
 
-	/*for i := 0; i < len(data); i += 2 {
-
-		
-	}*/
+	RempEq(U.Tab, U)
 	return ("|")
+}
+
+func RempEq(tab map[int]string, U *Unknown) {
+
+	WE := 0
+
+	for i := 0; i < len(tab); i++ {
+		tab[i] = strings.ReplaceAll(tab[i], " ", "")
+
+		if len(U.Part1) - 1 < i {
+			WE = 1
+		}
+
+		if strings.Index(tab[i], "|") != -1 {
+			e := strings.Split(tab[i], "|")
+			GetAllSign(e[0], e[1], U, WE)
+		} else {
+			RPuis(tab[i], 0, WE, U)
+		}
+	}
+	fmt.Println(U)
+}
+
+func GetAllSign(str string, x string, U *Unknown, WE int) {
+
+	for i := GetIndex(str); i != -1; i = GetIndex(str) {
+		fmt.Println(str[0:i])
+		RPuis("1", GetMaxDeg(str[0:i], x), WE, U)
+		str = str[i + 1:len(str)]
+	}
+}
+
+func GetIndex(str string) (int) {
+
+	a := strings.Index(str, "/")
+	if a != -1 {
+		return (a)
+	}
+	a = strings.Index(str, "%")
+	if a != -1 {
+		return (a)
+	}
+	a = strings.Index(str, "-")
+	if a != -1 {
+		return (a)
+	}
+	a = strings.Index(str, "+")
+	if a != -1 {
+		return (a)
+	}
+	return (-1)
+}
+
+func RPuis(nb string, puis int, wEqs int, U *Unknown) {
+
+	var Eq equations.Equation
+
+	fmt.Println("-------------------------------")
+	fmt.Printf("nb : %s, puis: %d, eq nb : %d\n", nb, puis, wEqs)
+
+	if len(U.Eqs) == 0 {
+		U.Eqs = make(map[int]equations.Equation)
+	}
+
+	if val, ok := U.Eqs[wEqs]; ok {
+		Eq = val
+	} else {
+		Eq = equations.Equation{}
+	}
+	
+	t1, _ := strconv.ParseFloat(nb, 64)
+	
+	if puis == 0 {
+		Eq.C += t1
+	} else if puis == 1 {
+		Eq.B += t1
+	} else if puis == 2 {
+		Eq.A += t1
+	}
+
+	U.Eqs[wEqs] = Eq
 }
 
 func IsEquation(U *Unknown, Dat types.Variable, t int) (bool) {
@@ -71,11 +148,11 @@ func IsEquation(U *Unknown, Dat types.Variable, t int) (bool) {
 			if parser.IsExpression(x, r) {
 				return (false)
 			}
-			name, val := parser.GetDataFunc(tab[i], Dat.Table)
+			_, val := parser.GetDataFunc(tab[i], Dat.Table)
 			if val == "" {
 				return (false)
 			}
-			U.Tab[len(U.Tab)] = name + "|" + x
+			U.Tab[len(U.Tab)] = val + "|" + x
 			U.Deg_max[len(U.Deg_max)] = GetMaxDeg(val, x)
 			f++
 		} else {
