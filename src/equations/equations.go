@@ -94,7 +94,7 @@ func Deltainf(Eq Equation, delta float64) (string) {
 
 	deb := (Eq.B * -1)
 	fin := (Eq.A * 2)
-	Rationalx1 := fmt.Sprintf("x1 = (%f + i√%f) / %f", deb, Inverse(delta), fin)
+	Rationalx1 := fmt.Sprintf("x1 = (%f + i√%f) / %f\n", deb, Inverse(delta), fin)
 	Rationalx2 := fmt.Sprintf("x2 = (%f - i√%f) / %f", deb, Inverse(delta), fin)
 	return (Rationalx1 + Rationalx2)
 }
@@ -103,7 +103,7 @@ func DeltaSup(Eq Equation, delta float64) (string) {
 
 	deb := (Eq.B * -1)
 	fin := (Eq.A * 2)
-	Rationalx1 := fmt.Sprintf("x1 = (%f + √%f) / %f", deb, delta, fin)
+	Rationalx1 := fmt.Sprintf("x1 = (%f + √%f) / %f\n", deb, delta, fin)
 	Rationalx2 := fmt.Sprintf("x2 = (%f - √%f) / %f", deb, delta, fin)
 	return (Rationalx1 + Rationalx2)
 }
