@@ -48,11 +48,23 @@ type Variable struct {
 
 func (r *Rationel) Value() (string) {
 
+	if isFloatInt(r.Number) {
+		return (fmt.Sprintf("%d", int64(r.Number)))
+	}
 	return (fmt.Sprintf("%f", r.Number))
 }
 
 func (i *Imaginaire) Value() (string) {
 
+	if isFloatInt(i.A) && isFloatInt(i.B) {
+		return (fmt.Sprintf("%d + %di", int64(i.A), int64(i.B)))
+	}
+	if isFloatInt(i.A) {
+		return (fmt.Sprintf("%d + %fi", int64(i.A), i.B))
+	}
+	if isFloatInt(i.B) {
+		return (fmt.Sprintf("%f + %di", i.A, int64(i.B)))
+	}
 	return (fmt.Sprintf("%f + %fi", i.A, i.B))
 }
 
@@ -74,4 +86,9 @@ func (e *EquaSol) Value() (string) {
 	}
 	str += fmt.Sprintf("Solution(s) : %s\n", e.Sol)
 	return (str)
+}
+
+func isFloatInt(floatValue float64) (bool) {
+
+    return floatValue == float64(int(floatValue))
 }
