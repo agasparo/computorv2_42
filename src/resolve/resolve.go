@@ -1,7 +1,6 @@
 package resolve
 
 import (
-	//"fmt"
 	"parser"
 	"maths_functions"
 	"types"
@@ -232,7 +231,7 @@ func GetDeg(sign byte, str string, deb int, x string) (int, int) {
 
 	for i = i; i < len(str) && str[i] == sign; i += 2 {
 
-		if string(str[i - 1]) == x {
+		if string(str[i + 1]) == x {
 			puis++
 		}
 	}
