@@ -64,11 +64,21 @@ func RempEq(tab map[int]string, U *Unknown) {
 
 func GetAllSign(str string, x string, U *Unknown, WE int) {
 
+	var puis int
+
 	for i := GetIndex(str); i != -1; i = GetIndex(str) {
-		fmt.Println(str[0:i])
-		RPuis("1", GetMaxDeg(str[0:i], x), WE, U)
+		puis = GetMaxDeg(str[0:i], x)
+		if puis < 0 {
+			puis = 0
+		}
+		RPuis("1", puis, WE, U)
 		str = str[i + 1:len(str)]
 	}
+	puis = GetMaxDeg(str[0:len(str)], x)
+	if puis < 0 {
+		puis = 0
+	}
+	RPuis("1", puis, WE, U)
 }
 
 func GetIndex(str string) (int) {
