@@ -71,14 +71,22 @@ func GetAllSign(str string, x string, U *Unknown, WE int) {
 		if puis < 0 {
 			puis = 0
 		}
-		RPuis("1", puis, WE, U)
+		RPuis(getNumber(str[0:i], x), puis, WE, U)
 		str = str[i + 1:len(str)]
 	}
 	puis = GetMaxDeg(str[0:len(str)], x)
 	if puis < 0 {
 		puis = 0
 	}
-	RPuis("1", puis, WE, U)
+	RPuis(getNumber(str[0:len(str)], x), puis, WE, U)
+}
+
+func getNumber(str string, x string) (string) {
+
+	str = strings.ReplaceAll(str, "*", "")
+	str = strings.ReplaceAll(str, "^", "")
+	str = strings.ReplaceAll(str, x, "")
+	return (str)
 }
 
 func GetIndex(str string) (int) {
