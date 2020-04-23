@@ -29,6 +29,10 @@ bonus :
   // calcul de deg to rad
   // calcul rad to deg
 
+ - equations :
+
+  //- affichage resultat en fraction et en decimal
+
  - commandes :
 
   - affiche les variables stockes
