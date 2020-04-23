@@ -1,7 +1,7 @@
 package resolve
 
 import (
-	"fmt"
+	//"fmt"
 	"parser"
 	"maths_functions"
 	"types"
@@ -38,7 +38,6 @@ func IsSoluble(U Unknown) (bool) {
 func Init(U *Unknown, Dat types.Variable) (string) {
 
 	RempEq(U.Tab, U)
-	fmt.Println(U)
 	return ("|")
 }
 
@@ -73,35 +72,34 @@ func GetAllSign(str string, x string, U *Unknown, WE int) {
 		}
 		str = str[1:len(str)]
 	}
-	nstr := str
 	for i := GetIndex(str); i != -1; i = GetIndex(str) {
 		if str[0] == '-' || str[0] == '+' {
 			if str[0] == '-' {
 				sign = 1
 			}
 			str = str[1:len(str)]
+			i = GetIndex(str)
+			if i == -1 {
+				break
+			}
 		}
 		puis = GetMaxDeg(str[0:i], x)
 		if puis < 0 {
 			puis = 0
 		}
-		fmt.Println("---------------------")
-		fmt.Printf("nb : %s\n", str[0:i])
-		fmt.Println("---------------------")
 		if sign == 1 {
 			RPuis(getNumber("-" + str[0:i], x), puis, WE, U)
 		} else {
 			RPuis(getNumber(str[0:i], x), puis, WE, U)
 		}
-		nstr = str[i:len(str)]
-		str = str[i + 1:len(str)]
+		str = str[i:len(str)]
 		sign = 0
 	}
-	puis = GetMaxDeg(nstr, x)
+	puis = GetMaxDeg(str, x)
 	if puis < 0 {
 		puis = 0
 	}
-	RPuis(getNumber(nstr, x), puis, WE, U)
+	RPuis(getNumber(str, x), puis, WE, U)
 }
 
 
@@ -118,23 +116,24 @@ func getNumber(str string, x string) (string) {
 
 func GetIndex(str string) (int) {
 
+	max := -1
 	a := strings.Index(str, "/")
-	if a != -1 {
-		return (a)
+	if a != -1 && (max == -1 || a < max) {
+		max = a
 	}
 	a = strings.Index(str, "%")
-	if a != -1 {
-		return (a)
+	if a != -1 && (max == -1 || a < max) {
+		max = a
 	}
 	a = strings.Index(str, "-")
-	if a != -1 {
-		return (a)
+	if a != -1 && (max == -1 || a < max) {
+		max = a
 	}
 	a = strings.Index(str, "+")
-	if a != -1 {
-		return (a)
+	if a != -1 && (max == -1 || a < max) {
+		max = a
 	}
-	return (-1)
+	return (max)
 }
 
 func RPuis(nb string, puis int, wEqs int, U *Unknown) {
