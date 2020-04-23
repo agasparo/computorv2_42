@@ -31,7 +31,7 @@ bonus :
 
  - equations :
 
-  //- affichage resultat en fraction et en decimal
+  - affichage resultat en fraction et en decimal
 
  - commandes :
 
