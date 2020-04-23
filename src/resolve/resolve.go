@@ -1,7 +1,7 @@
 package resolve
 
 import (
-	"fmt"
+	//"fmt"
 	"parser"
 	"maths_functions"
 	"types"
@@ -59,7 +59,6 @@ func RempEq(tab map[int]string, U *Unknown) {
 			RPuis(tab[i], 0, WE, U)
 		}
 	}
-	fmt.Println(U)
 }
 
 func GetAllSign(str string, x string, U *Unknown, WE int) {
@@ -116,9 +115,6 @@ func GetIndex(str string) (int) {
 func RPuis(nb string, puis int, wEqs int, U *Unknown) {
 
 	var Eq equations.Equation
-
-	fmt.Println("-------------------------------")
-	fmt.Printf("nb : %s, puis: %d, eq nb : %d\n", nb, puis, wEqs)
 
 	if len(U.Eqs) == 0 {
 		U.Eqs = make(map[int]equations.Equation)

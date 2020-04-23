@@ -16,6 +16,7 @@ import (
 	"test"
 	"os"
 	"resolve"
+	"equations"
 )
 
 func main() {
@@ -135,14 +136,14 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			}
 			response := resolve.Init(&Eq_Data, Dat)
 			fmt.Println(response)
-			/*
 			if strings.Index(response, "|") == -1 {
 				error.SetError(response)
 				return 1, -1, str_ret
 			}
-			//Vars.Table["?"] = &types.Imaginaire{ x, y }
-			//str_ret = "?"
-			//t = 0*/
+			deg, delta, sol := equations.Resolve(Eq_Data.Eqs)
+			Vars.Table["?"] = &types.EquaSol{ deg, delta, sol }
+			str_ret = "?"
+			t = 0
 		} else {
 			// test is defined
 			par := parentheses.Parse(data, Vars, false, "")

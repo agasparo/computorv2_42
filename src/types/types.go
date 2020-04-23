@@ -32,6 +32,13 @@ type Fonction struct {
 	Func string
 }
 
+type EquaSol struct {
+
+	Deg int
+	Delta float64
+	Sol string
+}
+
 type Variable struct {
 
 	Table map[string]AllT
@@ -57,4 +64,14 @@ func (m *Matrice) Value() (string) {
 func (f *Fonction) Value() (string) {
 
 	return (f.Func)
+}
+
+func (e *EquaSol) Value() (string) {
+
+	str := fmt.Sprintf("Equation degree : %d\n", e.Deg)
+	if e.Deg > 1 {
+		str += fmt.Sprintf("∆ = %f\n", e.Delta)
+	}
+	str += fmt.Sprintf("Solution(s) : %s\n", e.Sol)
+	return (str)
 }
