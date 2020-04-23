@@ -182,7 +182,12 @@ func DeltaSup(Eq Equation, delta float64) (string) {
 
 func ResolveDeg1(eq Equation) (int, string) {
 
-	sol := eq.C / eq.B
+	sol := Inverse(eq.C) / eq.B
+	if !isFloatInt(sol) {
+		Rational := fractions.Rational{sol, 0, 0, "", 3, ""}
+		fractions.Trasnform(&Rational)
+		return 1, fmt.Sprintf("x0 = %s", Rational.Frac)
+	}
 	return 1, fmt.Sprintf("x0 = %f", sol)
 }
 

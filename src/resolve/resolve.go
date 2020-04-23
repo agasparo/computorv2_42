@@ -1,6 +1,7 @@
 package resolve
 
 import (
+	"fmt"
 	"parser"
 	"maths_functions"
 	"types"
@@ -37,6 +38,7 @@ func IsSoluble(U Unknown) (bool) {
 func Init(U *Unknown, Dat types.Variable) (string) {
 
 	RempEq(U.Tab, U)
+	fmt.Println(U)
 	return ("|")
 }
 
@@ -63,21 +65,45 @@ func RempEq(tab map[int]string, U *Unknown) {
 func GetAllSign(str string, x string, U *Unknown, WE int) {
 
 	var puis int
+	var sign int
 
+	if str[0] == '-' || str[0] == '+' {
+		if str[0] == '-' {
+			sign = 1
+		}
+		str = str[1:len(str)]
+	}
+	nstr := str
 	for i := GetIndex(str); i != -1; i = GetIndex(str) {
+		if str[0] == '-' || str[0] == '+' {
+			if str[0] == '-' {
+				sign = 1
+			}
+			str = str[1:len(str)]
+		}
 		puis = GetMaxDeg(str[0:i], x)
 		if puis < 0 {
 			puis = 0
 		}
-		RPuis(getNumber(str[0:i], x), puis, WE, U)
+		fmt.Println("---------------------")
+		fmt.Printf("nb : %s\n", str[0:i])
+		fmt.Println("---------------------")
+		if sign == 1 {
+			RPuis(getNumber("-" + str[0:i], x), puis, WE, U)
+		} else {
+			RPuis(getNumber(str[0:i], x), puis, WE, U)
+		}
+		nstr = str[i:len(str)]
 		str = str[i + 1:len(str)]
+		sign = 0
 	}
-	puis = GetMaxDeg(str[0:len(str)], x)
+	puis = GetMaxDeg(nstr, x)
 	if puis < 0 {
 		puis = 0
 	}
-	RPuis(getNumber(str[0:len(str)], x), puis, WE, U)
+	RPuis(getNumber(nstr, x), puis, WE, U)
 }
+
 
 func getNumber(str string, x string) (string) {
 
