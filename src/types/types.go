@@ -90,5 +90,8 @@ func (e *EquaSol) Value() (string) {
 
 func isFloatInt(floatValue float64) (bool) {
 
+	if floatValue >= 9223372036854775807 || floatValue <= -9223372036854775808 {
+		return false
+	}
     return floatValue == float64(int(floatValue))
 }
