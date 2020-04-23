@@ -118,3 +118,8 @@ func Inverse(a float64) (float64) {
 
 	return (a * -1)
 }
+
+func isFloatInt(floatValue float64) (bool) {
+
+    return floatValue == float64(int(floatValue))
+}
