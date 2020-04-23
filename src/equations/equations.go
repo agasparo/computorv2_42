@@ -111,7 +111,7 @@ func Deltainf(Eq Equation, delta float64) (string) {
 	if isFloatInt(Sqrt(Inverse(delta))) {
 
 		i1 := Sqrt(Inverse(delta)) / fin
-		i2 := Sqrt(Inverse(delta)) / fin
+		i2 := (Sqrt(Inverse(delta)) / fin) * -1
 		a1 := deb / fin
 		a2 := deb / fin
 
@@ -120,13 +120,13 @@ func Deltainf(Eq Equation, delta float64) (string) {
 		fractions.Trasnform(&Rationalx1)
 		fractions.Trasnform(&Rationali1)
 
-		str1 := fmt.Sprintf("x1 = %f + i%f", a1, i1)
+		str1 := fmt.Sprintf("x1 = %f + %fi", a1, i1)
 		if len(Rationalx1.Frac) > 0 && len(Rationali1.Frac) > 0 {
-			str1 += fmt.Sprintf("ou x1 = %s + i%s", Rationalx1.Frac, Rationali1.Frac)
+			str1 += fmt.Sprintf("ou x1 = %s + %si", Rationalx1.Frac, Rationali1.Frac)
 		} else if len(Rationalx1.Frac) > 0 {
-			str1 += fmt.Sprintf("ou x1 = %s + i%f", Rationalx1.Frac, i1)
+			str1 += fmt.Sprintf("ou x1 = %s + %fi", Rationalx1.Frac, i1)
 		} else if len(Rationali1.Frac) > 0 {
-			str1 += fmt.Sprintf("ou x1 = %f + i%s", a1, Rationali1.Frac)
+			str1 += fmt.Sprintf("ou x1 = %f + %si", a1, Rationali1.Frac)
 		}
 
 		Rationalx2 := fractions.Rational{a2, 0, 0, "", 3, ""}
@@ -134,13 +134,13 @@ func Deltainf(Eq Equation, delta float64) (string) {
 		fractions.Trasnform(&Rationalx2)
 		fractions.Trasnform(&Rationali2)
 
-		str2 := fmt.Sprintf("\nx2 = %f + i%f", a2, i2)
+		str2 := fmt.Sprintf("\nx2 = %f + %fi", a2, i2)
 		if len(Rationalx2.Frac) > 0 && len(Rationali2.Frac) > 0 {
-			str2 += fmt.Sprintf("ou x2 = %s + i%s", Rationalx2.Frac, Rationali2.Frac)
+			str2 += fmt.Sprintf("ou x2 = %s + %si", Rationalx2.Frac, Rationali2.Frac)
 		} else if len(Rationalx2.Frac) > 0 {
-			str2 += fmt.Sprintf("ou x2 = %s + i%f", Rationalx2.Frac, i2)
+			str2 += fmt.Sprintf("ou x2 = %s + %fi", Rationalx2.Frac, i2)
 		} else if len(Rationali2.Frac) > 0 {
-			str2 += fmt.Sprintf("ou x2 = %f + i%s", a2, Rationali2.Frac)
+			str2 += fmt.Sprintf("ou x2 = %f + %si", a2, Rationali2.Frac)
 		}
 		return (str1 + str2)
 	}
