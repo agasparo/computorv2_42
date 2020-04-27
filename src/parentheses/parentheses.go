@@ -34,12 +34,10 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		}
 		/*if tab[index_c] != ")" {
 			ajj := ""
-			cu := 0
 			z := indexString(tab[index_c], ")")
 			if z != -1 {
 				for z = z; z < len(tab[index_c]) && tab[index_c][z] == ')'; z++ {
 					ajj += ")"
-					cu++
 				}
 				add_str_tab = tab[index_c][z - 1:len(tab[index_c])]
 				tab[index_c] = tab[index_c][0:strings.Index(tab[index_c], ")")] + ajj
