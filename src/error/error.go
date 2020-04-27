@@ -6,6 +6,7 @@ import (
 	"parser"
 	"maths_functions"
 	"types"
+	//"fmt"
 )
 
 func SetError(str string) {
@@ -21,21 +22,30 @@ func Syntaxe(str string) (string) {
 	return ("1")
 }
 
-func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
+func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 
 	a := 0
 	is_i := 0
+	tab := data
+	neg := 0
 
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
 	}
 	for i := a; i < len(tab); i += 2 {
 
+		if tab[i][0] == '-' || tab[i][0] == '+' {
+			if tab[i][0] == '-' {
+				neg = 1
+			}
+			tab[i] = tab[i][1:len(tab[i])]
+		}
+
 		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i]) {
 			if strings.Count(tab[i], "i") > 1 {
 				
 				if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
-					return ("'" + tab[i] + "' isn't defined")
+					return ("'" + tab[i] + "' isn't defined 1")
 				}
 			}
 			tab[i] = strings.ReplaceAll(tab[i], "i", "")
@@ -45,7 +55,7 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i]) {
 
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
-				return ("'" + tab[i] + "' isn't defined")
+				return ("'" + tab[i] + "' isn't defined 2")
 			}
 		}
 		if t == 1 {
@@ -58,7 +68,11 @@ func In(tab map[int]string, t int, f string, Dat types.Variable) (string) {
 		if is_i == 1 {
 			tab[i] += "i"
 		}
+		if neg == 1 {
+			tab[i] = "-" + tab[i]
+		}
 		is_i = 0
+		neg = 0
 	}
 	return ("1")
 }
