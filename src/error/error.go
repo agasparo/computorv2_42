@@ -6,7 +6,6 @@ import (
 	"parser"
 	"maths_functions"
 	"types"
-	//"fmt"
 )
 
 func SetError(str string) {
