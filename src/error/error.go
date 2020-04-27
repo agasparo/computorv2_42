@@ -63,6 +63,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			if !checktab(tes, Dat) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
 				return ("'" + tab[i] + "' isn't defined 3")
 			}
+			if IsUsu(tab, Dat) {
+				return ("you can't have an usuel function in your function")
+			}
 		}
 		if is_i == 1 {
 			tab[i] += "i"
@@ -116,7 +119,6 @@ func IsUsu(data map[int]string, vars types.Variable) (bool) {
 		}
 		nstr := data[i][0:p1] + "(x)"
 		if _, ok := vars.Table[strings.ToLower(nstr)]; ok {
-
 			return (true)
     	}
 	}
