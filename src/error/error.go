@@ -40,7 +40,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			tab[i] = tab[i][1:len(tab[i])]
 		}
 
-		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i]) {
+		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i], Dat) {
 			if strings.Count(tab[i], "i") > 1 {
 				
 				if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
@@ -51,7 +51,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			is_i = 1
 		}
 
-		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i]) {
+		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i], Dat) {
 
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
 				return ("'" + tab[i] + "' isn't defined 2")
@@ -60,7 +60,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		if t == 1 {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
-			if !checktab(tes) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
+			if !checktab(tes, Dat) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
 				return ("'" + tab[i] + "' isn't defined 3")
 			}
 		}
@@ -76,10 +76,20 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 	return ("1")
 }
 
-func IsPower(str string) (bool) {
+func IsPower(str string, Dat types.Variable) (bool) {
 
 	if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 {
 
+		nstr := strings.Split(str, "ˆ")
+		if len(nstr) == 1 {
+			nstr = strings.Split(str, "^")
+		}
+		if !parser.IsNumeric(nstr[0]) && !Is_defined(nstr[0], Dat) {
+			return (false)
+		}
+		if !parser.IsNumeric(nstr[1]) && !Is_defined(nstr[1], Dat) {
+			return (false)
+		} 
 		return (true)
 	}
 	return (false)
@@ -158,12 +168,12 @@ func Checkfuncx(str string, str1 string, vars types.Variable) (string) {
 	return ("1")
 }
 
-func checktab(tes []string) (bool) {
+func checktab(tes []string, Dat types.Variable) (bool) {
 
-	if tes[0] != "" && !parser.IsNumeric(tes[0]) && !IsPower(tes[0]) {
+	if tes[0] != "" && !parser.IsNumeric(tes[0]) && !IsPower(tes[0], Dat) {
 		return (false)
 	}
-	if len(tes) >= 2 && tes[1] != "" && !parser.IsNumeric(tes[1]) && !IsPower(tes[1]) {
+	if len(tes) >= 2 && tes[1] != "" && !parser.IsNumeric(tes[1]) && !IsPower(tes[1], Dat) {
 		return (false)
 	}
 	if tes[0] != "" && (len(tes) >= 2 && tes[1] != "") {
