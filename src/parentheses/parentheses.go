@@ -32,9 +32,10 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		if index_c == -1 {
 			index_c = index_d
 		}
+		fmt.Println(index_c)
 		if tab[index_c] != ")" {
 			ajj := ""
-			z := strings.Index(tab[index_c], ")")
+			z := indexString(tab[index_c], ")")
 			if z != -1 {
 				for z = z; z < len(tab[index_c]) && tab[index_c][z] == ')'; z++ {
 					ajj += ")"
@@ -51,6 +52,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		}
 		gn, powers, pl := PowerC(ntab[0], ntab[len(ntab) - 1])
 		fmt.Println("-------------------------------------")
+		fmt.Println(ntab[0])
 		fmt.Printf("gn : %s, powers : %s, pl : %d\n", gn, powers, pl)
 		if powers != "" {
 			if pl == 0 {
@@ -82,9 +84,11 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		}
 		fmt.Printf("res : %s, add : %s, pos : %d\n", res, add, pos)
 		tab[index_d] = add_check(res, add, pos, repete)
-		if add_str_tab != "" {
+		fmt.Println(add_str_tab)
+		if add_str_tab != "" && add != "" {
 			tab[index_d] += add_str_tab
 		}
+		add_str_tab = ""
 		fmt.Println("-------------------------------------")
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
 		fmt.Println(tab)
