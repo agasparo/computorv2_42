@@ -62,7 +62,6 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
 			if !checktab(tes, Dat) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
-
 				if !ResFunct(tab[i], Dat) {
 					return ("'" + tab[i] + "' isn't defined 3")
 				}
