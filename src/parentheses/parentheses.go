@@ -25,8 +25,6 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 	}
 	for max := nb_par; max > 0; max-- {
 		
-		fmt.Println("-------------------------------------")
-		fmt.Println(tab)
 		parser_err := 0
 		index_d := getIndexof(tab, "(", max, 0)
 		index_c := getIndexfin(tab, ")", index_d + 1)
@@ -34,7 +32,6 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		if index_c == -1 {
 			index_c = index_d
 		}
-		fmt.Println(tab)
 		/*if tab[index_c] != ")" {
 			ajj := ""
 			cu := 0
@@ -48,16 +45,13 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 				tab[index_c] = tab[index_c][0:strings.Index(tab[index_c], ")")] + ajj
 			}
 		}*/
-		fmt.Println(tab)
 		ntab := maths_functions.SliceTab(tab, index_d, index_c + 1)
 		if is_f {
 			if maps.Array_search_count(ntab, maths_functions.Getx(f_name)) >= 1 {
 				return (tab)
 			}
 		}
-		fmt.Println(ntab)
 		gn, powers, pl := PowerC(ntab[0], ntab[len(ntab) - 1])
-		fmt.Printf("gn : %s, powers : %s, pl : %d\n", gn, powers, pl)
 		if powers != "" {
 			if pl == 0 {
 				ntab[0] = gn
@@ -69,14 +63,12 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 				ntab[len(ntab) - 1] = nf[1]
 			}
 		}
-		fmt.Printf("ntab : %s\n", ntab[0])
 		add, pos, repete := check(ntab)
 		n1, n2, err := maths_imaginaires.CalcVar(ntab, Vars)
 		if err != "" {
 			tab[0] = err
 			return (tab)
 		}
-		fmt.Printf("n1 : %f, n2 : %f\n", n1, n2)
 		res := Float2string(TmpComp{ n1, n2 })
 		if powers != "" && strings.Index(powers, ")") != -1 && strings.Index(powers, "(") != -1 {
 			po := parser.GetAllIma(strings.ReplaceAll(add_check(res, powers, pl, "1"), " ", ""), &parser_err)
@@ -89,20 +81,13 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		} else {
 			res = add_check(res, powers, pl, "1")
 		}
-		fmt.Printf("res : %s, add : %s, pos : %d\n", res, add, pos)
-		fmt.Printf("new val: %s\n", tab[index_d])
 		tab[index_d] = add_check(res, add, pos, repete)
-		fmt.Printf("new val: %s\n", tab[index_d])
-		fmt.Println(add_str_tab)
 		if add_str_tab != "" {
 			tab[index_d] += add_str_tab
 		}
 		add_str_tab = ""
-		fmt.Println("-------------------------------------")
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
-		fmt.Println(tab)
 	}
-	fmt.Println(tab)
 	return (tab)
 }
 
