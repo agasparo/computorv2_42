@@ -65,10 +65,13 @@ func Combine(data map[int]string, tab map[int]string, min int, max int) (map[int
 	return (tab)
 }
 
-func Join(data map[int]string) (str string) {
+func Join(data map[int]string, join string) (str string) {
 
 	for i := 0; i < len(data); i++ {
-		str += data[i]
+		str = str + data[i]
+		if i + 1 < len(data) {
+			str += join
+		} 
 	}
 	return (str)
 }
