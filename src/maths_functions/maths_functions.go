@@ -7,7 +7,6 @@ import (
 	"maths_imaginaires"
 	"parser"
 	"maps"
-	"fmt"
 )
 
 func Init(tab map[int]string, x string, vars *types.Variable) (string) {
@@ -16,7 +15,6 @@ func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 	if maps.Array_search_count(tab, "(") >= 1 {
 		return (JoinTab(tab))
 	}
-	fmt.Println(tab)
 	for i := 0; i < len(tab); i++ {
 
 		if tab[i] != x && strings.Index(tab[i], x) != -1 {
