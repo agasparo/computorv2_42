@@ -89,7 +89,7 @@ func ResFunct(str string, Dat types.Variable) (bool) {
 		return (false)
 	}
 	p2 := strings.Index(str, ")")
-	if p1 == -2 {
+	if p2 == -1 {
 		return (false)
 	}
 	if !parser.IsNumeric(str[p1 + 1:p2]) { 
@@ -137,7 +137,7 @@ func IsUsu(data map[int]string, vars types.Variable) (bool) {
 			return (false)
 		}
 		p2 := strings.Index(data[i], ")")
-		if p1 == -2 {
+		if p2 == -1 {
 			return (false)
 		}
 		if !parser.IsNumeric(data[i][p1 + 1:p2]) { 
