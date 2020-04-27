@@ -85,10 +85,10 @@ func IsPower(str string, Dat types.Variable, t int) (bool) {
 			nstr = strings.Split(str, "^")
 		}
 		if t == 0 {
-			if !parser.IsNumeric(nstr[0]) && !Is_defined(nstr[0], Dat) {
+			if nstr[0] != "" && !parser.IsNumeric(nstr[0]) && !Is_defined(nstr[0], Dat) {
 				return (false)
 			}
-			if !parser.IsNumeric(nstr[1]) && !Is_defined(nstr[1], Dat) {
+			if nstr[1] != "" && !parser.IsNumeric(nstr[1]) && !Is_defined(nstr[1], Dat) {
 				return (false)
 			}
 		}
