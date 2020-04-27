@@ -19,12 +19,14 @@ type TmpComp struct {
 
 func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (map[int]string) {
 
-	fmt.Println(tab)
 	nb_par := countPara(tab, "(")
 	if nb_par == 0 {
 		return (tab)
 	}
 	for max := nb_par; max > 0; max-- {
+		
+		fmt.Println("-------------------------------------")
+		fmt.Println(tab)
 		parser_err := 0
 		index_d := getIndexof(tab, "(", max, 0)
 		index_c := getIndexfin(tab, ")", index_d + 1)
@@ -32,27 +34,31 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		if index_c == -1 {
 			index_c = index_d
 		}
-		fmt.Println(index_c)
+		fmt.Println(tab)
 		if tab[index_c] != ")" {
 			ajj := ""
+			cu := 0
 			z := indexString(tab[index_c], ")")
 			if z != -1 {
 				for z = z; z < len(tab[index_c]) && tab[index_c][z] == ')'; z++ {
 					ajj += ")"
+					cu++
 				}
-				add_str_tab = tab[index_c][z - 1:len(tab[index_c])]
-				tab[index_c] = tab[index_c][0:strings.Index(tab[index_c], ")")] + ajj
+				if cu > 1 {
+					add_str_tab = tab[index_c][z - 1:len(tab[index_c])]
+					tab[index_c] = tab[index_c][0:strings.Index(tab[index_c], ")")] + ajj
+				}
 			}
 		}
+		fmt.Println(tab)
 		ntab := maths_functions.SliceTab(tab, index_d, index_c + 1)
 		if is_f {
 			if maps.Array_search_count(ntab, maths_functions.Getx(f_name)) >= 1 {
 				return (tab)
 			}
 		}
+		fmt.Println(ntab)
 		gn, powers, pl := PowerC(ntab[0], ntab[len(ntab) - 1])
-		fmt.Println("-------------------------------------")
-		fmt.Println(ntab[0])
 		fmt.Printf("gn : %s, powers : %s, pl : %d\n", gn, powers, pl)
 		if powers != "" {
 			if pl == 0 {
@@ -85,7 +91,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		fmt.Printf("res : %s, add : %s, pos : %d\n", res, add, pos)
 		tab[index_d] = add_check(res, add, pos, repete)
 		fmt.Println(add_str_tab)
-		if add_str_tab != "" && add != "" {
+		if add_str_tab != "" {
 			tab[index_d] += add_str_tab
 		}
 		add_str_tab = ""
