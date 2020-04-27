@@ -1,7 +1,6 @@
 Correction :
 
  - installer golang : apt install golang
- - modifier path dans le .env
  - export le path
 
 bonus :
@@ -25,9 +24,15 @@ bonus :
 
  - calculs :
 
-  - puissance negatives
   // calcul de deg to rad
   // calcul rad to deg
+
+ - puissances
+
+  - negatives
+  - nb puissance fonction
+  - fonction puissance fonction
+  - fonction puissance nb
 
  - equations :
 
