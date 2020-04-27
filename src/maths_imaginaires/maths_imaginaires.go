@@ -31,7 +31,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 	for i := 1; i < len(data); i += 2 {
 
-		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue {
+		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -41,7 +41,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			i = -1
 		}
 
-		if data[i] == "%" && data[i - 1] != inconnue && data[i + 1] != inconnue {
+		if data[i] == "%" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -55,7 +55,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			i = -1
 		}
 
-		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue {
+		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc := TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -79,7 +79,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 	for i := 1; i < len(data); i += 2 {
 
-		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" {
+		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			nb_puis := NegPui(data[i - 1], data[i + 1])
 			if nb_puis == data[i - 1] {
 				nb1, nb2 = ParseOne(data[i - 1], vars)
@@ -97,7 +97,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 			i = -1
 		}
 
-		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" {
+		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			nb_puis := NegPui(data[i - 1], data[i + 1])
 			if nb_puis == data[i - 1] {
 				nb1, nb2 = ParseOne(data[i - 1], vars)
@@ -115,6 +115,21 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 	}
 	return (data)
+}
+
+func IsPowFunc(inconnue string, str string, str1 string) (bool) {
+
+	if inconnue == "" {
+		return (false)
+	}
+
+	if strings.Index(str, inconnue) != -1 && (strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 ) {
+		return (true)
+	}
+	if strings.Index(str1, inconnue) != -1 && (strings.Index(str1, "ˆ") != -1 || strings.Index(str1, "^") != -1 ) {
+		return (true)
+	}
+	return (false)
 }
 
 func NegPui(str string, m string) (string) {
