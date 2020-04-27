@@ -35,7 +35,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 			index_c = index_d
 		}
 		fmt.Println(tab)
-		if tab[index_c] != ")" {
+		/*if tab[index_c] != ")" {
 			ajj := ""
 			cu := 0
 			z := indexString(tab[index_c], ")")
@@ -44,12 +44,10 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 					ajj += ")"
 					cu++
 				}
-				if cu > 1 {
-					add_str_tab = tab[index_c][z - 1:len(tab[index_c])]
-					tab[index_c] = tab[index_c][0:strings.Index(tab[index_c], ")")] + ajj
-				}
+				add_str_tab = tab[index_c][z - 1:len(tab[index_c])]
+				tab[index_c] = tab[index_c][0:strings.Index(tab[index_c], ")")] + ajj
 			}
-		}
+		}*/
 		fmt.Println(tab)
 		ntab := maths_functions.SliceTab(tab, index_d, index_c + 1)
 		if is_f {
@@ -71,6 +69,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 				ntab[len(ntab) - 1] = nf[1]
 			}
 		}
+		fmt.Printf("ntab : %s\n", ntab[0])
 		add, pos, repete := check(ntab)
 		n1, n2, err := maths_imaginaires.CalcVar(ntab, Vars)
 		if err != "" {
@@ -79,7 +78,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		}
 		fmt.Printf("n1 : %f, n2 : %f\n", n1, n2)
 		res := Float2string(TmpComp{ n1, n2 })
-		if powers != "" {
+		if powers != "" && strings.Index(powers, ")") != -1 && strings.Index(powers, "(") != -1 {
 			po := parser.GetAllIma(strings.ReplaceAll(add_check(res, powers, pl, "1"), " ", ""), &parser_err)
 			a, b, err := maths_imaginaires.CalcVar(po, Vars)
 			if err != "" {
@@ -87,9 +86,13 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 				return (tab)
 			}
 			res = Float2string(TmpComp{ a, b })
+		} else {
+			res = add_check(res, powers, pl, "1")
 		}
 		fmt.Printf("res : %s, add : %s, pos : %d\n", res, add, pos)
+		fmt.Printf("new val: %s\n", tab[index_d])
 		tab[index_d] = add_check(res, add, pos, repete)
+		fmt.Printf("new val: %s\n", tab[index_d])
 		fmt.Println(add_str_tab)
 		if add_str_tab != "" {
 			tab[index_d] += add_str_tab
@@ -112,7 +115,7 @@ func PowerC(str string, str1 string) (string, string, int) {
 	}
 	if str[0] != '(' {
 		index := indexString(str, "(")
-		return str[index - 1:len(str)], str[0:index - 1], 0
+		return str[index:len(str)], str[0:index], 0
 	}
 	if str1[len(str1) - 1] != ')' {
 		index := strings.Index(str1, ")")
