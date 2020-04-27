@@ -1,7 +1,7 @@
 package resolve
 
 import (
-	//"fmt"
+	"fmt"
 	"parser"
 	"maths_functions"
 	"types"
@@ -38,6 +38,7 @@ func IsSoluble(U Unknown) (bool) {
 func Init(U *Unknown, Dat types.Variable) (string) {
 
 	RempEq(U.Tab, U)
+	fmt.Println(U)
 	return ("|")
 }
 
@@ -48,7 +49,7 @@ func RempEq(tab map[int]string, U *Unknown) {
 	for i := 0; i < len(tab); i++ {
 		tab[i] = strings.ReplaceAll(tab[i], " ", "")
 
-		if len(U.Part1) - 1 < i {
+		if (len(U.Part1) - 1) / 2 < i {
 			WE = 1
 		}
 
@@ -105,8 +106,11 @@ func GetAllSign(str string, x string, U *Unknown, WE int) {
 
 func getNumber(str string, x string) (string) {
 
+	if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1  {
+		index := strings.Index(str, x)
+		str = str[0:index]
+	}
 	str = strings.ReplaceAll(str, "*", "")
-	str = strings.ReplaceAll(str, "^", "")
 	str = strings.ReplaceAll(str, x, "")
 	if str == "" {
 		return ("1")
