@@ -63,9 +63,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 				ntab[len(ntab) - 1] = nf[1]
 			}
 		}
-		fmt.Println(ntab)
 		add, pos, repete := check(ntab)
-		fmt.Println(ntab)
 		n1, n2, err := maths_imaginaires.CalcVar(ntab, Vars)
 		if err != "" {
 			tab[0] = err
@@ -82,15 +80,11 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 			}
 			res = Float2string(TmpComp{ a, b })
 		}
-		fmt.Println(tab[index_d])
 		fmt.Printf("res : %s, add : %s, pos : %d\n", res, add, pos)
 		tab[index_d] = add_check(res, add, pos, repete)
-		fmt.Println(add_str_tab)
 		if add_str_tab != "" {
 			tab[index_d] += add_str_tab
 		}
-		fmt.Println(tab[index_d])
-		fmt.Println("faire une fonction pour check le nbd e para")
 		fmt.Println("-------------------------------------")
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
 		fmt.Println(tab)
@@ -108,7 +102,7 @@ func PowerC(str string, str1 string) (string, string, int) {
 	}
 	if str[0] != '(' {
 		index := indexString(str, "(")
-		return str[index:len(str)], str[0:index], 0
+		return str[index - 1:len(str)], str[0:index - 1], 0
 	}
 	if str1[len(str1) - 1] != ')' {
 		index := strings.Index(str1, ")")
