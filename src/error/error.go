@@ -138,7 +138,7 @@ func Checkfuncpa(str string) (bool) {
 	return (true)
 }
 
-func Checkfuncx(str string, str1 string) (string) {
+func Checkfuncx(str string, str1 string, vars types.Variable) (string) {
 
 	x := maths_functions.Getx(str)
 
@@ -148,6 +148,13 @@ func Checkfuncx(str string, str1 string) (string) {
 	if strings.Count(str1, x) == 0 {
 		return ("You must have '" + x + "' in your function (or not an other unknown)")
 	}
+	cmp := strings.ToLower(str)
+	if val, ok := vars.Table[cmp]; ok {
+
+		if strings.Index(val.Value(), "usu|") != -1 {
+			return ("Your fonction can't be with the same name like usual function")
+		}
+    }
 	return ("1")
 }
 

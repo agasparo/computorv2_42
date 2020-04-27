@@ -161,7 +161,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		}
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.Checkfuncx(str[0], str[1]), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
+		if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
 			return 0, 0, ""
 		}
 		par := parentheses.Parse(data, Vars, true, str[0])
