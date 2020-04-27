@@ -6,6 +6,7 @@ import (
 	"parser"
 	"maths_functions"
 	"types"
+	//"fmt"
 )
 
 func SetError(str string) {
@@ -53,7 +54,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i], Dat, 0) {
 
-			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
+			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) && !ResFunct(tab[i], Dat) {
 				return ("'" + tab[i] + "' isn't defined 2")
 			}
 		}
@@ -61,7 +62,10 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
 			if !checktab(tes, Dat) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
-				return ("'" + tab[i] + "' isn't defined 3")
+
+				if !ResFunct(tab[i], Dat) {
+					return ("'" + tab[i] + "' isn't defined 3")
+				}
 			}
 			if IsUsu(tab, Dat) {
 				return ("you can't have an usuel function in your function")
@@ -77,6 +81,22 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		neg = 0
 	}
 	return ("1")
+}
+
+func ResFunct(str string, Dat types.Variable) (bool) {
+
+	p1 := strings.Index(str, "(")
+	if p1 == -1 {
+		return (false)
+	}
+	p2 := strings.Index(str, ")")
+	if p1 == -2 {
+		return (false)
+	}
+	if !parser.IsNumeric(str[p1 + 1:p2]) { 
+		return (false)
+	}
+	return (true)
 }
 
 func IsPower(str string, Dat types.Variable, t int) (bool) {
@@ -117,9 +137,15 @@ func IsUsu(data map[int]string, vars types.Variable) (bool) {
 		if p1 == -1 {
 			return (false)
 		}
-		nstr := data[i][0:p1] + "(x)"
-		if _, ok := vars.Table[strings.ToLower(nstr)]; ok {
-			return (true)
+		p2 := strings.Index(data[i], ")")
+		if p1 == -2 {
+			return (false)
+		}
+		if !parser.IsNumeric(data[i][p1 + 1:p2]) { 
+			nstr := data[i][0:p1] + "(x)"
+			if _, ok := vars.Table[strings.ToLower(nstr)]; ok {
+				return (true)
+    		}
     	}
 	}
 	return (false)
