@@ -234,12 +234,6 @@ func GetMaxDeg(str string, x string) (int) {
 			if z > max {
 				max = z
 			}
-		} else if a - 1 >= 0 && string(str[a - 1]) == "^" {
-			z, _ = strconv.Atoi(string(str[a - 2]))
-			i = a
-			if z > max {
-				max = z
-			}
 		}
 		if i + 1 >= len(str) {
 			return (max)
