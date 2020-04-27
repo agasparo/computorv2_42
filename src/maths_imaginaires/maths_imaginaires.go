@@ -155,6 +155,12 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		if len(nstr) == 1 {
 			nstr = strings.Split(str, "^")
 		}
+		if !IsNumeric(nstr[0]) {
+			nstr[0] = replace_vars.GetVars(vars, nstr[0])
+		}
+		if !IsNumeric(nstr[1]) {
+			nstr[1] = replace_vars.GetVars(vars, nstr[1])
+		}
 		a, b := TransPow(nstr)
 		str = Float2string(TmpComp{ a, b })
 	}
@@ -305,4 +311,10 @@ func Isinf(n1 *TmpComp, coe float64, im float64) (bool) {
 		return (true)
 	}
     return (false)
+}
+
+func IsNumeric(s string) (bool) {
+
+    _, err := strconv.ParseFloat(s, 64)
+    return (err == nil)
 }
