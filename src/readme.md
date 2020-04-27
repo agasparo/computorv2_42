@@ -33,6 +33,7 @@ bonus :
   - nb puissance fonction
   - fonction puissance fonction
   - fonction puissance nb
+  - suite de puissnace ex : 2ˆ3ˆ4
 
  - equations :
 
