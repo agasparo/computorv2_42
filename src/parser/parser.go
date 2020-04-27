@@ -77,7 +77,6 @@ func GetDataFunc(str string, tab map[string]types.AllT) (string, string) {
 
 func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 
-	puisIs := -1
 	for i := 0; i < len(data); i++ {
 
 		parser_err := 0
@@ -91,8 +90,9 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			nData[0] = nstr[0]
 			nData[1] = nstr[1]
 			nData = Checkfunc(nData, Vars)
-			data[i] = nData[0] + "^" + nData[1]
-			puisIs = i
+			data[i] = nData[0] + "^"
+			nData[0] = ""
+			data[i] += maps.Join(nData)
 		}
 
 		if IsFunc(data[i], 1) == 1 {
@@ -128,11 +128,6 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			data = maps.CombineN(data, nt, i)
 			i = -1
 		}
-		if puisIs != -1 {
-			data[puisIs] = strings.ReplaceAll(data[puisIs], "(", "")
-			data[puisIs] = strings.ReplaceAll(data[puisIs], ")", "")
-		}
-		puisIs = -1
 	}
 	return (data)
 }

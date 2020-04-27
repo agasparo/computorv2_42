@@ -19,6 +19,7 @@ type TmpComp struct {
 
 func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (map[int]string) {
 
+	fmt.Println(tab)
 	nb_par := countPara(tab, "(")
 	if nb_par == 0 {
 		return (tab)
