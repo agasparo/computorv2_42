@@ -8,12 +8,14 @@ import (
 func GetVars(vars *types.Variable, str string) (string) {
 
 	neg := 0
+	add := ""
 
 	if str[0] == '-' || str[0] == '+' {
 
 		if str[0] == '-' {
 			neg = 1
 		}
+		add = string(str[0])
 		str = str[1:len(str)]
 	}
 
@@ -24,5 +26,5 @@ func GetVars(vars *types.Variable, str string) (string) {
 		}
 		return (val.Value())
     }
-    return (str)
+    return (add + str)
 }
