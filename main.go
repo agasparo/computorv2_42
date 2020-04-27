@@ -104,7 +104,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	err_pars := 0
 	Eq_Data := resolve.Unknown{}
 
-	if strings.Index(str[1], "?") != -1 { // cas particulier ppur check les variables et les fonctions
+	if strings.Index(str[1], "?") != -1 && strings.Count(str[1], "?") == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
 		data_r := parser.GetAllIma(strings.ReplaceAll(strings.ReplaceAll(strings.ToLower(str[1]), "?", ""), " ", ""), &err_pars)
 		Eq_Data.Part1 = data
