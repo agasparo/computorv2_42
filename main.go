@@ -164,12 +164,12 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
 			return 0, 0, ""
 		}
-		par := parentheses.Parse(data, Vars, true, str[0])
-		if strings.Index(par[0], "by 0") != -1 {
-			error.SetError(par[0])
+		data = parser.Checkfunc(data, Dat)
+		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
+			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
-		res := maths_functions.Init(par, str[0], Vars)
+		res := maths_functions.Init(data, str[0], Vars)
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
 	} else if strings.Index(str[1], "i") != -1 {
