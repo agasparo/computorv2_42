@@ -108,6 +108,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	if strings.Index(str[1], "?") != -1 && strings.Count(str[1], "?") == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
 		data_r := parser.GetAllIma(strings.ReplaceAll(strings.ReplaceAll(strings.ToLower(str[1]), "?", ""), " ", ""), &err_pars)
+		data_r = maps.Reindex(data_r)
+		data = maps.Reindex(data)
 		Eq_Data.Part1 = data
 		Eq_Data.Part2 = data_r
 		if Err(err_pars, error.In(data, 0, "", Dat), true, "1") {
@@ -177,6 +179,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
 			return 0, 0, ""
 		}
+		data = maps.Reindex(data)
 		data = parser.Checkfunc(data, Dat)
 		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
 			error.SetError(data[0])
@@ -190,6 +193,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
 			return 0, 0, ""
 		}
+		data = maps.Reindex(data)
 		if !Function_var(data, Dat) {
 			error.SetError("variable can't be equal to a function")
 			return 1, -1, str_ret
@@ -223,25 +227,21 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 0, 0, ""
 		}
 		data = maps.Reindex(data)
-		fmt.Println(data)
 		if !Function_var(data, Dat) {
 			error.SetError("variable can't be equal to a function")
 			return 1, -1, str_ret
 		}
-		fmt.Println(data)
 		data = parser.Checkfunc(data, Dat)
 		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
 			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
-		fmt.Println(data)
 		if len(data) == 1 {
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
 			/*if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
 				return 0, 0, ""
 			}*/
 		}
-		data = maps.Reindex(data)
 		par := parentheses.Parse(data, Vars, false, "")
 		if strings.Index(par[0], "by 0") != -1 {
 			error.SetError(par[0])
