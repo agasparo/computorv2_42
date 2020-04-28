@@ -22,10 +22,10 @@ bonus :
 
  - couleures
 
- - calculs :
+ - convertions :
 
-  // calcul de deg to rad
-  // calcul rad to deg
+  - calcul de deg to rad
+  - calcul rad to deg
 
  - puissances
 
