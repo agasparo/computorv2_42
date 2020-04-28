@@ -14,19 +14,19 @@ import (
 
 func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) {
 
-	if str == "-list" {
+	if str == "list" {
 		GetAllVars(Vars.Table)
 		return (1)
 	}
-	if str == "-help" {
+	if str == "help" {
 		Help()
 		return (1)
 	}
-	if str == "-graph" {
+	if str == "graph" {
 		Graph(str1, Vars)
 		return(1)
 	}
-	if str == "-set" {
+	if str == "set" {
 		SetVars(str1, str2, Vars)
 		return (1)
 	}
@@ -52,8 +52,9 @@ func GetAllVars(tab map[string]types.AllT) {
 func Help() {
 
 	fmt.Println("List of commands : ")
-	fmt.Println("1 : '-list' -> List all vars")
-	fmt.Println("2 : '-graph [function]' -> show a courbe of the function")
+	fmt.Println("1 : 'list' -> List all vars")
+	fmt.Println("2 : 'graph [function]' -> show a courbe of the function")
+	fmt.Println("3 : 'set [var]' -> allow to modify var value")
 }
 
 func Graph(str string, Vars types.Variable) {
