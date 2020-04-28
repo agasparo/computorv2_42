@@ -77,6 +77,8 @@ func GetDataFunc(str string, tab map[string]types.AllT) (string, string) {
 
 func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 
+	var tmp = make(map[int]string)
+
 	for i := 0; i < len(data); i++ {
 
 		parser_err := 0
@@ -88,7 +90,8 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 				nstr = strings.Split(data[i], "^")
 			}
 			for i := 0; i < len(nstr); i++ {
-				nData[i] = nstr[i]
+				tmp[0] = nstr[i]
+				nData[i] = maps.Join(Checkfunc(tmp, Vars), "")
 			}
 			nData = Checkfunc(nData, Vars)
 			data[i] = maps.Join(nData, "ˆ")
