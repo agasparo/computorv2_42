@@ -234,6 +234,16 @@ func Checkfuncx(str string, str1 string, vars types.Variable) (string) {
 			return ("Your fonction can't be with the same name like usual function")
 		}
     }
+    p1 := strings.Index(str, "(")
+    for index, _ := range vars.Table {
+
+		p3 := strings.Index(index, "(")		
+		if p3 != -1 {
+			if str[0:p1 + 1] == index[0:p3 + 1] && str != index {
+				return ("A function with name '" + index[0:p3] + "' is already defined")
+			} 
+		}
+	}
 	return ("1")
 }
 
