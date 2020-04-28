@@ -14,7 +14,14 @@ type C struct {
 	To string
 }
 
+type Mesure struct {
+
+	table map[int]string
+}
+
 const PI = 3.141592653589793
+
+// ********************************** process *************************//
 
 func Wicht(str string, str1 string) {
 
@@ -43,6 +50,8 @@ func Show(res float64, Conv C) {
 
 	fmt.Printf("%f %s = %f %s\n", Conv.Val, Conv.Unit, res, Conv.To)
 }
+
+// ******************************** conv *******************************//
 
 func Rad2Deg(angle float64) (float64) {
 
