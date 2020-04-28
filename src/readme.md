@@ -26,6 +26,7 @@ bonus :
 
   - calcul de deg to rad
   - calcul rad to deg
+  - convertion des distances
 
  - puissances
 
