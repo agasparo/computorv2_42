@@ -101,7 +101,9 @@ func Reindex(data map[int]string) (map[int]string) {
 
 	for _, element := range data {
 
-		tab[len(tab)] = element
+		if element != "" {
+			tab[len(tab)] = element
+		}
 	}
 	return (tab)
 }
