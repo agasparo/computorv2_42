@@ -75,3 +75,16 @@ func Join(data map[int]string, join string) (str string) {
 	}
 	return (str)
 }
+
+func Clean(data map[int]string) (map[int]string) {
+
+	tab := make(map[int]string)
+
+	for i := 0; i < len(data); i++ {
+
+		if data[i] != "" {
+			tab[len(tab)] = data[i]
+		}
+	}
+	return (tab)
+}

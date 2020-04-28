@@ -23,6 +23,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 	if nb_par == 0 {
 		return (tab)
 	}
+	fmt.Println(tab)
 	for max := nb_par; max > 0; max-- {
 		
 		parser_err := 0
@@ -85,6 +86,8 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		}
 		add_str_tab = ""
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
+		tab = maps.Clean(tab)
+		fmt.Println(tab)
 	}
 	return (tab)
 }
