@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"error"
 	"strings"
+	"convert"
 )
 
 func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) {
@@ -30,7 +31,16 @@ func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) 
 		SetVars(str1, str2, Vars)
 		return (1)
 	}
+	if str == "conv" {
+		Convert(str1, str2)
+		return (1)
+	}
 	return (0)
+}
+
+func Convert(str1 string, str2 string) {
+
+	convert.Wicht(str1, str2)
 }
 
 func GetAllVars(tab map[string]types.AllT) {
@@ -55,6 +65,7 @@ func Help() {
 	fmt.Println("1 : 'list' -> List all vars")
 	fmt.Println("2 : 'graph [function]' -> show a courbe of the function")
 	fmt.Println("3 : 'set [var]' -> allow to modify var value")
+	fmt.Println("4 : 'conv [value-unite] [unite to convert]' -> convert value")
 }
 
 func Graph(str string, Vars types.Variable) {
