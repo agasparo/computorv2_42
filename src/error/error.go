@@ -50,6 +50,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 				return ("'" + tab[i] + "' isn't defined 0")
 			}
 			tab[i] = maps.Add(tab, tab[i], i + 1, index + 1)
+			tab = maps.MapSliceCount(tab, i + 1, i - index)
+			tab = maps.Reindex(tab)
+			tab = maps.Clean(tab)
 			ajj = index + 1
 		}
 

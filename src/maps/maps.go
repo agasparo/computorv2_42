@@ -95,6 +95,17 @@ func Add(data map[int]string, str string, deb int, fin int) (string) {
 	return (str)
 }
 
+func Reindex(data map[int]string) (map[int]string) {
+
+	tab := make(map[int]string)	
+
+	for _, element := range data {
+
+		tab[len(tab)] = element
+	}
+	return (tab)
+}
+
 func Clean(data map[int]string) (map[int]string) {
 
 	tab := make(map[int]string)
