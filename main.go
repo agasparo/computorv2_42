@@ -188,39 +188,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		res := maths_functions.Init(data, str[0], Vars)
 		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
-	} else if strings.Index(str[1], "i") != -1 {
-		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
-			return 0, 0, ""
-		}
-		data = maps.Reindex(data)
-		if !Function_var(data, Dat) {
-			error.SetError("variable can't be equal to a function")
-			return 1, -1, str_ret
-		}
-		data = parser.Checkfunc(data, Dat)
-		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
-			error.SetError(data[0])
-			return 1, -1, str_ret
-		}
-		if len(data) == 1 {
-			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
-			/*if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
-				return 0, 0, ""
-			}*/
-		}
-		par := parentheses.Parse(data, Vars, false, "")
-		if strings.Index(par[0], "by 0") != -1 {
-			error.SetError(par[0])
-			return 1, -1, str_ret
-		}
-		x, y, err := maths_imaginaires.CalcVar(par, Vars)
-		if err != "" {
-			error.SetError(err)
-			return 1, -1, str_ret
-		}
-		Vars.Table[str[0]] = &types.Imaginaire{ x, y }
-		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
 		if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
@@ -252,7 +219,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			error.SetError(err)
 			return 1, -1, str_ret
 		}
-		if y > 0 {
+		if y != 0 {
 			Vars.Table[str[0]] = &types.Imaginaire{ x, y }
 		} else {
 			Vars.Table[str[0]] = &types.Rationel{ x }

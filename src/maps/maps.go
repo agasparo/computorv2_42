@@ -2,6 +2,7 @@ package maps
 
 import (
 	"strings"
+	//"fmt"
 )
 
 func MapSlice(data map[int]string, index int) (map[int]string) {
@@ -99,13 +100,26 @@ func Reindex(data map[int]string) (map[int]string) {
 
 	tab := make(map[int]string)	
 
-	for _, element := range data {
+	for i := getminkey(data); i < len(data); i++ {
 
-		if element != "" {
-			tab[len(tab)] = element
+		if data[i] != "" {
+			tab[len(tab)] = data[i]
 		}
 	}
 	return (tab)
+}
+
+func getminkey(data map[int]string) (int) {
+
+	min := -1
+
+	for index, element := range data {
+
+		if element != "" && (index == -1 || index < min) {
+			min = index
+		}
+	}
+	return (min)
 }
 
 func Clean(data map[int]string) (map[int]string) {
