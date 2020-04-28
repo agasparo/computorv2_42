@@ -41,6 +41,17 @@ func Array_search_count(array map[int]string, to_search string) (res int) {
 	return (count)
 }
 
+func Array_search(array map[int]string, to_search string) (int) {
+
+	for i := 0; i < len(array); i++ {
+
+		if strings.Index(array[i], to_search) != -1 {
+			return (i)
+		}
+	}
+	return (-1)
+}
+
 func CombineN(data map[int]string, in map[int]string, i int) (map[int]string) {
 
 	tab := make(map[int]string)
@@ -72,6 +83,14 @@ func Join(data map[int]string, join string) (str string) {
 		if i + 1 < len(data) {
 			str += join
 		} 
+	}
+	return (str)
+}
+
+func Add(data map[int]string, str string, deb int, fin int) (string) {
+
+	for i := deb; i < fin; i++ {
+		str += data[i]
 	}
 	return (str)
 }

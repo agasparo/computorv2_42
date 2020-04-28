@@ -6,7 +6,8 @@ import (
 	"parser"
 	"maths_functions"
 	"types"
-	//"fmt"
+	"fmt"
+	"maps"
 )
 
 func SetError(str string) {
@@ -28,6 +29,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 	is_i := 0
 	tab := data
 	neg := 0
+	ajj := -1
 
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
@@ -39,6 +41,16 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 				neg = 1
 			}
 			tab[i] = tab[i][1:len(tab[i])]
+		}
+
+		if strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
+
+			index := maps.Array_search(tab, ")")
+			if index == -1 {
+				return ("'" + tab[i] + "' isn't defined 0")
+			}
+			tab[i] = maps.Add(tab, tab[i], i + 1, index + 1)
+			ajj = index + 1
 		}
 
 		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i], Dat, 0) {
@@ -76,8 +88,12 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		if neg == 1 {
 			tab[i] = "-" + tab[i]
 		}
+		if ajj != -1 {
+			i += ajj - 2
+		}
 		is_i = 0
 		neg = 0
+		ajj = -1
 	}
 	return ("1")
 }
@@ -92,6 +108,7 @@ func ResFunct(str string, Dat types.Variable) (bool) {
 	if p2 == -1 {
 		return (false)
 	}
+
 	if !parser.IsNumeric(str[p1 + 1:p2]) { 
 		return (false)
 	}
@@ -107,10 +124,31 @@ func IsPower(str string, Dat types.Variable, t int) (bool) {
 			nstr = strings.Split(str, "^")
 		}
 		if t == 0 {
-			if nstr[0] != "" && !parser.IsNumeric(nstr[0]) && !Is_defined(nstr[0], Dat) {
+			fmt.Println(nstr)
+			if nstr[0] == "" || nstr[1] == "" {
 				return (false)
 			}
-			if nstr[1] != "" && !parser.IsNumeric(nstr[1]) && !Is_defined(nstr[1], Dat) {
+
+			if !Is_defined(nstr[0], Dat) || !Is_defined(nstr[1], Dat) {
+				return (false)
+			}
+
+			if parser.IsFunc(nstr[0], 1) == 1 {
+				p1 := strings.Index(nstr[0], "(")
+				p2 := strings.Index(nstr[0], ")")
+				nstr[0] = nstr[0][p1 + 1:p2]
+			}
+
+			if parser.IsFunc(nstr[1], 1) == 1 {
+				p1 := strings.Index(nstr[1], "(")
+				p2 := strings.Index(nstr[1], ")")
+				nstr[1] = nstr[1][p1 + 1:p2]
+			}
+
+			if !parser.IsNumeric(nstr[0]) {
+				return (false)
+			}
+			if !parser.IsNumeric(nstr[1]) {
 				return (false)
 			}
 		}
@@ -122,7 +160,6 @@ func IsPower(str string, Dat types.Variable, t int) (bool) {
 func Is_defined(str string, vars types.Variable) (bool) {
 
 	if _, ok := vars.Table[strings.ToLower(str)]; ok {
-
 		return (true)
     }
     return (false)
