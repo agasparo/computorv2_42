@@ -228,11 +228,13 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			error.SetError("variable can't be equal to a function")
 			return 1, -1, str_ret
 		}
+		fmt.Println(data)
 		data = parser.Checkfunc(data, Dat)
 		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
 			error.SetError(data[0])
 			return 1, -1, str_ret
 		}
+		fmt.Println(data)
 		if len(data) == 1 {
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
 			/*if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
