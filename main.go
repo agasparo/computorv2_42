@@ -34,6 +34,7 @@ func main() {
 }
 
 func Run() {
+
 	Inputs := input.Data{}
 	Vars := types.Variable{}
 	arg := ""
@@ -41,7 +42,9 @@ func Run() {
 
 	Vars.Table = make(map[string]types.AllT)
 	usuelles_functions.Init(&Vars)
+
 	for i := 1; i == 1; i = 1 {
+		fmt.Print("> ")
 		input.ReadSTDIN(&Inputs)
 		if Inputs.Input[0] == "exit" {
 			fmt.Println("bye")
@@ -59,7 +62,7 @@ func Run() {
 				show.ShowVars(t, Vars.Table[v])
 			}
 		}
-	}	
+	}
 }
 
 func RunTest(str string) {
