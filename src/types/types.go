@@ -61,6 +61,12 @@ func (i *Imaginaire) Value() (string) {
 	tmp_a := i.A
 	tmp_b := i.B
 
+	if i.B == 0 {
+
+		tmpS := Rationel{ i.A }
+		return (tmpS.Value())
+	}
+
 	if isFloatInt(tmp_a) && isFloatInt(tmp_b) {
 		return (fmt.Sprintf("%d + %di", int64(i.A), int64(i.B)))
 	}
