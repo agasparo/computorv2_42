@@ -67,7 +67,6 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			is_i = 1
 		}
 
-		fmt.Println(IsPower(tab[i], Dat, 0))
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i], Dat, 0) {
 
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) && !ResFunct(tab[i], Dat) {
