@@ -28,7 +28,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		parser_err := 0
 		index_d := getIndexof(tab, "(", max, 0)
 		index_c := getIndexfin(tab, ")", index_d + 1)
-		add_str_tab := ""
+		//add_str_tab := ""
 		if index_c == -1 {
 			index_c = index_d
 		}
@@ -80,10 +80,10 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 			res = add_check(res, powers, pl, "1")
 		}
 		tab[index_d] = add_check(res, add, pos, repete)
-		if add_str_tab != "" {
-			tab[index_d] += add_str_tab
-		}
-		add_str_tab = ""
+		//if add_str_tab != "" {
+		//	tab[index_d] += add_str_tab
+		//}
+		//add_str_tab = ""
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
 		tab = maps.Clean(tab)
 	}
@@ -96,6 +96,9 @@ func PowerC(str string, str1 string) (string, string, int) {
 		if str[0] != '(' && str1[len(str1) - 1] != ')' {
 			index_d := indexString(str, "(")
 			index_f := strings.Index(str1, ")")
+			if index_f > index_d {
+				return (str[index_d:index_f + 1] + "|" + str1[index_d:index_f + 1]), (str[0:index_d] + "|" + str1[index_f + 1:len(str1)]), 3
+			}
 			return (str[index_d:len(str)] + "|" + str1[0:index_f + 1]), (str[0:index_d] + "|" + str1[index_f + 1:len(str1)]), 3
 		}
 		if str[0] != '(' {
