@@ -217,12 +217,16 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			error.SetError(par[0])
 			return 1, -1, str_ret
 		}
-		x, _, err := maths_imaginaires.CalcVar(par, Vars)
+		x, y, err := maths_imaginaires.CalcVar(par, Vars)
 		if err != "" {
 			error.SetError(err)
 			return 1, -1, str_ret
 		}
-		Vars.Table[str[0]] = &types.Rationel{ x }
+		if y > 0 {
+			Vars.Table[str[0]] = &types.Imaginaire{ x, y }
+		} else {
+			Vars.Table[str[0]] = &types.Rationel{ x }
+		}
 		t = 0
 	}
 	/*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {

@@ -157,11 +157,12 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 	if str == "i" {
 		str = "1i"
 	}
-
+	
 	str = strings.ReplaceAll(str, "(", "")
 	str = strings.ReplaceAll(str, ")", "")
 	str = replace_vars.GetVars(vars, str)
     str = strings.ReplaceAll(str, " ", "")
+    str = strings.ReplaceAll(str, "\n", "")
 
     r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
@@ -181,7 +182,6 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 	}
 
 	if r.MatchString(str) {
-
 		return Trans(str)
 	}
 	return TransN(str)

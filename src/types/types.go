@@ -2,7 +2,6 @@ package types
 
 import (
 	"fmt"
-	"strconv"
 )
 
 type AllT interface {
@@ -49,24 +48,29 @@ type Variable struct {
 
 func (r *Rationel) Value() (string) {
 
-	if isFloatInt(r.Number) {
+	tmp := r.Number
+
+	if isFloatInt(tmp) {
 		return (fmt.Sprintf("%d", int64(r.Number)))
 	}
-	return (strconv.FormatFloat(r.Number, 'g', -1, 64))
+	return (fmt.Sprintf("%f", r.Number))
 }
 
 func (i *Imaginaire) Value() (string) {
 
-	if isFloatInt(i.A) && isFloatInt(i.B) {
+	tmp_a := i.A
+	tmp_b := i.B
+
+	if isFloatInt(tmp_a) && isFloatInt(tmp_b) {
 		return (fmt.Sprintf("%d + %di", int64(i.A), int64(i.B)))
 	}
-	if isFloatInt(i.A) {
-		return (fmt.Sprintf("%d + %si", int64(i.A), strconv.FormatFloat(i.B, 'g', -1, 64)))
+	if isFloatInt(tmp_a) {
+		return (fmt.Sprintf("%d + %fi", int64(i.A), i.B))
 	}
-	if isFloatInt(i.B) {
-		return (fmt.Sprintf("%s + %di", strconv.FormatFloat(i.A, 'g', -1, 64), int64(i.B)))
+	if isFloatInt(tmp_b) {
+		return (fmt.Sprintf("%f + %di", int64(i.A), i.B))
 	}
-	return (fmt.Sprintf("%s + %si", strconv.FormatFloat(i.A, 'g', -1, 64), strconv.FormatFloat(i.B, 'g', -1, 64)))
+	return (fmt.Sprintf("%f + %fi", i.A, i.B))
 }
 
 func (m *Matrice) Value() (string) {
@@ -83,7 +87,7 @@ func (e *EquaSol) Value() (string) {
 
 	str := fmt.Sprintf("Equation degree : %d\n", e.Deg)
 	if e.Deg > 1 {
-		str += fmt.Sprintf("∆ = %s\n", strconv.FormatFloat(e.Delta, 'g', -1, 64))
+		str += fmt.Sprintf("∆ = %f\n", e.Delta)
 	}
 	str += fmt.Sprintf("Solution(s) : %s\n", e.Sol)
 	return (str)
