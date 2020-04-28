@@ -6,7 +6,7 @@ import (
 	"parser"
 	"maths_functions"
 	"types"
-	"fmt"
+	//"fmt"
 	"maps"
 )
 
@@ -115,7 +115,17 @@ func ResFunct(str string, Dat types.Variable) (bool) {
 	if !parser.IsNumeric(str[p1 + 1:p2]) { 
 		return (false)
 	}
-	return (true)
+
+	for index, _ := range Dat.Table {
+
+		p3 := strings.Index(index, "(")		
+		if p3 != -1 {
+			if str[0:p1 + 1] == index[0:p3 + 1] {
+				return (true)
+			}
+		}
+	}
+	return (false)
 }
 
 func IsPower(str string, Dat types.Variable, t int) (bool) {
