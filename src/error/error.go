@@ -67,6 +67,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			is_i = 1
 		}
 
+		fmt.Println(IsPower(tab[i], Dat, 0))
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i], Dat, 0) {
 
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) && !ResFunct(tab[i], Dat) {
@@ -127,32 +128,22 @@ func IsPower(str string, Dat types.Variable, t int) (bool) {
 			nstr = strings.Split(str, "^")
 		}
 		if t == 0 {
-			fmt.Println(nstr)
-			if nstr[0] == "" || nstr[1] == "" {
-				return (false)
-			}
+			
+			for i := 0; i < len(nstr); i++ {
 
-			if !Is_defined(nstr[0], Dat) || !Is_defined(nstr[1], Dat) {
-				return (false)
-			}
+				if nstr[i] == "" {
+					return (false)
+				}
 
-			if parser.IsFunc(nstr[0], 1) == 1 {
-				p1 := strings.Index(nstr[0], "(")
-				p2 := strings.Index(nstr[0], ")")
-				nstr[0] = nstr[0][p1 + 1:p2]
-			}
+				if parser.IsFunc(nstr[i], 1) == 1 {
+					p1 := strings.Index(nstr[i], "(")
+					p2 := strings.Index(nstr[i], ")")
+					nstr[i] = nstr[i][p1 + 1:p2]
+				}
 
-			if parser.IsFunc(nstr[1], 1) == 1 {
-				p1 := strings.Index(nstr[1], "(")
-				p2 := strings.Index(nstr[1], ")")
-				nstr[1] = nstr[1][p1 + 1:p2]
-			}
-
-			if !parser.IsNumeric(nstr[0]) {
-				return (false)
-			}
-			if !parser.IsNumeric(nstr[1]) {
-				return (false)
+				if !Is_defined(nstr[i], Dat) && !parser.IsNumeric(nstr[i]) {
+					return (false)
+				}
 			}
 		}
 		return (true)
