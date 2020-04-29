@@ -37,33 +37,74 @@ func IsSoluble(U Unknown) (bool) {
 
 func Init(U *Unknown, Dat types.Variable) (string) {
 
-
-	res := getSignEq(U)
+	res, t := getSignEq(U)
 	if res == "1" {
-		//RempEq(U.Tab, U)
+		if t == 2 {
+			ModMAps(U)
+			RempEq(U.Tab, U)
+			return ("|")
+		}
+		if t == 1 {
+			//RempEq(U.Tab[0], U)
+			return ("|")
+		}
+		RempEq(U.Tab, U)
 		return ("|")
 	}
 	return (res)
 }
 
-func getSignEq(U *Unknown) (string) {
+func ModMAps(U *Unknown) {
+
+	A := Unknown{}
+
+	tmp := make(map[int]string)
+	tmp1 := make(map[int]string)
+
+	tmp[0] = U.Part1[0]
+	A.Part1 = tmp
+
+	tmp1[0] = U.Part2[0]
+	A.Part2 = tmp1
+
+	A.Tab = make(map[int]string)
+	A.Tab[0] = U.Tab[0]
+	A.Tab[1] = "0"
+
+	A.Deg_max = make(map[int]int)
+	A.Deg_max[0] = U.Deg_max[0]
+	A.Deg_max[1] = 0
+
+	U = &A
+}
+
+func getSignEq(U *Unknown) (string, int) {
 
 	if len(U.Part1) > 2 {
 		
 		sign := InitSign(U.Part1[1])
+		if sign == "%" {
+			return "Sorry i can't resolve this equation", 0
+		}
 		for i := 3; i < len(U.Part1); i += 2 {
 
 			fmt.Println(U.Part1[i])
 			if strings.Index(sign, U.Part1[i]) == -1 {
-				return ("Sorry i can't resolve this equation 1")
+				return "Sorry i can't resolve this equation", 0
 			}
 		}
 
 		if len(sign) == 1 && (len(U.Part2) > 2 || (U.Part2[0] != "0" && U.Part2[0] != "-0"))  {
-			return ("Sorry i can't resolve this equation 2")
+			return "Sorry i can't resolve this equation", 0
+		}
+		if sign == "*" {
+			return "1", 1
+		}
+		if sign == "/" {
+			return "1", 2
 		}
 	}
-	return ("1")
+	return "1", 3
 }
 
 func InitSign(str string) (string) {
@@ -96,8 +137,6 @@ func RempEq(tab map[int]string, U *Unknown) {
 			fmt.Printf("1\n")
 			sign = U.Part1[pos_s]
 		}
-
-		fmt.Printf("pos : %d, sign : %s\n", pos_s, sign)
 
 		if strings.Index(tab[i], "|") != -1 {
 			e := strings.Split(tab[i], "|")
@@ -218,7 +257,7 @@ func RPuis(nb string, puis int, wEqs int, U *Unknown, sign string) {
 		} else if puis == 2 {
 			Eq.A += t1
 		}
-	} // faire le modulo, le /, le *
+	}
 
 	U.Eqs[wEqs] = Eq
 }

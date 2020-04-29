@@ -41,6 +41,7 @@ bonus :
  - equations :
 
   - affichage resultat en fraction et en decimal
+  - resolution equations du type f(x) / ... = 0
 
  - commandes :
 

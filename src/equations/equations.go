@@ -19,6 +19,7 @@ func Resolve(Eq map[int]Equation) (int, float64, string) {
 	var b float64
 	var c string
 
+	fmt.Println(Eq)
 	if len(Eq) == 2 {
 		a, b, c = ResolveNorm(Eq[0], Eq[1])
 	}
