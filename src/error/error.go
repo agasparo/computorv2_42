@@ -30,6 +30,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 	tab := data
 	neg := 0
 	ajj := -1
+	tmp := ""
 
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
@@ -47,7 +48,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 
 			index := maps.Array_search(tab, ")")
 			if index == -1 {
-				return ("'" + tab[i] + "' isn't defined")
+				return ("'" + tab[i] + "' isn't defined 1")
 			}
 			tab[i] = maps.Add(tab, tab[i], i + 1, index + 1)
 			tab = maps.MapSliceCount(tab, i + 1, i - index)
@@ -56,21 +57,36 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			ajj = index + 1
 		}
 
+		if strings.Index(tab[i], "ˆ") != -1 || strings.Index(tab[i], "^") != -1 {
+			nstr := strings.Split(tab[i], "ˆ")
+			if len(nstr) == 1 {
+				nstr = strings.Split(tab[i], "^")
+			}
+			if tab[i + 1] == "-" {
+				tab[i] = tab[i] + tab[i + 1] + tab[i + 2]
+				tab = maps.MapSlice(tab, i + 1)
+				tab = maps.Reindex(tab)
+				tab = maps.Clean(tab)
+				ajj = i + 1
+			}
+		}
+
 		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i], Dat, 0) {
 			if strings.Count(tab[i], "i") > 1 {
 				
 				if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
-					return ("'" + tab[i] + "' isn't defined")
+					return ("'" + tab[i] + "' isn't defined 2")
 				}
 			}
-			tab[i] = strings.ReplaceAll(tab[i], "i", "")
 			is_i = 1
+			tmp = tab[i]
+			tab[i] = strings.ReplaceAll(tab[i], "i", "")
 		}
 
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i], Dat, 0) {
 
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) && !ResFunct(tab[i], Dat) {
-				return ("'" + tab[i] + "' isn't defined")
+				return ("'" + tab[i] + "' isn't defined 4")
 			}
 		}
 		if t == 1 {
@@ -86,7 +102,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			}
 		}
 		if is_i == 1 {
-			tab[i] += "i"
+			tab[i] = tmp
 		}
 		if neg == 1 {
 			tab[i] = "-" + tab[i]
@@ -97,6 +113,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		is_i = 0
 		neg = 0
 		ajj = -1
+		tmp = ""
 	}
 	return ("1")
 }

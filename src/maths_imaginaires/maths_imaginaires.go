@@ -191,7 +191,7 @@ func TransPow(nstr []string) (x float64, y float64) {
 	
 	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
-	var a, c, d float64
+	var a, c, d, k float64
 
 	Base := TmpComp{}
 
@@ -203,7 +203,7 @@ func TransPow(nstr []string) (x float64, y float64) {
 		if nstr[i - 1] == "i" {
 			nstr[i - 1] = "1i"
 		}
-		a, _ = TransN(nstr[i])
+		a, k = TransN(nstr[i])
 		if r.MatchString(nstr[i - 1]) {
 			c, d = Trans(nstr[i - 1])
 		} else {
@@ -211,6 +211,9 @@ func TransPow(nstr []string) (x float64, y float64) {
 		}
 		Base.A = c
 		Base.B = d
+		if a == 0 {
+			a = k
+		}
 		Pow(&Base, int64(a))
 		nstr[i - 1] = Float2string(Base)
 	}

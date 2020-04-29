@@ -104,16 +104,16 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[5] = Testes{ "teste du =  : 6", "x == 2 * 3", "You must have just one =" }
 	Tvars[6] = Testes{ "teste du =  : 7", "x = 2 * 3 = 4", "You must have just one =" }
 
-	Tvars[7] = Testes{ "teste avec des lettres  : 1", "x = 23a", "'23a' isn't a number" }
+	Tvars[7] = Testes{ "teste avec des lettres  : 1", "x = 23a", "'23a' isn't defined" }
 	Tvars[8] = Testes{ "teste avec des lettres  : 2", "f(x) = 23a", "in your function (or not an other unknown)" }
 	Tvars[9] = Testes{ "teste avec des lettres  : 3", "f(x) = a23", "in your function (or not an other unknown)" }
 	Tvars[10] = Testes{ "teste avec des lettres  : 4", "f(a) = 23a", "23 * a" }
 	Tvars[11] = Testes{ "teste avec des lettres  : 5", "f(a) = a23", "a * 23" }
-	Tvars[12] = Testes{ "teste avec des lettres  : 6", "f(a) = 23a23", "'23a23' isn't a number" }
-	Tvars[13] = Testes{ "teste avec des lettres  : 7", "c = 23i", "0.000000 + 23.000000i" }
-	Tvars[14] = Testes{ "teste avec des lettres  : 8", "c = i23i", "'i23i' isn't a number" }
-	Tvars[15] = Testes{ "teste avec des lettres  : 9", "x = a23", "'a23' isn't a number" }
-	Tvars[16] = Testes{ "teste avec des lettres  : 9", "x = x23", "'x23' isn't a number" }
+	Tvars[12] = Testes{ "teste avec des lettres  : 6", "f(a) = 23a23", "'23a23' isn't defined" }
+	Tvars[13] = Testes{ "teste avec des lettres  : 7", "c = 23i", "23i" }
+	Tvars[14] = Testes{ "teste avec des lettres  : 8", "c = i23i", "'i23i' isn't defined" }
+	Tvars[15] = Testes{ "teste avec des lettres  : 9", "x = a23", "'a23' isn't defined" }
+	Tvars[16] = Testes{ "teste avec des lettres  : 9", "x = x23", "'x23' isn't defined" }
 
 	Tvars[17] = Testes{ "teste avec les signes : 1", "x = 2 * 3", "6" }
 	Tvars[18] = Testes{ "teste avec les signes : 2", "x = 2 * +3", "6" }
@@ -143,16 +143,16 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[41] = Testes{ "teste avec les signes : 25", "x = -%2", "You have a mistake with your sign" }
 	Tvars[42] = Testes{ "teste avec les signes : 26", "x = *%2", "You have a mistake with your sign" }
 
-	Tvars[43] = Testes{ "teste avec i : 1", "x = 2 * i", "0.000000 + 2.000000i" }
-	Tvars[44] = Testes{ "teste avec i : 2", "x = 2i", "0.000000 + 2.000000i" }
-	Tvars[45] = Testes{ "teste avec i : 3", "x = i2", "0.000000 + 2.000000i" }
-	Tvars[46] = Testes{ "teste avec i : 4", "x = ia2", "'a2' isn't a number" }
-	Tvars[47] = Testes{ "teste avec i : 5", "x = 2ai", "'2a' isn't a number" }
-	Tvars[48] = Testes{ "teste avec i : 6", "x = i2i", "'i2i' isn't a number" }
+	Tvars[43] = Testes{ "teste avec i : 1", "x = 2 * i", "2i" }
+	Tvars[44] = Testes{ "teste avec i : 2", "x = 2i", "2i" }
+	Tvars[45] = Testes{ "teste avec i : 3", "x = i2", "2i" }
+	Tvars[46] = Testes{ "teste avec i : 4", "x = ia2", "'a2' isn't defined" }
+	Tvars[47] = Testes{ "teste avec i : 5", "x = 2ai", "'2a' isn't defined" }
+	Tvars[48] = Testes{ "teste avec i : 6", "x = i2i", "'i2i' isn't defined" }
 
-	Tvars[49] = Testes{ "teste avec ˆ : 1", "x = i2ˆ2", "-4.000000 + 0.000000i" }
-	Tvars[50] = Testes{ "teste avec ˆ : 2", "x = 3ˆ3", "27.000000" }
-	Tvars[51] = Testes{ "teste avec ˆ : 3", "x = 3ˆ3ˆ3", "7625597484987.000000" }
+	Tvars[49] = Testes{ "teste avec ˆ : 1", "x = i2ˆ2", "-4" }
+	Tvars[50] = Testes{ "teste avec ˆ : 2", "x = 3ˆ3", "27" }
+	Tvars[51] = Testes{ "teste avec ˆ : 3", "x = 3ˆ3ˆ3", "7625597484987" }
 	Tvars[52] = Testes{ "teste avec ˆ : 4", "x = 3ˆ0", "1" }
 	Tvars[53] = Testes{ "teste avec ˆ : 5", "x = 0ˆ0", "1" }
 	Tvars[54] = Testes{ "teste avec ˆ : 6", "x = 0ˆ1", "0" }
@@ -203,7 +203,7 @@ func Vars() (map[int]Testes) {
 	Tvars[34] = Testes{ "nom variable -> 0", "0 = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[35] = Testes{ "nom variable -> a0", "a0 = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 
-	Tvars[36] = Testes{ "x = g", "x = g", "isn't a number" }
+	Tvars[36] = Testes{ "x = g", "x = g", "isn't defined" }
 	Tvars[37] = Testes{ "3 = 4", "3 = 4", "Your var must be just with alpha caracteres and not i" }
 	return (Tvars)
 }
@@ -212,11 +212,11 @@ func Functions() (map[int]Testes) {
 
 	Tvars := make(map[int]Testes)
 	Tvars[0] = Testes{ "teste avec les fonctions (syntaxe) : 1", "f(x = 3 + 2x", "Your var must be just with alpha caracteres and not i" }
-	Tvars[1] = Testes{ "teste avec les fonctions (syntaxe): 2", "fx) = 3 + 2x", "'2x' isn't a number" }
+	Tvars[1] = Testes{ "teste avec les fonctions (syntaxe): 2", "fx) = 3 + 2x", "'2x' isn't defined" }
 	Tvars[2] = Testes{ "teste avec les fonctions (syntaxe): 3", "f() = 3 + 2x", "You must have an unknown" }
 	Tvars[3] = Testes{ "teste avec les fonctions (syntaxe): 4", "f(x) = 3 + 2", "in your function (or not an other unknown)" }
 	Tvars[4] = Testes{ "teste avec les fonctions (syntaxe): 5", "f(x) = 3 + 2y", "in your function (or not an other unknown)" }
-	Tvars[5] = Testes{ "teste avec les fonctions (syntaxe): 6", "f(x) = 3x + 2y", "isn't a number" }
+	Tvars[5] = Testes{ "teste avec les fonctions (syntaxe): 6", "f(x) = 3x + 2y", "isn't defined" }
 	Tvars[6] = Testes{ "teste avec les fonctions (syntaxe): 7", "f(x) = 3x + 2", "3 * x + 2" }
 	Tvars[7] = Testes{ "teste avec les fonctions (syntaxe): 8", "f(x) = x", "x" }
 	Tvars[8] = Testes{ "teste avec les fonctions (syntaxe): 9", "f(x) = ", "in your function (or not an other unknown)" }
