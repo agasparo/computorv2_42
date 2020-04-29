@@ -26,7 +26,9 @@ bonus :
 
   - calcul de deg to rad
   - calcul rad to deg
-  - convertion des distances
+  - convertion des metres
+  - convertion des grammes
+  - convertion des litres
 
  - puissances
 
