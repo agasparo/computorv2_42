@@ -94,7 +94,6 @@ func getSignEq(U *Unknown) (string, int) {
 				return "Sorry i can't resolve this equation", 0
 			}
 		}
-
 		if len(sign) == 1 && (len(U.Part2) > 2 || (U.Part2[0] != "0" && U.Part2[0] != "-0"))  {
 			return "Sorry i can't resolve this equation", 0
 		}
@@ -103,6 +102,11 @@ func getSignEq(U *Unknown) (string, int) {
 		}
 		if sign == "/" {
 			return "1", 2
+		}
+	}
+	for a := 0; a < len(U.Tab); a++ {
+		if strings.Index(U.Tab[a], "(") != -1 {
+			return "Sorry i can't resolve this equation", 0
 		}
 	}
 	return "1", 3
@@ -154,7 +158,6 @@ func GetAllSign(str string, x string, U *Unknown, WE int, signdeb string) {
 	var puis int
 	var sign int
 
-	fmt.Println(str)
 	if str[0] == '-' || str[0] == '+' {
 		if str[0] == '-' {
 			sign = 1
