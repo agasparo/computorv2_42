@@ -37,9 +37,43 @@ func IsSoluble(U Unknown) (bool) {
 
 func Init(U *Unknown, Dat types.Variable) (string) {
 
-	RempEq(U.Tab, U)
-	fmt.Println(U)
-	return ("|")
+
+	res := getSignEq(U)
+	if res == "1" {
+		//RempEq(U.Tab, U)
+		return ("|")
+	}
+	return (res)
+}
+
+func getSignEq(U *Unknown) (string) {
+
+	if len(U.Part1) > 2 {
+		
+		sign := InitSign(U.Part1[1])
+		fmt.Println(sign)
+		for i := 3; i < len(U.Part1); i += 2 {
+
+			fmt.Println(U.Part1[i])
+			if strings.Index(sign, U.Part1[i]) == -1 {
+				return ("Sorry i can't resolve this equation 1")
+			}
+		}
+
+		fmt.Println(U.Part2)
+		if len(sign) == 1 && (len(U.Part2) > 2 || (U.Part2[0] != "0" && U.Part2[0] != "-0"))  {
+			return ("Sorry i can't resolve this equation 2")
+		}
+	}
+	return ("1")
+}
+
+func InitSign(str string) (string) {
+
+	if str == "+" || str == "-" {
+		return ("+-")
+	}
+	return (str)
 }
 
 func RempEq(tab map[int]string, U *Unknown) {
