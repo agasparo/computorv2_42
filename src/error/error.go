@@ -47,7 +47,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 
 			index := maps.Array_search(tab, ")")
 			if index == -1 {
-				return ("'" + tab[i] + "' isn't defined 0")
+				return ("'" + tab[i] + "' isn't defined")
 			}
 			tab[i] = maps.Add(tab, tab[i], i + 1, index + 1)
 			tab = maps.MapSliceCount(tab, i + 1, i - index)
@@ -60,7 +60,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			if strings.Count(tab[i], "i") > 1 {
 				
 				if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
-					return ("'" + tab[i] + "' isn't defined 1")
+					return ("'" + tab[i] + "' isn't defined")
 				}
 			}
 			tab[i] = strings.ReplaceAll(tab[i], "i", "")
@@ -70,7 +70,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i], Dat, 0) {
 
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) && !ResFunct(tab[i], Dat) {
-				return ("'" + tab[i] + "' isn't defined 2")
+				return ("'" + tab[i] + "' isn't defined")
 			}
 		}
 		if t == 1 {
