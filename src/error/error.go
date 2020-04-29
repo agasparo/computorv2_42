@@ -77,7 +77,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
 			if !checktab(tes, Dat) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
-				if !ResFunct(tab[i], Dat) {
+				if !ResFunct(tab[i], Dat) && parser.IsFunc(tab[i], 0) != 1 {
 					return ("'" + tab[i] + "' isn't defined 3")
 				}
 			}
@@ -182,8 +182,10 @@ func IsUsu(data map[int]string, vars types.Variable) (bool) {
 		}
 		if !parser.IsNumeric(data[i][p1 + 1:p2]) { 
 			nstr := data[i][0:p1] + "(x)"
-			if _, ok := vars.Table[strings.ToLower(nstr)]; ok {
-				return (true)
+			if val, ok := vars.Table[strings.ToLower(nstr)]; ok {
+				if strings.Index(val.Value(), "|") != -1 {
+					return (true)
+				}
     		}
     	}
 	}

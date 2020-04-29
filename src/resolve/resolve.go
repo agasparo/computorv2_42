@@ -8,6 +8,7 @@ import (
 	"strings"
 	"strconv"
 	"equations"
+	"maps"
 )
 
 type Unknown struct {
@@ -41,14 +42,14 @@ func Init(U *Unknown, Dat types.Variable) (string) {
 	if res == "1" {
 		if t == 2 {
 			ModMAps(U)
-			RempEq(U.Tab, U)
+			RempEq(U.Tab, U, Dat)
 			return ("|")
 		}
 		if t == 1 {
 			//RempEq(U.Tab[0], U)
 			return ("|")
 		}
-		RempEq(U.Tab, U)
+		RempEq(U.Tab, U, Dat)
 		return ("|")
 	}
 	return (res)
@@ -115,7 +116,7 @@ func InitSign(str string) (string) {
 	return (str)
 }
 
-func RempEq(tab map[int]string, U *Unknown) {
+func RempEq(tab map[int]string, U *Unknown, Dat types.Variable) {
 
 	WE := 0
 	pos_s := -3
@@ -140,7 +141,8 @@ func RempEq(tab map[int]string, U *Unknown) {
 
 		if strings.Index(tab[i], "|") != -1 {
 			e := strings.Split(tab[i], "|")
-			GetAllSign(e[0], e[1], U, WE, sign)
+			ck := 0
+			GetAllSign(maps.Join(parser.Checkfunc(parser.GetAllIma(e[0], &ck), Dat), ""), e[1], U, WE, sign)
 		} else {
 			RPuis(tab[i], 0, WE, U, sign)
 		}
