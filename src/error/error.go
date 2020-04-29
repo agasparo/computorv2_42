@@ -85,7 +85,11 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 
 		if !parser.IsNumeric(tab[i]) && t == 0 && tab[i] != "i" && !IsPower(tab[i], Dat, 0) {
 
+			if is_i == 1 {
+				tab[i] = tmp
+			}
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) && !ResFunct(tab[i], Dat) {
+				tab[i] = strings.ReplaceAll(tab[i], "i", "")
 				return ("'" + tab[i] + "' isn't defined 4")
 			}
 		}
