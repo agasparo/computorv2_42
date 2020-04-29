@@ -17,6 +17,8 @@ type C struct {
 type Mesure struct {
 
 	Dist [7]string
+	Poid [7]string
+	Liq	 [7]string
 }
 
 const PI = 3.141592653589793
@@ -31,6 +33,7 @@ func Wicht(str string, str1 string) {
 	res := strings.Split(str, "-")
 	if len(res) != 2 || str1 == "" {
 		error.SetError("Usage : conv [value-unite] [unite to convert] !! dont forget the '-' !!")
+		return
 	}
 	Conv.Unit = res[1]
 	Conv.Val, _ = strconv.ParseFloat(res[0], 64)
@@ -45,7 +48,11 @@ func Switches(Conv C, M Mesure) {
 	} else if Conv.Unit == "deg" && Conv.To == "rad" {
 		Show(DegToRad(Conv.Val), Conv)
 	} else if contains(M.Dist, Conv.Unit) && contains(M.Dist, Conv.To) {
-		Show(Distance(M, Conv), Conv)
+		Show(Converts(M.Dist, Conv), Conv)
+	} else if contains(M.Poid, Conv.Unit) && contains(M.Poid, Conv.To) {
+		Show(Converts(M.Poid, Conv), Conv)
+	} else if contains(M.Liq, Conv.Unit) && contains(M.Liq, Conv.To) {
+		Show(Converts(M.Liq, Conv), Conv)
 	} else {
 		fmt.Printf("Sorry i can't convert %s to %s\n", Conv.Unit, Conv.To)
 	}
@@ -59,6 +66,8 @@ func Show(res float64, Conv C) {
 func RempUnit(M *Mesure) {
 
 	M.Dist = [7]string{"km", "hm", "dam", "m", "dm", "cm", "mm"}
+	M.Poid = [7]string{"kg", "hg", "dag", "g", "dg", "cg", "mg"}
+	M.Liq = [7]string{"kl", "hl", "dal", "l", "dl", "cl", "ml"}
 }
 
 func contains(arr [7]string, str string) (bool) {
@@ -103,10 +112,10 @@ func DegToRad(angle float64) (float64) {
 	return ((angle * PI) / 180)
 }
 
-func Distance(M Mesure, Conv C) (res float64) {
+func Converts(arr [7]string, Conv C) (res float64) {
 
-	index_unit := getIndex(M.Dist, Conv.Unit)
-	index_to := getIndex(M.Dist, Conv.To)
+	index_unit := getIndex(arr, Conv.Unit)
+	index_to := getIndex(arr, Conv.To)
 
 	if index_to == index_unit {
 		return (Conv.Val)
