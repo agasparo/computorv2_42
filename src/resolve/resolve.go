@@ -154,6 +154,7 @@ func GetAllSign(str string, x string, U *Unknown, WE int, signdeb string) {
 	var puis int
 	var sign int
 
+	fmt.Println(str)
 	if str[0] == '-' || str[0] == '+' {
 		if str[0] == '-' {
 			sign = 1

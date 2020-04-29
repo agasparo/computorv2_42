@@ -106,6 +106,10 @@ func Reindex(data map[int]string) (map[int]string) {
 			tab[len(tab)] = data[i]
 		}
 	}
+
+	if getminkey(data) == len(data) {
+		tab[0] = data[len(data)]
+	}
 	return (tab)
 }
 
@@ -115,7 +119,7 @@ func getminkey(data map[int]string) (int) {
 
 	for index, element := range data {
 
-		if element != "" && (index == -1 || index < min) {
+		if element != "" && (min == -1 || index < min) {
 			min = index
 		}
 	}
