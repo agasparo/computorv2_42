@@ -45,24 +45,38 @@ func Init(U *Unknown, Dat types.Variable) (string) {
 func RempEq(tab map[int]string, U *Unknown) {
 
 	WE := 0
+	pos_s := -3
+	var sign string
 
 	for i := 0; i < len(tab); i++ {
 		tab[i] = strings.ReplaceAll(tab[i], " ", "")
 
 		if (len(U.Part1) - 1) / 2 < i {
 			WE = 1
+			pos_s = -3
 		}
+
+		pos_s += 2
+		if WE == 1 && i - 1 >= 0 {
+			fmt.Printf("2\n")
+			sign = U.Part2[pos_s]
+		} else if WE == 0 && i - 1 >= 0 {
+			fmt.Printf("1\n")
+			sign = U.Part1[pos_s]
+		}
+
+		fmt.Printf("pos : %d, sign : %s\n", pos_s, sign)
 
 		if strings.Index(tab[i], "|") != -1 {
 			e := strings.Split(tab[i], "|")
-			GetAllSign(e[0], e[1], U, WE)
+			GetAllSign(e[0], e[1], U, WE, sign)
 		} else {
-			RPuis(tab[i], 0, WE, U)
+			RPuis(tab[i], 0, WE, U, sign)
 		}
 	}
 }
 
-func GetAllSign(str string, x string, U *Unknown, WE int) {
+func GetAllSign(str string, x string, U *Unknown, WE int, signdeb string) {
 
 	var puis int
 	var sign int
@@ -89,9 +103,9 @@ func GetAllSign(str string, x string, U *Unknown, WE int) {
 			puis = 0
 		}
 		if sign == 1 {
-			RPuis(getNumber("-" + str[0:i], x), puis, WE, U)
+			RPuis(getNumber("-" + str[0:i], x), puis, WE, U, signdeb)
 		} else {
-			RPuis(getNumber(str[0:i], x), puis, WE, U)
+			RPuis(getNumber(str[0:i], x), puis, WE, U, signdeb)
 		}
 		str = str[i:len(str)]
 		sign = 0
@@ -100,7 +114,7 @@ func GetAllSign(str string, x string, U *Unknown, WE int) {
 	if puis < 0 {
 		puis = 0
 	}
-	RPuis(getNumber(str, x), puis, WE, U)
+	RPuis(getNumber(str, x), puis, WE, U, signdeb)
 }
 
 
@@ -140,7 +154,7 @@ func GetIndex(str string) (int) {
 	return (max)
 }
 
-func RPuis(nb string, puis int, wEqs int, U *Unknown) {
+func RPuis(nb string, puis int, wEqs int, U *Unknown, sign string) {
 
 	var Eq equations.Equation
 
@@ -156,13 +170,23 @@ func RPuis(nb string, puis int, wEqs int, U *Unknown) {
 	
 	t1, _ := strconv.ParseFloat(nb, 64)
 	
-	if puis == 0 {
-		Eq.C += t1
-	} else if puis == 1 {
-		Eq.B += t1
-	} else if puis == 2 {
-		Eq.A += t1
-	}
+	if sign == "-" {
+		if puis == 0 {
+			Eq.C -= t1
+		} else if puis == 1 {
+			Eq.B -= t1
+		} else if puis == 2 {
+			Eq.A -= t1
+		}
+	} else if sign == "+" || sign == "" {
+		if puis == 0 {
+			Eq.C += t1
+		} else if puis == 1 {
+			Eq.B += t1
+		} else if puis == 2 {
+			Eq.A += t1
+		}
+	} // faire le modulo, le /, le *
 
 	U.Eqs[wEqs] = Eq
 }
