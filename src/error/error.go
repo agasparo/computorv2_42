@@ -279,7 +279,9 @@ func checktab(tes []string, Dat types.Variable) (bool) {
 		return (false)
 	}
 	if tes[0] != "" && (len(tes) >= 2 && tes[1] != "") {
-		return (false)
+		if strings.Index(tes[1], "ˆ") == -1 && strings.Index(tes[1], "^") == -1 {
+			return (false)
+		}
 	}
 	return (true)
 }

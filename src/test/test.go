@@ -41,6 +41,10 @@ func DefineAndRun() {
 	Func_usu.Length = len(Func_usu.tab)
 	Run(Func_usu.tab, Func_usu)
 
+	Sujet1 := Cat{ "Sujet1" ,  Sujet1(), 0 }
+	Sujet1.Length = len(Sujet1.tab)
+	Run(Sujet1.tab, Sujet1)
+
 	Calcul := Cat{ "Calcul" ,  Calcul(), 0 }
 	Calcul.Length = len(Calcul.tab)
 	Run(Calcul.tab, Calcul)
@@ -244,6 +248,25 @@ func Functions_usuelles() (map[int]Testes) {
 	Tvars[10] = Testes{ "expo function : 1 exp(0)", "c = exp(0)", "1" }
 	Tvars[11] = Testes{ "expo function : 2 exp(10)", "c = exp(10)", "22026.4657" }
 	Tvars[12] = Testes{ "expo function : 3 exp(-2)", "c = exp(-2)", "0.1353" }
+	return (Tvars)
+}
+
+func Sujet1() (map[int]Testes) {
+
+	Tvars := make(map[int]Testes)
+
+	Tvars[0] = Testes{ "varA = 2", "varA = 2", "2" }
+	Tvars[1] = Testes{ "varB = 4.242", "varB = 4.242", "4.242" }
+	Tvars[2] = Testes{ "varC = -4.3", "varC = -4.3", "-4.3" }
+
+	Tvars[3] = Testes{ "varA = 2*i + 3", "varA = 2*i + 3", "3 + 2i" }
+	Tvars[4] = Testes{ "varB = -4i - 4", "varB = -4i - 4", "-4 + -4i" }
+
+	Tvars[5] = Testes{ "funA(x) = 2*x^5 + 4x^2 - 5*x + 4", "funA(x) = 2*x^5 + 4x^2 - 5*x + 4", "2 * x^5 + 4 * x^2 - 5*x + 4" }
+	Tvars[6] = Testes{ "43 * y / (4 % 2 * y)", "43 * y / (4 % 2 * y)", "43 * y / (4 % 2 * y)" }
+	Tvars[7] = Testes{ "funC(z) = -2 * z - 5", "funC(z) = -2 * z - 5", "-2 * z - 5" }
+
+	Tvars[8] = Testes{ "y = 2 * i - 4", "y = 2 * i - 4", "-4 + 2i" }
 	return (Tvars)
 }
 
