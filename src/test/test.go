@@ -265,8 +265,6 @@ func Sujet1() (map[int]Testes) {
 	Tvars[5] = Testes{ "funA(x) = 2*x^5 + 4x^2 - 5*x + 4", "funA(x) = 2*x^5 + 4x^2 - 5*x + 4", "2 * x^5 + 4 * x^2 - 5*x + 4" }
 	Tvars[6] = Testes{ "43 * y / (4 % 2 * y)", "43 * y / (4 % 2 * y)", "43 * y / (4 % 2 * y)" }
 	Tvars[7] = Testes{ "funC(z) = -2 * z - 5", "funC(z) = -2 * z - 5", "-2 * z - 5" }
-
-	Tvars[8] = Testes{ "y = 2 * i - 4", "y = 2 * i - 4", "-4 + 2i" }
 	return (Tvars)
 }
 
