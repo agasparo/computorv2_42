@@ -51,7 +51,6 @@ func getSignEq(U *Unknown) (string) {
 	if len(U.Part1) > 2 {
 		
 		sign := InitSign(U.Part1[1])
-		fmt.Println(sign)
 		for i := 3; i < len(U.Part1); i += 2 {
 
 			fmt.Println(U.Part1[i])
@@ -60,7 +59,6 @@ func getSignEq(U *Unknown) (string) {
 			}
 		}
 
-		fmt.Println(U.Part2)
 		if len(sign) == 1 && (len(U.Part2) > 2 || (U.Part2[0] != "0" && U.Part2[0] != "-0"))  {
 			return ("Sorry i can't resolve this equation 2")
 		}
