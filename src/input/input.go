@@ -17,6 +17,6 @@ func ReadSTDIN(input *Data) {
 
 	reader := bufio.NewReader(os.Stdin)
 	text, _ := reader.ReadString('\n')
-	input.Input = strings.Split(strings.ReplaceAll(text, "\n", ""), " ")
+	input.Input = strings.Split(strings.ReplaceAll(strings.ReplaceAll(text, "\t", ""), "\n", ""), " ")
 	input.Length = len(input.Input)
 }
