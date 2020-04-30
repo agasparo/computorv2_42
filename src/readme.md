@@ -49,4 +49,7 @@ bonus :
  - commandes :
 
   - affiche les variables stockes
-  - avec exit le programme quite auto 
+  - avec exit le programme quite auto
+  - affichage de l'historique
+  - conversion
+  - graphique
