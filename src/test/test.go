@@ -224,8 +224,7 @@ func Functions() (map[int]Testes) {
 	Tvars[6] = Testes{ "teste avec les fonctions (syntaxe): 7", "f(x) = 3x + 2", "3 * x + 2" }
 	Tvars[7] = Testes{ "teste avec les fonctions (syntaxe): 8", "f(x) = x", "x" }
 	Tvars[8] = Testes{ "teste avec les fonctions (syntaxe): 9", "f(x) = ", "in your function (or not an other unknown)" }
-	//Tvars[9] = Testes{ "teste avec les fonctions (syntaxe): 10", "f(x) = xx", "jsp" }
-	//teste de remplacer les fonctions usuelles
+	Tvars[9] = Testes{ "teste avec les fonctions (syntaxe): 10", "f(x) = xx", "jsp" }
 	return (Tvars)
 }
 
