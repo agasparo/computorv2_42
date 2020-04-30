@@ -92,6 +92,22 @@ func AddMul(str string, x string, tab map[int]string, i int) {
 			tab[i + 2] = x
 		}
 		tab = RempTab(tab, Slice1, i + 3)
+	} else{
+		nstr := strings.Split(str, x)
+		if nstr[0] != "" && nstr[1] != "" {
+			Slice1 := SliceTab(tab, i + 1, len(tab))
+			if strings.Index(nstr[0], "ˆ") != -1 || strings.Index(nstr[0], "^") != -1 {
+				tab[i + 0] = nstr[0] + x
+				tab[i + 1] = "*"
+				tab[i + 2] = nstr[1]
+			}
+			if strings.Index(nstr[1], "ˆ") != -1 || strings.Index(nstr[1], "^") != -1 {
+				tab[i + 0] = nstr[0]
+				tab[i + 1] = "*"
+				tab[i + 2] = x + nstr[1]
+			}
+			tab = RempTab(tab, Slice1, i + 3)
+		}
 	}
 }
 

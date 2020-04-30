@@ -62,7 +62,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			if len(nstr) == 1 {
 				nstr = strings.Split(tab[i], "^")
 			}
-			if tab[i + 1] == "-" {
+			if tab[i + 1] == "-" && nstr[1] == "" {
 				tab[i] = tab[i] + tab[i + 1] + tab[i + 2]
 				tab = maps.MapSlice(tab, i + 1)
 				tab = maps.Reindex(tab)
