@@ -3,6 +3,7 @@ package types
 import (
 	"fmt"
 	"time"
+	"strings"
 )
 
 type AllT interface {
@@ -61,7 +62,7 @@ type HistoData struct {
 
 func (hd *HistoData) Value() (string) {
 
-	return (fmt.Sprintf("[%s] %s --> %s", hd.When.Format("Mon Jan _2 15:04:05 2006"), hd.Command, hd.Res))
+	return (fmt.Sprintf("[%s] %s --> %s", hd.When.Format("Mon Jan _2 15:04:05 2006"), hd.Command, strings.ReplaceAll(hd.Res, "\n", "")))
 }
 
 func (r *Rationel) Value() (string) {
