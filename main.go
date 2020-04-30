@@ -248,6 +248,9 @@ func Function_var(data map[int] string, Dat types.Variable) (bool) {
 			inter++
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
+			if p2 == -1 && data[i + 1] == "-" {
+				return (true)
+			}
 			nstr := data[i][p1 + 1:p2]
 			if parser.IsNumeric(nstr) || error.Is_defined(nstr, Dat) {
 				return (true)

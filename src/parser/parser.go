@@ -111,7 +111,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			name, value := GetDataFunc(data[i], Vars.Table)
 			x := Getx(name)
 			r := data[i][p1 + 1:p2]
-			if IsExpression(r, x) {
+			if IsExpression(r, x, Vars) {
 				data[0] = "You must have only one number for unknown not an expression"
 				return (data)
 			}
@@ -124,7 +124,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 					return (data)
 				}
 			}
-			nstr := strings.ReplaceAll(value, x, r)
+			nstr := strings.ReplaceAll(value, x, replace_vars.GetVars(&Vars, r))
 			tmp := strings.ReplaceAll(data[i], Remp(name, x, r, Vars), "(" + nstr + ")")
 			nt := GetAllIma(strings.ReplaceAll(tmp, " ", ""), &parser_err)
 			data = maps.CombineN(data, nt, i)
@@ -134,9 +134,9 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 	return (data)
 }
 
-func IsExpression(str string, x string) (bool) {
+func IsExpression(str string, x string, Vars types.Variable) (bool) {
 
-	if str == x {
+	if str == x || Is_defined(str, Vars) {
 		return (false)
 	}
 
@@ -179,6 +179,14 @@ func IsExpression(str string, x string) (bool) {
 	return (false)
 }
 
+func Is_defined(str string, vars types.Variable) (bool) {
+
+	if _, ok := vars.Table[strings.ToLower(str)]; ok {
+		return (true)
+    }
+    return (false)
+}
+
 func Remp(str string, x string, r string,  Vars types.Variable) (string) {
 
 	p3 := strings.Index(str, "(")
@@ -187,7 +195,7 @@ func Remp(str string, x string, r string,  Vars types.Variable) (string) {
 	if p3 < 0 || p4 < 0 {
 		return (strings.ReplaceAll(str, x, r))
 	}
-	as := strings.ReplaceAll(str[p3 + 1:p4], x, replace_vars.GetVars(&Vars, r))
+	as := strings.ReplaceAll(str[p3 + 1:p4], x, r)
 	str = str[0:p3 + 1] + as + str[p4:len(str)]
 	return (str)
 }

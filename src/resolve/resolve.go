@@ -291,7 +291,7 @@ func IsEquation(U *Unknown, Dat types.Variable, t int) (bool) {
 			p1 := strings.Index(tab[i], "(")
 			p2 := strings.Index(tab[i], ")")
 			r := tab[i][p1 + 1:p2]
-			if parser.IsExpression(x, r) {
+			if parser.IsExpression(x, r, Dat) {
 				return (false)
 			}
 			_, val := parser.GetDataFunc(tab[i], Dat.Table)

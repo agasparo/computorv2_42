@@ -27,7 +27,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 
 	a := 0
 	is_i := 0
-	tab := data
+	tab := maps.Copy(data)
 	neg := 0
 	ajj := -1
 	tmp := ""
@@ -44,7 +44,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			tab[i] = tab[i][1:len(tab[i])]
 		}
 
-		if strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
+		if parser.IsFunc(tab[i], 1) == 1 && strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
 
 			index := maps.Array_search(tab, ")")
 			if index == -1 {
@@ -55,6 +55,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			tab = maps.Reindex(tab)
 			tab = maps.Clean(tab)
 			ajj = index + 1
+		} else if parser.IsFunc(tab[i], 1) != 1 && parser.IsFunc(tab[i], 0) != 1 {
+			tab[i] = strings.ReplaceAll(tab[i], "(", "")
+			tab[i] = strings.ReplaceAll(tab[i], ")", "")
 		}
 
 		if strings.Index(tab[i], "ˆ") != -1 || strings.Index(tab[i], "^") != -1 {
@@ -73,7 +76,6 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 
 		if strings.Index(tab[i], "i") != -1 && tab[i] != "i" && t == 0 && !IsUsu(tab, Dat) && !IsPower(tab[i], Dat, 0) {
 			if strings.Count(tab[i], "i") > 1 {
-				
 				if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) {
 					return ("'" + tab[i] + "' isn't defined 2")
 				}
@@ -90,7 +92,14 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			}
 			if !IsUsu(tab, Dat) && !Is_defined(tab[i], Dat) && !ResFunct(tab[i], Dat) {
 				tab[i] = strings.ReplaceAll(tab[i], "i", "")
-				return ("'" + tab[i] + "' isn't defined 4")
+				if strings.Index(tab[i], "(") != -1 {
+					x := maths_functions.Getx(tab[i])
+					if !Is_defined(x, Dat) {
+						return ("'" + x + "' isn't defined 4")
+					}
+				} else {
+					return ("'" + tab[i] + "' isn't defined 4")
+				}
 			}
 		}
 		if t == 1 {

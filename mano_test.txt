@@ -1,0 +1,24 @@
+------ test 1 ------
+
+> x = 2
+2
+> y = x
+2
+> y = 7
+7
+> y = 2 * i - 4
+-4 + 2i
+
+
+------ test 2 ------
+
+> varA = 2 + 4 *2 - 5 %4 + 2 * (4 + 5)
+27
+> varB = 2 * varA - 5 %4
+53
+> funA(x) = varA + varB * 4 - 1 / 2 + x
+238.5 + x
+> varC = 2 * varA - varB
+1
+> varD = funA(varC)
+239.5

@@ -138,3 +138,13 @@ func Clean(data map[int]string) (map[int]string) {
 	}
 	return (tab)
 }
+
+func Copy(data map[int]string) (map[int]string) {
+
+	tab := make(map[int]string)
+
+	for i := 0; i < len(data); i++ {
+		tab[i] = data[i]
+	}
+	return (tab)
+}
