@@ -18,6 +18,7 @@ import (
 	"resolve"
 	"equations"
 	"maps"
+	"time"
 )
 
 func main() {
@@ -37,10 +38,12 @@ func Run() {
 
 	Inputs := input.Data{}
 	Vars := types.Variable{}
+	Histo := types.Histo{}
 	arg := ""
 	arg1 := ""
 
 	Vars.Table = make(map[string]types.AllT)
+	Histo.Table = make(map[int]types.HistoData)
 	usuelles_functions.Init(&Vars)
 
 	for i := 1; i == 1; i = 1 {
@@ -56,9 +59,10 @@ func Run() {
 		if Inputs.Length == 3 {
     		arg1 = Inputs.Input[2]
 		}
-		if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars) != 1 {
+		if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars, Histo) != 1 {
 			r, t, v := basic_check(Inputs, &Vars, Vars)
 			if r == 1 {
+				Histo.Table[len(Histo.Table)] = types.HistoData{ time.Now(), strings.Join(Inputs.Input, " "), Vars.Table[v].Value() }
 				show.ShowVars(t, Vars.Table[v])
 			}
 		}
@@ -69,10 +73,12 @@ func RunTest(str string) {
 
 	Inputs := input.Data{ strings.Split(str, " "), 1 }
 	Vars := types.Variable{}
+	Histo := types.Histo{}
 	arg := ""
 	arg1 := ""
 
 	Vars.Table = make(map[string]types.AllT)
+	Histo.Table = make(map[int]types.HistoData)
 	usuelles_functions.Init(&Vars)
 	if Inputs.Input[0] == "exit" {
 		fmt.Println("bye")
@@ -84,9 +90,10 @@ func RunTest(str string) {
 	if Inputs.Length == 3 {
     	arg1 = Inputs.Input[2]
 	}
-	if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars) != 1 {
+	if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars, Histo) != 1 {
 		r, t, v := basic_check(Inputs, &Vars, Vars)
 		if r == 1 {
+			Histo.Table[len(Histo.Table)] = types.HistoData{ time.Now(), strings.Join(Inputs.Input, " "), Vars.Table[v].Value() }
 			show.ShowVars(t, Vars.Table[v])
 		}
 	}
@@ -95,7 +102,6 @@ func RunTest(str string) {
 func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (int, int, string) {
 
 	t := -1
-
 	tmp := strings.Join(Inputs.Input, " ")
 	str := strings.Split(tmp, "=")
 	if Err(0, error.Syntaxe(tmp), true, "1") {

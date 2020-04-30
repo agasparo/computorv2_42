@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+	"time"
 )
 
 type AllT interface {
@@ -44,7 +45,24 @@ type Variable struct {
 	Table map[string]AllT
 }
 
+type Histo struct {
+
+	Table map[int]HistoData
+}
+
+type HistoData struct {
+
+	When time.Time
+	Command string
+	Res string
+}
+
 /**************************************************************/
+
+func (hd *HistoData) Value() (string) {
+
+	return (fmt.Sprintf("[%s] %s --> %s", hd.When.Format("Mon Jan _2 15:04:05 2006"), hd.Command, hd.Res))
+}
 
 func (r *Rationel) Value() (string) {
 

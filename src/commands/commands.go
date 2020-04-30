@@ -13,7 +13,7 @@ import (
 	"convert"
 )
 
-func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) {
+func IsCommand(str string, str1 string, str2 string, Vars types.Variable, Histo types.Histo) (int) {
 
 	if str == "list" {
 		GetAllVars(Vars.Table)
@@ -35,12 +35,30 @@ func IsCommand(str string, str1 string, str2 string, Vars types.Variable) (int) 
 		Convert(str1, str2)
 		return (1)
 	}
+	if str == "histo" {
+		Histori(Histo.Table)
+		return (1)
+	}
 	return (0)
 }
 
 func Convert(str1 string, str2 string) {
 
 	convert.Wicht(str1, str2)
+}
+
+func Histori(tab map[int]types.HistoData) {
+
+	fmt.Println("List of your history : ")
+
+	w := new(tabwriter.Writer)
+	w.Init(os.Stdout, 0, 8, 2, '\t', tabwriter.Debug|tabwriter.AlignRight)
+	for _, element := range tab {
+
+		fmt.Fprintln(w, element.Value())
+	}
+    fmt.Fprintln(w)
+    w.Flush()
 }
 
 func GetAllVars(tab map[string]types.AllT) {
