@@ -6,7 +6,6 @@ import (
 	"parser"
 	"maths_functions"
 	"types"
-	//"fmt"
 	"maps"
 )
 
@@ -105,7 +104,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		if t == 1 {
 			x := maths_functions.Getx(f)
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
-			if !checktab(tes, Dat) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
+			if !checktab(tes, Dat, tab[i]) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
 				if !ResFunct(tab[i], Dat) && parser.IsFunc(tab[i], 0) != 1 {
 					return ("'" + tab[i] + "' isn't defined 3")
 				}
@@ -283,12 +282,15 @@ func Checkfuncx(str string, str1 string, vars types.Variable) (string) {
 	return ("1")
 }
 
-func checktab(tes []string, Dat types.Variable) (bool) {
+func checktab(tes []string, Dat types.Variable, cmp string) (bool) {
 
 	if tes[0] != "" && !parser.IsNumeric(tes[0]) && !IsPower(tes[0], Dat, 1) {
 		return (false)
 	}
 	if len(tes) >= 2 && tes[1] != "" && !parser.IsNumeric(tes[1]) && !IsPower(tes[1], Dat, 1) {
+		return (false)
+	}
+	if tes[0] == "" && tes[1] == "" && !Is_defined(cmp, Dat) {
 		return (false)
 	}
 	if tes[0] != "" && (len(tes) >= 2 && tes[1] != "") {
