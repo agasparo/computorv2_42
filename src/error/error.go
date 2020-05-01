@@ -62,8 +62,10 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			if !ParaCheck(tab[i]) {
 				return ("you must have n * (z not or z) * n not '" + tab[i] + "'")
 			}
-			tab[i] = strings.ReplaceAll(tab[i], "(", "")
-			tab[i] = strings.ReplaceAll(tab[i], ")", "")
+			if strings.Index(tab[i], "ˆ") == -1 && strings.Index(tab[i], "^") == -1 {
+				tab[i] = strings.ReplaceAll(tab[i], "(", "")
+				tab[i] = strings.ReplaceAll(tab[i], ")", "")
+			}
 		}
 
 		if strings.Index(tab[i], "ˆ") != -1 || strings.Index(tab[i], "^") != -1 {
