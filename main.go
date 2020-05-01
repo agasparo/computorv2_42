@@ -143,15 +143,9 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		}
 		if len(data) == 1 {
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
-			/*if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
-				return 0, 0, ""
-			}*/
 		}
 		if len(data_r) == 1 {
 			data_r = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data_r, "")), " ", ""), &err_pars)
-			/*if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
-				return 0, 0, ""
-			}*/
 		}
 		if data_r[0] != "" {
 			if !resolve.IsEquation(&Eq_Data, Dat, 0) || !resolve.IsEquation(&Eq_Data, Dat, 1) {
@@ -218,9 +212,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		}
 		if len(data) == 1 {
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
-			/*if Err(err_pars, error.In(data, 0, "", Dat), error.Checkvars(str[0]), "1") {
-				return 0, 0, ""
-			}*/
 		}
 		par := parentheses.Parse(data, Vars, false, "")
 		if strings.Index(par[0], "by 0") != -1 {
