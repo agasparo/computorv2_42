@@ -62,7 +62,9 @@ func Run() {
 		if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars, Histo) != 1 {
 			r, t, v := basic_check(Inputs, &Vars, Vars)
 			if r == 1 {
-				Histo.Table[len(Histo.Table)] = types.HistoData{ time.Now(), strings.Join(Inputs.Input, " "), Vars.Table[v].Value() }
+				if t == 0 {
+					Histo.Table[len(Histo.Table)] = types.HistoData{ time.Now(), strings.Join(Inputs.Input, " "), Vars.Table[v].Value() }
+				}
 				show.ShowVars(t, Vars.Table[v])
 			}
 		}
@@ -93,7 +95,9 @@ func RunTest(str string) {
 	if commands.IsCommand(Inputs.Input[0], arg, arg1, Vars, Histo) != 1 {
 		r, t, v := basic_check(Inputs, &Vars, Vars)
 		if r == 1 {
-			Histo.Table[len(Histo.Table)] = types.HistoData{ time.Now(), strings.Join(Inputs.Input, " "), Vars.Table[v].Value() }
+			if t == 0 {
+				Histo.Table[len(Histo.Table)] = types.HistoData{ time.Now(), strings.Join(Inputs.Input, " "), Vars.Table[v].Value() }
+			}
 			show.ShowVars(t, Vars.Table[v])
 		}
 	}

@@ -279,6 +279,9 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 		if str[i] == '+' {
 			str = str[1:len(str)]
 		}
+		if i == len(str) {
+			return (data)
+		}
 		if Impossible(string(str[i]), anc) {
 			*pos = 1
 			return (data)
