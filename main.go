@@ -172,7 +172,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			str_ret = "?"
 			t = 0
 		} else {
-			// test is defined
+			// test is defined f(x) ou autres fonctions
 			par := parentheses.Parse(data, Vars, false, "")
 			if strings.Index(par[0], "by 0") != -1 {
 				error.SetError(par[0])

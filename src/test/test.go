@@ -270,6 +270,16 @@ func Sujet1() (map[int]Testes) {
 	Tvars[10] = Testes{ "3 * 2 = ?", "3 * 2 = ?", "6" }
 	Tvars[11] = Testes{ "1 + 1.5 = ?", "1 + 1.5 = ?", "2.5" }
 	Tvars[12] = Testes{ "c = 4 - 3 - (2 * 3)^2 * (2 - 4) + 4", "c = 4 - 3 - (2 * 3)^2 * (2 - 4) + 4", "77" }
+
+	Tvars[13] = Testes{ "c = () + 3", "c = () + 3", "'' isn't defined" }
+	Tvars[14] = Testes{ "c = (3) + 3", "c = (3) + 3", "6" }
+	Tvars[15] = Testes{ "c = 2 * (3+2)", "c = 2 * (3+2)", "10" }
+	Tvars[16] = Testes{ "c = 2 * 3 + 2", "c = 2 * 3 + 2", "8" }
+	Tvars[17] = Testes{ "c = (2 + 1", "c = (2 + 1", "You must have the same number of parentheses" }
+	Tvars[18] = Testes{ "c = ((2 + 1)", "c = ((2 + 1)", "You must have the same number of parentheses" }
+	Tvars[19] = Testes{ "c = 1.1.15 + 2", "c = 1.1.15 + 2", "'1.1.15' isn't defined" }
+	Tvars[20] = Testes{ "c = -+-+23", "c = -+-+23", "You have a mistake with your sign" }
+	Tvars[21] = Testes{ "c = 2(3 + 2)", "c = 2(3 + 2)", "you must have n * (z not or z) * n not" }
 	return (Tvars)
 }
 

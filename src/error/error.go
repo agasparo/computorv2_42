@@ -31,6 +31,10 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 	ajj := -1
 	tmp := ""
 
+	if strings.Count(maps.Join(data, ""), ")") != strings.Count(maps.Join(data, ""), "(") {
+		return ("You must have the same number of parentheses")
+	}
+
 	if tab[0] == "-" || tab[0] == "+" {
 		a++
 	}
@@ -55,6 +59,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			tab = maps.Clean(tab)
 			ajj = index + 1
 		} else if parser.IsFunc(tab[i], 1) != 1 && parser.IsFunc(tab[i], 0) != 1 {
+			if !ParaCheck(tab[i]) {
+				return ("you must have n * (z not or z) * n not '" + tab[i] + "'")
+			}
 			tab[i] = strings.ReplaceAll(tab[i], "(", "")
 			tab[i] = strings.ReplaceAll(tab[i], ")", "")
 		}
@@ -128,6 +135,21 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		tmp = ""
 	}
 	return ("1")
+}
+
+func ParaCheck(str string) (bool) {
+
+	tes := strings.Split(strings.ReplaceAll(str, " ", ""), "(")
+	if len(tes) == 2 {
+		if parser.IsNumeric(tes[0]) && parser.IsNumeric(tes[1]) {
+			return (false)
+		}
+		tes1 := strings.Split(strings.ReplaceAll(str, " ", ""), ")")
+		if parser.IsNumeric(tes1[0]) && parser.IsNumeric(tes1[1]) {
+			return (false)
+		}
+	}
+	return (true)
 }
 
 func ResFunct(str string, Dat types.Variable) (bool) {
