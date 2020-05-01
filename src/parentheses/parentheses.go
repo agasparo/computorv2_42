@@ -93,6 +93,17 @@ func PowerC(str string, str1 string) (string, string, int) {
 			index := strings.Index(str1, ")")
 			return str1[0:index + 1], str1[index + 1:len(str1)], 1
 		}
+		if str[0] == '(' && str1[len(str1) - 1] == ')' {
+			
+			if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 {
+				index := indexString(str, "(")
+				return str[index:len(str)], str[0:index], 0
+			}
+			if strings.Index(str1, "ˆ") != -1 || strings.Index(str1, "^") != -1 {
+				index := strings.Index(str1, ")")
+				return str1[0:index + 1], str1[index + 1:len(str1)], 1
+			}
+		}
 	}
 	return str, "", 0
 }

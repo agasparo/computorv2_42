@@ -89,6 +89,12 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			if len(nstr) == 1 {
 				nstr = strings.Split(data[i], "^")
 			}
+			if IsFunc(nstr[1], 1) == 1 && strings.Index(nstr[1], ")") == -1 {
+				nstr[1] = nstr[1] + data[i + 1] + data[i + 2]
+				data = maps.MapSlice(data, i + 1)
+				data = maps.Reindex(data)
+				data = maps.Clean(data)
+			}
 			for i := 0; i < len(nstr); i++ {
 				tmp[0] = nstr[i]
 				nData[i] = maps.Join(Checkfunc(tmp, Vars), "")

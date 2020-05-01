@@ -7,7 +7,6 @@ import (
 	"maths_functions"
 	"types"
 	"maps"
-	"fmt"
 )
 
 func SetError(str string) {
@@ -48,8 +47,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			tab[i] = tab[i][1:len(tab[i])]
 		}
 
-		if parser.IsFunc(tab[i], 1) == 1 && strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
-
+		if (parser.IsFunc(tab[i], 1) == 1 || parser.IsFunc(tab[i], 0) == 1) && strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
 			index := maps.Array_search(tab, ")")
 			if index == -1 {
 				return ("'" + tab[i] + "' isn't defined 1")
@@ -66,6 +64,21 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			if strings.Index(tab[i], "ˆ") == -1 && strings.Index(tab[i], "^") == -1 {
 				tab[i] = strings.ReplaceAll(tab[i], "(", "")
 				tab[i] = strings.ReplaceAll(tab[i], ")", "")
+			} else {
+				nstr := strings.Split(tab[i], "ˆ")
+				if len(nstr) == 1 {
+					nstr = strings.Split(tab[i], "^")
+				}
+				if parser.IsFunc(nstr[1], 1) == 1 || parser.IsFunc(nstr[1], 0) == 1 {
+					
+					if len(tab) > i + 1 {
+						tab[i] = tab[i] + tab[i + 1] + tab[i + 2]
+						tab = maps.MapSlice(tab, i + 1)
+						tab = maps.Reindex(tab)
+						tab = maps.Clean(tab)
+						ajj = i + 1
+					}
+				}
 			}
 		}
 
@@ -201,7 +214,6 @@ func IsPower(str string, Dat types.Variable, t int) (bool) {
 				if parser.IsFunc(nstr[i], 1) == 1 {
 					p1 := strings.Index(nstr[i], "(")
 					p2 := strings.Index(nstr[i], ")")
-					fmt.Printf("nstr : %s\n", nstr[i])
 					nstr[i] = nstr[i][p1 + 1:p2]
 				}
 
