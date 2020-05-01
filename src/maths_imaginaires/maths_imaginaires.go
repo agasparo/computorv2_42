@@ -197,6 +197,7 @@ func TransPow(nstr []string) (x float64, y float64) {
 
 	for i := len(nstr) - 1; i > 0; i-- {
 
+		nstr[i] = strings.ReplaceAll(nstr[i], " ", "")
 		if nstr[i] == "i" {
 			nstr[i] = "1i"
 		}
@@ -204,6 +205,7 @@ func TransPow(nstr []string) (x float64, y float64) {
 			nstr[i - 1] = "1i"
 		}
 		a, k = TransN(nstr[i])
+		nstr[i - 1] = strings.ReplaceAll(nstr[i - 1], " ", "")
 		if r.MatchString(nstr[i - 1]) {
 			c, d = Trans(nstr[i - 1])
 		} else {
