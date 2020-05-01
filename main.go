@@ -73,7 +73,7 @@ func Run() {
 
 func RunTest(str string) {
 
-	Inputs := input.Data{ strings.Split(str, " "), 1 }
+	Inputs := input.Data{ strings.Split(input.ReplaceWhiteSpace(str), " "), 1 }
 	Vars := types.Variable{}
 	Histo := types.Histo{}
 	arg := ""

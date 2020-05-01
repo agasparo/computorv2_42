@@ -4,7 +4,6 @@ import (
 	"os"
 	"bufio"
 	"strings"
-	//"fmt"
 )
 
 type Data struct {
@@ -17,6 +16,17 @@ func ReadSTDIN(input *Data) {
 
 	reader := bufio.NewReader(os.Stdin)
 	text, _ := reader.ReadString('\n')
-	input.Input = strings.Split(strings.ReplaceAll(strings.ReplaceAll(text, "\t", ""), "\n", ""), " ")
+	input.Input = strings.Split(ReplaceWhiteSpace(text), " ")
 	input.Length = len(input.Input)
+}
+
+func ReplaceWhiteSpace(text string) (string) {
+
+	text = strings.ReplaceAll(text, "\t", "")
+	text = strings.ReplaceAll(text, "\n", "")
+	text = strings.ReplaceAll(text, "\r", "")
+	text = strings.ReplaceAll(text, "\r\n", "")
+	text = strings.ReplaceAll(text, "\f", "")
+	text = strings.ReplaceAll(text, "\v", "")
+	return (text)
 }
