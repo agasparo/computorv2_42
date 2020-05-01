@@ -78,6 +78,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 						tab = maps.Clean(tab)
 						ajj = i + 1
 					}
+				} else {
+					tab[i] = strings.ReplaceAll(tab[i], "(", "")
+					tab[i] = strings.ReplaceAll(tab[i], ")", "")
 				}
 			}
 		}
