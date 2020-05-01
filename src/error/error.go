@@ -7,6 +7,7 @@ import (
 	"maths_functions"
 	"types"
 	"maps"
+	"fmt"
 )
 
 func SetError(str string) {
@@ -200,6 +201,7 @@ func IsPower(str string, Dat types.Variable, t int) (bool) {
 				if parser.IsFunc(nstr[i], 1) == 1 {
 					p1 := strings.Index(nstr[i], "(")
 					p2 := strings.Index(nstr[i], ")")
+					fmt.Printf("nstr : %s\n", nstr[i])
 					nstr[i] = nstr[i][p1 + 1:p2]
 				}
 
