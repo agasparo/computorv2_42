@@ -182,7 +182,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			str_ret = "?"
 			t = 0
 		}
-	} else if strings.Index(str[1], "[") != -1 || strings.Index(str[1], "]") != -1 {
+	} else if strings.Index(str[1], "[") != -1 || strings.Index(str[1], "]") != -1 || IsMat(str[1], Vars) {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
 		/*if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
 			return 0, 0, ""
@@ -271,6 +271,20 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 	}
 
 	return 1, t, str_ret
+}
+
+func IsMat(str string, Vars *types.Variable) (bool) {
+
+	err_pars := 0
+	data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str), " ", ""), &err_pars)
+	data = maps.Reindex(data)
+	for i := 0; i < len(data); i++ {
+		if _, ok := Vars.Table[strings.ToLower(str)]; ok {
+
+			return (true)
+    	}
+	}
+	return (false)
 }
 
 func Function_var(data map[int] string, Dat types.Variable) (bool) {
