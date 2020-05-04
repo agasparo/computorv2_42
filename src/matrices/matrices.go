@@ -54,6 +54,8 @@ func Modifi(m string) (types.Matrice) {
 
 	M := types.Matrice{}
 
+	m = strings.ReplaceAll(m, "[", "")
+	m = strings.ReplaceAll(m, "]", "")
 	e := strings.Split(m, ";")
 	M.Mat = make(map[int]types.MatRow)
 	for i := 0; i < len(e); i++ {
@@ -123,4 +125,14 @@ func IsDefined(str string, vars types.Variable) (bool) {
 		return (true)
     }
    	return (false)
+}
+
+func RemoveTmp(vars types.Variable) {
+
+	i := 0
+	name := "mat" + strconv.Itoa(i)
+	for i := 1; IsDefined(name, vars); i++ {
+		delete(vars.Table, name)
+		name = "mat" + strconv.Itoa(i)
+	}
 }
