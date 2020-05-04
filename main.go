@@ -182,6 +182,20 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			str_ret = "?"
 			t = 0
 		}
+	} else if parser.IsFunc(str[0], 0) == 1 {
+		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
+		if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
+			return 0, 0, ""
+		}
+		data = maps.Reindex(data)
+		data = parser.Checkfunc(data, Dat)
+		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
+			error.SetError(data[0])
+			return 1, -1, str_ret
+		}
+		res := maths_functions.Init(data, str[0], Vars)
+		Vars.Table[str[0]] = &types.Fonction{ res }
+		t = 0
 	} else if strings.Index(str[1], "[") != -1 || strings.Index(str[1], "]") != -1 || IsMat(str[1], Vars) {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
 		/*if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
@@ -219,20 +233,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		res := matrices.Modifi(Vars.Table[data[0]].Value())
 		Vars.Table[str[0]] = &res
 		matrices.RemoveTmp(Dat)
-		t = 0
-	} else if parser.IsFunc(str[0], 0) == 1 {
-		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
-		if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
-			return 0, 0, ""
-		}
-		data = maps.Reindex(data)
-		data = parser.Checkfunc(data, Dat)
-		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
-			error.SetError(data[0])
-			return 1, -1, str_ret
-		}
-		res := maths_functions.Init(data, str[0], Vars)
-		Vars.Table[str[0]] = &types.Fonction{ res }
 		t = 0
 	} else {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
