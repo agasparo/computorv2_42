@@ -81,7 +81,7 @@ func AddMat(tab map[int]string, z int) (string) {
 	save := -1
 	for i := z + 1; i < len(tab); i++ {
 
-		if strings.Index(tab[i], "[") != -1 {
+		if strings.Index(tab[i], "[") != -1 && save != -1 {
 			break
 		}
 

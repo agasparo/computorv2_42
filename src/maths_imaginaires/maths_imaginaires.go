@@ -365,14 +365,17 @@ func IsCarre(m string, m1 string, vars *types.Variable) (bool) {
 
 func IsOkMul(m string, m1 string, vars *types.Variable) (bool) {
 
+	fmt.Printf("m : %s , m1 : %s\n", m, m1)
 	ma := vars.Table[m].Value()
 	ma1 := vars.Table[m1].Value()
+	fmt.Printf("ma : %s , ma1 : %s\n", ma, ma1)
 
 	ml := matrices.GetnbLine(ma)
 	mc := matrices.GetnbCol(ma)
 	m1l := matrices.GetnbLine(ma1)
 	m1c := matrices.GetnbCol(ma1)
 
+	fmt.Printf("ml : %d, mc : %d, m1l : %d, m1c : %d\n", ml, mc, m1l, m1c)
 	if ml != m1c || m1l != mc {
 		return (false)
 	}
@@ -416,6 +419,16 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			vars.Table[mat] = &res
 			return
 		}
+
+		if sign == "*" {
+			res := matrices.Modifi(MulMa(r_mat, r_mat1, vars))
+			vars.Table[mat] = &res
+			return
+		}
+
+		if sign == "/" {
+			return
+		}
 	}
 
 	if r_mat != "" {
@@ -433,6 +446,33 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			return
 		}
 	}
+}
+
+func MulMa(m string, m1 string, vars *types.Variable) (string) {
+
+	m0 := strings.Split(m, ";")
+	ma1 := strings.Split(m1, ";")
+	nstr := ""
+	for i := 0; i < len(m0); i++ {
+		m0a := strings.Split(m0[i], ",")
+		Calc := TmpComp{}
+		for z := 0; z < len(m0a); z++ {
+			ma2 := strings.Split(ma1[z], ",")
+			nb1, nb2 := ParseOne(m0a[z], vars)
+			nb3, nb4 := ParseOne(ma2[i], vars)
+			Tmp := TmpComp{nb1, nb2}
+			Mul(&Tmp, nb3, nb4)
+			Add(&Calc, Tmp.A, Tmp.B)
+		}
+		nstr += Float2string(Calc)
+		if i == matrices.GetnbLine(m) {
+			nstr += ","
+		} else {
+			nstr += ";"
+		}
+	}
+	fmt.Println(nstr)
+	return (m)
 }
 
 func Decomp(m string, m1 string, sign string, vars *types.Variable) (string) {

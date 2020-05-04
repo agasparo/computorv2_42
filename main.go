@@ -217,16 +217,19 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		data = matrices.Parse(data, Dat, Vars)
 		if strings.Index(data[0], "You") != -1 {
 			error.SetError(data[0])
+			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}
 		par := parentheses.Parse(data, Vars, false, "")
 		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
 			error.SetError(par[0])
+			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}
 		_, _, err := maths_imaginaires.CalcVar(par, Vars)
 		if err != "" {
 			error.SetError(err)
+			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}
 		res := matrices.Modifi(Vars.Table[data[0]].Value())
