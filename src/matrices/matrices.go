@@ -8,11 +8,13 @@ import (
 	"maps"
 )
 
-func Parse(tab map[int]string, Matr *types.Matrice, Dat types.Variable, vars *types.Variable) (map[int]string) {
+func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
+
 
 	for z := 0; z < len(tab); z++ {
 
 		if strings.Index(tab[z], "[") != -1 {
+			Matr := types.Matrice{}
 			tab[z] = AddMat(tab, z)
 			if strings.Count(tab[z], "[") != strings.Count(tab[z], "]") {
 				tab[0] = "You must have the same number of '['' & ']'" 
@@ -41,7 +43,7 @@ func Parse(tab map[int]string, Matr *types.Matrice, Dat types.Variable, vars *ty
 				Matr.Mat[len(Matr.Mat)] = Line
 			}
 			name := GenerateName(Dat)
-			vars.Table[name] = Matr
+			vars.Table[name] = &Matr
 			tab[z] = name
 		}
 	}

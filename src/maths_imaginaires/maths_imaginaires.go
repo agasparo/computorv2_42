@@ -106,37 +106,53 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 	for i := 1; i < len(data); i += 2 {
 
 		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
-			nb_puis := NegPui(data[i - 1], data[i + 1])
-			if nb_puis == data[i - 1] {
-				nb1, nb2 = ParseOne(data[i - 1], vars)
-				Calc = TmpComp{nb1, nb2}
-				nb3, nb4 = ParseOne(data[i + 1], vars)
+			
+			if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+				Calc = TmpComp{0, 0}
+				Matrices(&Calc, data[i - 1], data[i + 1], "+", vars)
+				data = maps.MapSlice(data, i)
+				data[i - 1] = data[i - 1]
 			} else {
-				nb1, nb2 = ParseOne(nb_puis, vars)
-				Calc = TmpComp{nb1, nb2}
-				nb3 = 0
-				nb4 = 0
+				nb_puis := NegPui(data[i - 1], data[i + 1])
+				if nb_puis == data[i - 1] {
+					nb1, nb2 = ParseOne(data[i - 1], vars)
+					Calc = TmpComp{nb1, nb2}
+					nb3, nb4 = ParseOne(data[i + 1], vars)
+				} else {
+					nb1, nb2 = ParseOne(nb_puis, vars)
+					Calc = TmpComp{nb1, nb2}
+					nb3 = 0
+					nb4 = 0
+				}
+				Add(&Calc, nb3, nb4)
+				data = maps.MapSlice(data, i)
+				data[i - 1] = Float2string(Calc)
 			}
-			Add(&Calc, nb3, nb4)
-			data = maps.MapSlice(data, i)
-			data[i - 1] = Float2string(Calc)
 			i = -1
 		}
 
 		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
-			nb_puis := NegPui(data[i - 1], data[i + 1])
-			if nb_puis == data[i - 1] {
-				nb1, nb2 = ParseOne(data[i - 1], vars)
-				Calc = TmpComp{nb1, nb2}
-				nb3, nb4 = ParseOne(data[i + 1], vars)
-				Sous(&Calc, nb3, nb4)
+			
+			if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+				Calc = TmpComp{0, 0}
+				Matrices(&Calc, data[i - 1], data[i + 1], "-", vars)
+				data = maps.MapSlice(data, i)
+				data[i - 1] = data[i - 1]
 			} else {
-				nb1, nb2 = ParseOne(nb_puis, vars)
-				Calc = TmpComp{1, 0}
-				Divi(&Calc, nb1, nb2)
+				nb_puis := NegPui(data[i - 1], data[i + 1])
+				if nb_puis == data[i - 1] {
+					nb1, nb2 = ParseOne(data[i - 1], vars)
+					Calc = TmpComp{nb1, nb2}
+					nb3, nb4 = ParseOne(data[i + 1], vars)
+					Sous(&Calc, nb3, nb4)
+				} else {
+					nb1, nb2 = ParseOne(nb_puis, vars)
+					Calc = TmpComp{1, 0}
+					Divi(&Calc, nb1, nb2)
+				}
+				data = maps.MapSlice(data, i)
+				data[i - 1] = Float2string(Calc)
 			}
-			data = maps.MapSlice(data, i)
-			data[i - 1] = Float2string(Calc)
 			i = -1
 		}
 	}
@@ -300,7 +316,12 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 
 	if r_mat1 != "" && r_mat != "" {
-		//CalcMat(r_mat, sign, Finu)
+		
+		if sign == "+" || sign == "-" {
+			res := matrices.Modifi(Decomp(r_mat, r_mat1, sign, vars))
+			vars.Table[mat] = &res
+			return
+		}
 	}
 
 	if r_mat != "" {
@@ -320,8 +341,28 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 }
 
-func CalcMat() {
+func Decomp(m string, m1 string, sign string, vars *types.Variable) (string) {
 
+	e := strings.Split(m, ";")
+	aj := strings.Split(m1, ";")
+	for i := 0; i < len(e); i++ {
+		ex := strings.Split(e[i], ",")
+		ajx := strings.Split(aj[i], ",")
+		for z := 0; z < len(ex); z++ {
+			nb1, nb2 := ParseOne(ex[z], vars)
+			nb3, nb4 := ParseOne(ajx[z], vars)
+			Calc := TmpComp{nb1, nb2}
+			if sign == "+" {
+				Add(&Calc, nb3, nb4)
+			} else {
+				Sous(&Calc, nb3, nb4)
+			}
+			ex[z] = Float2string(Calc)
+		}
+		e[i] = "[" + strings.Join(ex, ",") + "]"
+	}
+	m = "[" + strings.Join(e, ";") + "]"
+	return (m)
 }
 
 func CalcMatNb(m string, s string, Finu *TmpComp, vars *types.Variable) (string) {

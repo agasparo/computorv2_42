@@ -214,8 +214,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		if len(data) == 1 {
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
 		}
-		Stru := types.Matrice{}
-		data = matrices.Parse(data, &Stru, Dat, Vars)
+		data = matrices.Parse(data, Dat, Vars)
 		if strings.Index(data[0], "You") != -1 {
 			error.SetError(data[0])
 			return 1, -1, str_ret
@@ -278,6 +277,13 @@ func IsMat(str string, Vars *types.Variable) (bool) {
 	err_pars := 0
 	data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str), " ", ""), &err_pars)
 	data = maps.Reindex(data)
+
+	if len(str) > 1 {
+		if str[0] == '-' || str[0] == '+' {
+			str = str[1:len(str)]
+		}
+	}
+
 	for i := 0; i < len(data); i++ {
 		if _, ok := Vars.Table[strings.ToLower(str)]; ok {
 
