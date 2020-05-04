@@ -45,15 +45,13 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], data[i + 1], "*", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				}
-				if strings.Index(data[i - 1], "mat") != -1 {
+				} else if strings.Index(data[i - 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					Matrices(&Calc, data[i - 1], "", "*", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				}
-				if strings.Index(data[i + 1], "mat") != -1 {
+				} else if strings.Index(data[i + 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					Matrices(&Calc, data[i + 1], "", "*", vars)
@@ -101,8 +99,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], data[i + 1], "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				}
-				if strings.Index(data[i - 1], "mat") != -1 {
+				} else if strings.Index(data[i - 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
 					nb3, _ := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
@@ -113,8 +110,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], "", "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				}
-				if strings.Index(data[i + 1], "mat") != -1 {
+				} else if strings.Index(data[i + 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					if IsNul(data[i + 1], vars) {
@@ -365,17 +361,14 @@ func IsCarre(m string, m1 string, vars *types.Variable) (bool) {
 
 func IsOkMul(m string, m1 string, vars *types.Variable) (bool) {
 
-	fmt.Printf("m : %s , m1 : %s\n", m, m1)
 	ma := vars.Table[m].Value()
 	ma1 := vars.Table[m1].Value()
-	fmt.Printf("ma : %s , ma1 : %s\n", ma, ma1)
 
 	ml := matrices.GetnbLine(ma)
 	mc := matrices.GetnbCol(ma)
 	m1l := matrices.GetnbLine(ma1)
 	m1c := matrices.GetnbCol(ma1)
 
-	fmt.Printf("ml : %d, mc : %d, m1l : %d, m1c : %d\n", ml, mc, m1l, m1c)
 	if ml != m1c || m1l != mc {
 		return (false)
 	}
@@ -453,26 +446,29 @@ func MulMa(m string, m1 string, vars *types.Variable) (string) {
 	m0 := strings.Split(m, ";")
 	ma1 := strings.Split(m1, ";")
 	nstr := ""
-	for i := 0; i < len(m0); i++ {
-		m0a := strings.Split(m0[i], ",")
-		Calc := TmpComp{}
-		for z := 0; z < len(m0a); z++ {
-			ma2 := strings.Split(ma1[z], ",")
-			nb1, nb2 := ParseOne(m0a[z], vars)
-			nb3, nb4 := ParseOne(ma2[i], vars)
-			Tmp := TmpComp{nb1, nb2}
-			Mul(&Tmp, nb3, nb4)
-			Add(&Calc, Tmp.A, Tmp.B)
-		}
-		nstr += Float2string(Calc)
-		if i == matrices.GetnbLine(m) {
-			nstr += ","
-		} else {
-			nstr += ";"
+	
+	for a := 0; a < len(m0); a++ {
+		m0a := strings.Split(m0[a], ",")
+		for i := 0; i < matrices.GetnbCol(m1); i++ {
+			Calc := TmpComp{}
+			for z := 0; z < len(m0a); z++ {
+				ma2 := strings.Split(ma1[z], ",")
+				nb1, nb2 := ParseOne(m0a[z], vars)
+				nb3, nb4 := ParseOne(ma2[i], vars)
+				Tmp := TmpComp{nb1, nb2}
+				Mul(&Tmp, nb3, nb4)
+				Add(&Calc, Tmp.A, Tmp.B)
+			}
+			nstr += Float2string(Calc)
+			if i  + 1 != matrices.GetnbLine(m) {
+				nstr += ","
+			} else {
+				nstr += ";"
+			}
 		}
 	}
-	fmt.Println(nstr)
-	return (m)
+	nstr = nstr[0:len(nstr) - 2]
+	return (nstr)
 }
 
 func Decomp(m string, m1 string, sign string, vars *types.Variable) (string) {

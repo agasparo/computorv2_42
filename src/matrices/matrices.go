@@ -80,7 +80,6 @@ func AddMat(tab map[int]string, z int) (string) {
 
 	save := -1
 	for i := z + 1; i < len(tab); i++ {
-
 		if strings.Index(tab[i], "[") != -1 && save != -1 {
 			break
 		}
@@ -96,7 +95,7 @@ func AddMat(tab map[int]string, z int) (string) {
 	tab = maps.MapSliceCount(tab, z + 1, save - z)
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
-	return (tab[0])
+	return (tab[z])
 }
 
 func CheckLength(tab map[int]types.MatRow, cmp int) (bool) {
