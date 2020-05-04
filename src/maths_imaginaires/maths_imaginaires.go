@@ -21,7 +21,7 @@ func CalcVar(data map[int]string, vars *types.Variable) (float64, float64, strin
 
 	data = CalcMulDivi(data, vars, "")
 	data = CalcAddSous(data, vars, "")
-	if strings.Index(data[0], "by 0") != -1 {
+	if strings.Index(data[0], "by 0") != -1 || strings.Index(data[0], "matrice") != -1 {
 		return 0, 0, data[0]
 	}
 	a, b := ParseOne(data[0], vars)
@@ -37,6 +37,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
 				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+					if !IsCarre(data[i - 1], data[i + 1]) {
+						data[0] = "Your matrice must be carre"
+						return (data)
+					}
 					Calc = TmpComp{0, 0}
 					Matrices(&Calc, data[i - 1], data[i + 1], "*", vars)
 					data = maps.MapSlice(data, i)
@@ -85,6 +89,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			
 			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
 				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+					if !IsCarre(data[i - 1], data[i + 1]) {
+						data[0] = "Your matrice must be carre"
+						return (data)
+					}
 					Calc = TmpComp{0, 0}
 					Matrices(&Calc, data[i - 1], data[i + 1], "/", vars)
 					data = maps.MapSlice(data, i)
@@ -92,7 +100,12 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 				}
 				if strings.Index(data[i - 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
+					nb3, _ := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
+					if nb3 == 0 {
+						data[0] = "Can't do division by 0"
+						return (data)
+					}
 					Matrices(&Calc, data[i - 1], "", "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
@@ -324,6 +337,11 @@ func TransN(str string) (x float64, y float64) {
 		y, _ = strconv.ParseFloat("0.000", 64)
 	}
 	return x, y
+}
+
+func IsCarre(m string, m1 string) (bool) {
+
+	return (true)
 }
 
 /************************************************************************************************/

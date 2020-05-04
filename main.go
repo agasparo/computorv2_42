@@ -169,7 +169,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		} else {
 			// test is defined f(x) ou autres fonctions
 			par := parentheses.Parse(data, Vars, false, "")
-			if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 {
+			if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
 				error.SetError(par[0])
 				return 1, -1, str_ret
 			}
@@ -220,7 +220,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 1, -1, str_ret
 		}
 		par := parentheses.Parse(data, Vars, false, "")
-		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 {
+		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
 			error.SetError(par[0])
 			return 1, -1, str_ret
 		}
@@ -252,7 +252,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
 		}
 		par := parentheses.Parse(data, Vars, false, "")
-		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 {
+		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
 			error.SetError(par[0])
 			return 1, -1, str_ret
 		}
