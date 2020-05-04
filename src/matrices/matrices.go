@@ -138,3 +138,29 @@ func RemoveTmp(vars types.Variable) {
 		name = "mat" + strconv.Itoa(i)
 	}
 }
+
+func GetnbLine(ma string) (int) {
+
+	c := 0
+
+	m := strings.Split(ma, ";")
+	for i := 0; i < len(m); i++ {
+		c++
+	}
+	return (c)
+}
+
+func GetnbCol(ma string) (int) {
+
+	c := 0
+
+	m := strings.Split(ma, ";")
+	for i := 0; i < len(m); i++ {
+		ms := strings.Split(m[i], ",")
+		for z := 0; z < len(ms); z++ {
+			c++
+		}
+		return (c)
+	}
+	return (c)
+}

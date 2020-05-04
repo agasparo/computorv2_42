@@ -37,8 +37,8 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
 				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
-					if !IsCarre(data[i - 1], data[i + 1]) {
-						data[0] = "Your matrice must be carre"
+					if !IsOkMul(data[i - 1], data[i + 1], vars) {
+						data[0] = "Your matrice is not good for multiplication"
 						return (data)
 					}
 					Calc = TmpComp{0, 0}
@@ -89,11 +89,15 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			
 			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
 				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
-					if !IsCarre(data[i - 1], data[i + 1]) {
+					if !IsCarre(data[i - 1], data[i + 1], vars) {
 						data[0] = "Your matrice must be carre"
 						return (data)
 					}
 					Calc = TmpComp{0, 0}
+					if IsNul(data[i + 1], vars) {
+						data[0] = "Can't do division by 0"
+						return (data)
+					}
 					Matrices(&Calc, data[i - 1], data[i + 1], "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
@@ -113,6 +117,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 				if strings.Index(data[i + 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
+					if IsNul(data[i + 1], vars) {
+						data[0] = "Can't do division by 0"
+						return (data)
+					}
 					Matrices(&Calc, data[i + 1], "", "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i + 1]
@@ -339,8 +347,52 @@ func TransN(str string) (x float64, y float64) {
 	return x, y
 }
 
-func IsCarre(m string, m1 string) (bool) {
+func IsCarre(m string, m1 string, vars *types.Variable) (bool) {
 
+	ma := vars.Table[m].Value()
+	ma1 := vars.Table[m1].Value()
+
+	ml := matrices.GetnbLine(ma)
+	mc := matrices.GetnbCol(ma)
+	m1l := matrices.GetnbLine(ma1)
+	m1c := matrices.GetnbCol(ma1)
+	
+	if ml != mc || m1l != m1c {
+		return (false)
+	}
+	return (true)
+}
+
+func IsOkMul(m string, m1 string, vars *types.Variable) (bool) {
+
+	ma := vars.Table[m].Value()
+	ma1 := vars.Table[m1].Value()
+
+	ml := matrices.GetnbLine(ma)
+	mc := matrices.GetnbCol(ma)
+	m1l := matrices.GetnbLine(ma1)
+	m1c := matrices.GetnbCol(ma1)
+
+	if ml != m1c || m1l != mc {
+		return (false)
+	}
+	return (true)
+}
+
+func IsNul(mat string, vars *types.Variable) (bool) {
+
+	ma := vars.Table[mat].Value()
+	m := strings.Split(ma, ";")
+	for i := 0; i < len(m); i++ {
+		ms := strings.Split(m[i], ",")
+		for z := 0; z < len(ms); z++ {
+			ms[z] = strings.ReplaceAll(ms[z], "[", "")
+			ms[z] = strings.ReplaceAll(ms[z], "]", "")
+			if ms[z] == "0" {
+				return (false)
+			}
+		}
+	}
 	return (true)
 }
 
