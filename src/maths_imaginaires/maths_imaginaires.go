@@ -82,16 +82,40 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 
 		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
-			nb1, nb2 := ParseOne(data[i - 1], vars)
-			Calc = TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1], vars)
-			if nb3 == 0 {
-				data[0] = "Can't do division by 0"
-				return (data)
+			
+			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+					Calc = TmpComp{0, 0}
+					Matrices(&Calc, data[i - 1], data[i + 1], "/", vars)
+					data = maps.MapSlice(data, i)
+					data[i - 1] = data[i - 1]
+				}
+				if strings.Index(data[i - 1], "mat") != -1 {
+					nb1, nb2 := ParseOne(data[i + 1], vars)
+					Calc = TmpComp{nb1, nb2}
+					Matrices(&Calc, data[i - 1], "", "/", vars)
+					data = maps.MapSlice(data, i)
+					data[i - 1] = data[i - 1]
+				}
+				if strings.Index(data[i + 1], "mat") != -1 {
+					nb1, nb2 := ParseOne(data[i - 1], vars)
+					Calc = TmpComp{nb1, nb2}
+					Matrices(&Calc, data[i + 1], "", "/", vars)
+					data = maps.MapSlice(data, i)
+					data[i - 1] = data[i + 1]
+				}
+			} else {
+				nb1, nb2 := ParseOne(data[i - 1], vars)
+				Calc = TmpComp{nb1, nb2}
+				nb3, nb4 := ParseOne(data[i + 1], vars)
+				if nb3 == 0 {
+					data[0] = "Can't do division by 0"
+					return (data)
+				}
+				Divi(&Calc, nb3, nb4)
+				data = maps.MapSlice(data, i)
+				data[i - 1] = Float2string(Calc)
 			}
-			Divi(&Calc, nb3, nb4)
-			data = maps.MapSlice(data, i)
-			data[i - 1] = Float2string(Calc)
 			i = -1
 		}
 	}
@@ -325,7 +349,7 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 
 	if r_mat != "" {
-		if sign == "*" {
+		if sign == "*" || sign == "/" {
 			res := matrices.Modifi(CalcMatNb(r_mat, sign, Finu, vars))
 			vars.Table[mat] = &res
 			return
@@ -333,7 +357,7 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 
 	if r_mat1 != "" {
-		if sign == "*" {
+		if sign == "*" || sign == "/" {
 			res := matrices.Modifi(CalcMatNb(r_mat1, sign, Finu, vars))
 			vars.Table[mat1] = &res
 			return
@@ -374,7 +398,11 @@ func CalcMatNb(m string, s string, Finu *TmpComp, vars *types.Variable) (string)
 		for z := 0; z < len(ex); z++ {
 			nb1, nb2 := ParseOne(ex[z], vars)
 			Calc := TmpComp{nb1, nb2}
-			Mul(&Calc, Finu.A, Finu.B)
+			if s == "*" {
+				Mul(&Calc, Finu.A, Finu.B)
+			} else {
+				Divi(&Calc, Finu.A, Finu.B)
+			}
 			ex[z] = Float2string(Calc)
 		}
 		e[i] = "[" + strings.Join(ex, ",") + "]"
