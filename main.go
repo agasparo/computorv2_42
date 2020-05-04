@@ -183,9 +183,37 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			t = 0
 		}
 	} else if strings.Index(str[1], "[") != -1 || strings.Index(str[1], "]") != -1 {
-		fmt.Println("matrice")
-		data := matrices.Parse(str[1])
+		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
+		/*if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
+			return 0, 0, ""
+		}*/
+		data = maps.Reindex(data)
+		if !Function_var(data, Dat) {
+			error.SetError("variable can't be equal to a function")
+			return 1, -1, str_ret
+		}
+		data = parser.Checkfunc(data, Dat)
+		if strings.Index(data[0], "Impossible") != -1 || strings.Index(data[0], "for unknown not an expression") != -1 {
+			error.SetError(data[0])
+			return 1, -1, str_ret
+		}
+		if len(data) == 1 {
+			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
+		}
+		Stru := types.Matrice{}
+		data = matrices.Parse(data, &Stru, Dat, Vars)
+		if strings.Index(data[0], "You") != -1 {
+			error.SetError(data[0])
+			return 1, -1, str_ret
+		}
 		fmt.Println(data)
+		/*par := parentheses.Parse(data, Vars, false, "")
+		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 {
+			error.SetError(par[0])
+			return 1, -1, str_ret
+		}*/
+		//Vars.Table[str[0]] = Stru
+		//t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
 		if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {

@@ -2,7 +2,6 @@ package maps
 
 import (
 	"strings"
-	//"fmt"
 )
 
 func MapSlice(data map[int]string, index int) (map[int]string) {
