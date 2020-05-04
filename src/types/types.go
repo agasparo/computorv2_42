@@ -26,7 +26,12 @@ type Imaginaire struct {
 
 type Matrice struct {
 	
-	Mat string
+	Mat map[int]MatRow
+}
+
+type MatRow struct {
+
+	Row map[int]string
 }
 
 type Fonction struct {
@@ -100,7 +105,7 @@ func (i *Imaginaire) Value() (string) {
 
 func (m *Matrice) Value() (string) {
 
-	return (m.Mat)
+	return ("matrices")
 }
 
 func (f *Fonction) Value() (string) {

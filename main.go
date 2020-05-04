@@ -19,6 +19,7 @@ import (
 	"equations"
 	"maps"
 	"time"
+	"matrices"
 )
 
 func main() {
@@ -168,7 +169,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		} else {
 			// test is defined f(x) ou autres fonctions
 			par := parentheses.Parse(data, Vars, false, "")
-			if strings.Index(par[0], "by 0") != -1 {
+			if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 {
 				error.SetError(par[0])
 				return 1, -1, str_ret
 			}
@@ -181,6 +182,10 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			str_ret = "?"
 			t = 0
 		}
+	} else if strings.Index(str[1], "[") != -1 || strings.Index(str[1], "]") != -1 {
+		fmt.Println("matrice")
+		data := matrices.Parse(str[1])
+		fmt.Println(data)
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
 		if Err(err_pars, error.Checkfuncx(str[0], str[1], Dat), error.Checkfuncpa(str[0]), error.In(data, 1, str[0], Dat)) {
@@ -214,7 +219,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
 		}
 		par := parentheses.Parse(data, Vars, false, "")
-		if strings.Index(par[0], "by 0") != -1 {
+		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 {
 			error.SetError(par[0])
 			return 1, -1, str_ret
 		}
@@ -230,10 +235,6 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		}
 		t = 0
 	}
-	/*else if strings.Index(str[0], "mat") != -1 || strings.Index(str[0], "var") != -1 {
-		
-		fmt.Println("matrice")
-	}*/
 
 	return 1, t, str_ret
 }

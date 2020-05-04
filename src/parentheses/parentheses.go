@@ -31,6 +31,10 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		if index_c == -1 {
 			index_c = index_d
 		}
+		if index_c == index_d && strings.Index(tab[index_c], ")") < strings.Index(tab[index_d], "(") {
+			tab[0] = "you have a problem with your parentheses syntaxe"
+			return (tab)
+		}
 		ntab := maths_functions.SliceTab(tab, index_d, index_c + 1)
 		if is_f {
 			if maps.Array_search_count(ntab, maths_functions.Getx(f_name)) >= 1 {
@@ -78,7 +82,7 @@ func PowerC(str string, str1 string) (string, string, int) {
 
 	if len(str) > 0 {
 		if str[0] != '(' && str1[len(str1) - 1] != ')' {
-			index_d := indexString(str, "(")
+			index_d := IndexString(str, "(")
 			index_f := strings.Index(str1, ")")
 			if index_f > index_d {
 				return (str[index_d:index_f + 1] + "|" + str1[index_d:index_f + 1]), (str[0:index_d] + "|" + str1[index_f + 1:len(str1)]), 3
@@ -86,7 +90,7 @@ func PowerC(str string, str1 string) (string, string, int) {
 			return (str[index_d:len(str)] + "|" + str1[0:index_f + 1]), (str[0:index_d] + "|" + str1[index_f + 1:len(str1)]), 3
 		}
 		if str[0] != '(' {
-			index := indexString(str, "(")
+			index := IndexString(str, "(")
 			return str[index:len(str)], str[0:index], 0
 		}
 		if str1[len(str1) - 1] != ')' {
@@ -96,7 +100,7 @@ func PowerC(str string, str1 string) (string, string, int) {
 		if str[0] == '(' && str1[len(str1) - 1] == ')' {
 			
 			if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 {
-				index := indexString(str, "(")
+				index := IndexString(str, "(")
 				return str[index:len(str)], str[0:index], 0
 			}
 			if strings.Index(str1, "ˆ") != -1 || strings.Index(str1, "^") != -1 {
@@ -151,7 +155,7 @@ func check(tab map[int]string) (string, int, string) {
 	return "", 0,  fmt.Sprintf("%d", 0)
 }
 
-func indexString(str string, s string) (int) {
+func IndexString(str string, s string) (int) {
 
 	pos := -1
 
