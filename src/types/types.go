@@ -105,7 +105,26 @@ func (i *Imaginaire) Value() (string) {
 
 func (m *Matrice) Value() (string) {
 
-	return ("matrices")
+	str := "["
+
+	for i := 0; i < len(m.Mat); i++ {
+
+		str += "["
+		for z := 0; z < len(m.Mat[i].Row); z++ {
+
+			str = str + m.Mat[i].Row[z]
+			if z + 1 < len(m.Mat[i].Row) {
+				str += ","
+			}
+		}
+		if i + 1 < len(m.Mat) {
+			str += "];"
+		} else {
+			str += "]"
+		}
+	}
+	str += "]"
+	return (str)
 }
 
 func (f *Fonction) Value() (string) {

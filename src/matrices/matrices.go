@@ -50,6 +50,24 @@ func Parse(tab map[int]string, Matr *types.Matrice, Dat types.Variable, vars *ty
 	return (tab)
 }
 
+func Modifi(m string) (types.Matrice) {
+
+	M := types.Matrice{}
+
+	e := strings.Split(m, ";")
+	M.Mat = make(map[int]types.MatRow)
+	for i := 0; i < len(e); i++ {
+		Line := types.MatRow{}
+		Line.Row = make(map[int]string)
+		ex := strings.Split(e[i], ",")
+		for z := 0; z < len(ex); z++ {
+			Line.Row[len(Line.Row)] = ex[z]
+		}
+		M.Mat[len(M.Mat)] = Line
+	}
+	return (M)
+}
+
 func AddMat(tab map[int]string, z int) (string) {
 	
 	if strings.Count(tab[z], "[") == strings.Count(tab[z], "]") {

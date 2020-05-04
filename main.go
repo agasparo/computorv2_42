@@ -207,12 +207,19 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			return 1, -1, str_ret
 		}
 		fmt.Println(data)
-		/*par := parentheses.Parse(data, Vars, false, "")
+		par := parentheses.Parse(data, Vars, false, "")
 		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 {
 			error.SetError(par[0])
 			return 1, -1, str_ret
-		}*/
-		//Vars.Table[str[0]] = Stru
+		}
+		x, y, err := maths_imaginaires.CalcVar(par, Vars)
+		if err != "" {
+			error.SetError(err)
+			return 1, -1, str_ret
+		}
+		fmt.Printf("x : %f, y : %f\n", x, y)
+		fmt.Println(data)
+		//Vars.Table[str[0]] = &Stru
 		//t = 0
 	} else if parser.IsFunc(str[0], 0) == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)

@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"types"
 	"replace_vars"
+	"matrices"
 )
 
 type TmpComp struct {
@@ -29,21 +30,46 @@ func CalcVar(data map[int]string, vars *types.Variable) (float64, float64, strin
 
 func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (map[int]string) {
 
+	var Calc TmpComp
+
 	for i := 1; i < len(data); i += 2 {
 
 		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
-			nb1, nb2 := ParseOne(data[i - 1], vars)
-			Calc := TmpComp{nb1, nb2}
-			nb3, nb4 := ParseOne(data[i + 1], vars)
-			Mul(&Calc, nb3, nb4)
-			data = maps.MapSlice(data, i)
-			data[i - 1] = Float2string(Calc)
+			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+					Calc = TmpComp{0, 0}
+					Matrices(&Calc, data[i - 1], data[i + 1], "*", vars)
+					data = maps.MapSlice(data, i)
+					data[i - 1] = data[i - 1]
+				}
+				if strings.Index(data[i - 1], "mat") != -1 {
+					nb1, nb2 := ParseOne(data[i + 1], vars)
+					Calc = TmpComp{nb1, nb2}
+					Matrices(&Calc, data[i - 1], "", "*", vars)
+					data = maps.MapSlice(data, i)
+					data[i - 1] = data[i - 1]
+				}
+				if strings.Index(data[i + 1], "mat") != -1 {
+					nb1, nb2 := ParseOne(data[i - 1], vars)
+					Calc = TmpComp{nb1, nb2}
+					Matrices(&Calc, data[i + 1], "", "*", vars)
+					data = maps.MapSlice(data, i)
+					data[i - 1] = data[i + 1]
+				}
+			} else {
+				nb1, nb2 := ParseOne(data[i - 1], vars)
+				Calc = TmpComp{nb1, nb2}
+				nb3, nb4 := ParseOne(data[i + 1], vars)
+				Mul(&Calc, nb3, nb4)
+				data = maps.MapSlice(data, i)
+				data[i - 1] = Float2string(Calc)
+			}
 			i = -1
 		}
 
 		if data[i] == "%" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
-			Calc := TmpComp{nb1, nb2}
+			Calc = TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
 			if nb3 == 0 {
 				data[0] = "Can't do modulo by 0"
@@ -57,7 +83,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			nb1, nb2 := ParseOne(data[i - 1], vars)
-			Calc := TmpComp{nb1, nb2}
+			Calc = TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
 			if nb3 == 0 {
 				data[0] = "Can't do division by 0"
@@ -156,6 +182,8 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 
 	str = strings.ReplaceAll(str, "(", "")
 	str = strings.ReplaceAll(str, ")", "")
+	str = strings.ReplaceAll(str, "[", "")
+	str = strings.ReplaceAll(str, "]", "")
 	str = replace_vars.GetVars(vars, str)
     str = strings.ReplaceAll(str, " ", "")
     str = strings.ReplaceAll(str, "\n", "")
@@ -259,6 +287,60 @@ func TransN(str string) (x float64, y float64) {
 }
 
 /************************************************************************************************/
+
+func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.Variable) {
+
+	var r_mat, r_mat1 string
+
+	if mat != "" {
+		r_mat = vars.Table[mat].Value()
+	}
+	if mat1 != "" {
+		r_mat1 = vars.Table[mat1].Value()
+	}
+
+	if r_mat1 != "" && r_mat != "" {
+		//CalcMat(r_mat, sign, Finu)
+	}
+
+	if r_mat != "" {
+		if sign == "*" {
+			res := matrices.Modifi(CalcMatNb(r_mat, sign, Finu, vars))
+			vars.Table[mat] = &res
+			return
+		}
+	}
+
+	if r_mat1 != "" {
+		if sign == "*" {
+			res := matrices.Modifi(CalcMatNb(r_mat1, sign, Finu, vars))
+			vars.Table[mat1] = &res
+			return
+		}
+	}
+}
+
+func CalcMat() {
+
+}
+
+func CalcMatNb(m string, s string, Finu *TmpComp, vars *types.Variable) (string) {
+
+	e := strings.Split(m, ";")
+	for i := 0; i < len(e); i++ {
+
+		ex := strings.Split(e[i], ",")
+		for z := 0; z < len(ex); z++ {
+			nb1, nb2 := ParseOne(ex[z], vars)
+			Calc := TmpComp{nb1, nb2}
+			Mul(&Calc, Finu.A, Finu.B)
+			ex[z] = Float2string(Calc)
+		}
+		e[i] = "[" + strings.Join(ex, ",") + "]"
+	}
+	m = "[" + strings.Join(e, ";") + "]"
+	return (m)
+}
 
 func Add(Finu *TmpComp, a float64, b float64) {
 
