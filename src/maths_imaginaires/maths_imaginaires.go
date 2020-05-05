@@ -180,6 +180,9 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				Matrices(&Calc, data[i - 1], data[i + 1], "+", vars)
 				data = maps.MapSlice(data, i)
 				data[i - 1] = data[i - 1]
+			} else if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+				data[0] = "I can't add matrice and number"
+				return (data)
 			} else {
 				nb_puis := NegPui(data[i - 1], data[i + 1])
 				if nb_puis == data[i - 1] {
@@ -206,6 +209,9 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				Matrices(&Calc, data[i - 1], data[i + 1], "-", vars)
 				data = maps.MapSlice(data, i)
 				data[i - 1] = data[i - 1]
+			} else if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+				data[0] = "I can't add matrice and number"
+				return (data)
 			} else {
 				nb_puis := NegPui(data[i - 1], data[i + 1])
 				if nb_puis == data[i - 1] {
