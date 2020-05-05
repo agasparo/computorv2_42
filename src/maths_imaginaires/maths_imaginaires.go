@@ -37,14 +37,19 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
 				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
-					if !IsOkMul(data[i - 1], data[i + 1], vars) {
-						data[0] = "Your matrice is not good for multiplication"
+					if data[i + 1] == "*" {
+						if !IsOkMul(data[i - 1], data[i + 1], vars) {
+							data[0] = "Your matrice is not good for multiplication"
+							return (data)
+						}
+						Calc = TmpComp{0, 0}
+						Matrices(&Calc, data[i - 1], data[i + 2], "*", vars)
+						data = maps.MapSlice(data, i) // mapsilecount
+						data[i - 1] = data[i - 1]
+					} else {
+						data[0] = "Multiplication with matrices is with ** not just one *"
 						return (data)
 					}
-					Calc = TmpComp{0, 0}
-					Matrices(&Calc, data[i - 1], data[i + 1], "*", vars)
-					data = maps.MapSlice(data, i)
-					data[i - 1] = data[i - 1]
 				} else if strings.Index(data[i - 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
 					Calc = TmpComp{nb1, nb2}
@@ -420,6 +425,8 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 		}
 
 		if sign == "/" {
+			det := matrices.Modifi(MatDet(r_mat1))
+			fmt.Println(det)
 			return
 		}
 	}
@@ -439,6 +446,10 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			return
 		}
 	}
+}
+
+func MatDet(m string) (string) {
+	return (m)
 }
 
 func MulMa(m string, m1 string, vars *types.Variable) (string) {
