@@ -117,7 +117,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], data[i + 1], "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i - 1], "mat") != -1 {
+				} else if strings.Index(data[i - 1], "mat") != -1 { //ici
 					nb1, nb2 := ParseOne(data[i + 1], vars)
 					nb3, _ := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
@@ -128,11 +128,15 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], "", "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i + 1], "mat") != -1 {
+				} else if strings.Index(data[i + 1], "mat") != -1 { //ici
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					if IsNul(data[i + 1], vars) {
 						data[0] = "Can't do division by 0"
+						return (data)
+					}
+					if !IsCarre(data[i + 1], data[i + 1], vars) {
+						data[0] = "Your matrice must be carre"
 						return (data)
 					}
 					if matrices.GetnbLine(vars.Table[data[i + 1]].Value()) > 3 {
