@@ -47,7 +47,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					}
 					Calc = TmpComp{0, 0}
 					Matrices(&Calc, data[i - 1], data[i + 2], "*", vars)
-					data = maps.MapSlice(data, i) // mapsilecount
+					data = maps.MapSliceCount(data, i, 3)
 					data[i - 1] = data[i - 1]
 				} else if strings.Index(data[i - 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
@@ -729,10 +729,21 @@ func MulMa(m string, m1 string, vars *types.Variable) (string) {
 	m0 := strings.Split(m, ";")
 	ma1 := strings.Split(m1, ";")
 	nstr := ""
-	
+	ds := m1
+
+	cm := matrices.GetnbLine(m)
+	cm1 := matrices.GetnbLine(m1)
+
+	if cm > cm1 {
+		tmp := m0
+		m0 = ma1
+		ma1 = tmp
+		ds = m
+	}
+
 	for a := 0; a < len(m0); a++ {
 		m0a := strings.Split(m0[a], ",")
-		for i := 0; i < matrices.GetnbCol(m1); i++ {
+		for i := 0; i < matrices.GetnbCol(ds); i++ {
 			Calc := TmpComp{}
 			for z := 0; z < len(m0a); z++ {
 				ma2 := strings.Split(ma1[z], ",")

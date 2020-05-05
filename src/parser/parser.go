@@ -259,7 +259,7 @@ func Float2string(Calc TmpComp) (string) {
 func GetAllIma(str string, pos *int) (map[int]string) {
 
 	data := make(map[int]string)
-	var itab, neg int
+	var itab, neg, ajj int
 	var anc string
 
 	if len(str) == 0 {
@@ -293,6 +293,9 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 			return (data)
 		}
 		index := GetCararc(str, "+-/*%")
+		if index >= 0 && str[index] == '*' && str[index + 1] == '*' {
+			ajj = 1
+		}
 		if index == -1 {
 			if neg == 1 {
 				data[itab] = "-" + str
@@ -312,10 +315,15 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 			i = i + index
 			data[itab] = string(str[i])
 			itab++
-			str = str[i + 1:len(str)]
+			if ajj == 1 {
+				data[itab] = string(str[i])
+				itab++
+			}
+			str = str[i + 1 + ajj:len(str)]
 		}
 		anc = data[len(data) - 1]
 		i = -1
+		ajj = 0
 	}
 	return (data)
 }
@@ -333,7 +341,7 @@ func Impossible(str string, cmp string) (bool) {
 	if cmp == "" {
 		return (false)
 	}
-	if (cmp == "*" || cmp == "/") && (str == "*" || str == "/") {
+	if (cmp == "*" || cmp == "/") && str == "/" {
 		return (true)
 	}
 	return (false)
