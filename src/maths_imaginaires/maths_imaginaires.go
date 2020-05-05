@@ -502,7 +502,16 @@ func Comatrice(m string, vars *types.Variable) (string) {
 		Row0 := strings.Split(cols[0], ",")
 		Row1 := strings.Split(cols[1], ",")
 
-		str := "[[" + Row1[1] + ",-" + Row1[0] + "];[-" + Row0[1] + "," + Row0[0] + "]]"
+		nb1, nb2 := ParseOne(Row1[0], vars)
+		nb3, nb4 := ParseOne(Row0[1], vars)
+
+		TmpA := TmpComp{nb1, nb2}
+		TmpB := TmpComp{nb3, nb4}
+
+		Mul(&TmpA, -1, 0)
+		Mul(&TmpB, -1, 0)
+
+		str := "[[" + Row1[1] + "," + Float2string(TmpA) + "];[" + Float2string(TmpB) + "," + Row0[0] + "]]"
 		return (str)
 	}
 
