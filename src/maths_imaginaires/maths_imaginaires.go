@@ -75,6 +75,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 
 		if data[i] == "%" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
+			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+				data[0] = "Can't calcul matrice with modulo"
+				return (data)
+			}
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc = TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -105,7 +109,8 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 						data[0] = "Sorry i can't calcul matrice more than 3 x 3 for division"
 						return (data)
 					}
-					if strings.Index(MatDet(vars.Table[data[i + 1]].Value(), vars), "0.00000") != -1 {
+					c, ci := MatDet(vars.Table[data[i + 1]].Value(), vars)
+					if c == 0 && ci == 0 {
 						data[0] = "Can't do division by det = 0 (matrice)"
 						return (data)
 					}
@@ -134,7 +139,8 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 						data[0] = "Sorry i can't calcul matrice more than 3 x 3 for division"
 						return (data)
 					}
-					if strings.Index(MatDet(vars.Table[data[i + 1]].Value(), vars), "0.00000") != -1 {
+					c, ci := MatDet(vars.Table[data[i + 1]].Value(), vars)
+					if c == 0 && ci == 0 {
 						data[0] = "Can't do division by det = 0 (matrice)"
 						return (data)
 					}
@@ -445,8 +451,16 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 		}
 
 		if sign == "/" {
-			det := MatDet(r_mat1, vars)
-			fmt.Println(det)
+			det, deti := MatDet(r_mat1, vars)
+			Finu.A = 1
+			Finu.B = 0
+			Divi(Finu, det, deti)
+			res1 := matrices.Modifi(CalcMatNb(r_mat1, "*", Finu, vars))
+			vars.Table[mat1] = &res1
+			fmt.Println(res1)
+			r_mat1 = vars.Table[mat1].Value()
+			res := matrices.Modifi(MulMa(r_mat, r_mat1, vars))
+			vars.Table[mat] = &res
 			return
 		}
 	}
@@ -468,14 +482,14 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 }
 
-func MatDet(m string, vars *types.Variable) (string) {
+func MatDet(m string, vars *types.Variable) (float64, float64) {
 
 	ml := matrices.GetnbLine(m)
 
 	if ml == 1 {
 		cols := strings.Split(m, ";")
 		Row0 := strings.Split(cols[0], ",")
-		return (strings.ReplaceAll(strings.ReplaceAll(Row0[0], "[", ""), "]", ""))
+		return ParseOne(Row0[0], vars)
 	}
 
 	if ml == 2 {
@@ -491,14 +505,14 @@ func MatDet(m string, vars *types.Variable) (string) {
 		TmpB := TmpComp{nb3, nb3i}
 		Mul(&TmpB, nb4, nb4i)
 		Sous(&TmpA, TmpB.A, TmpB.B)
-		return (Float2string(TmpA))
+		return TmpA.A, TmpA.B
 	}
 
 	p1, p1i := CalcVars(1, 2, 0, m, vars)
 	p2, p2i := CalcVars(1, 0, 2, m, vars)
 	Tmp := TmpComp{ p1, p1i }
 	Sous(&Tmp, p2, p2i)
-	return (Float2string(Tmp))
+	return Tmp.A, Tmp.B
 }
 
 func CalcVars(j int, k int, l int, m string, vars *types.Variable) (float64, float64) {
