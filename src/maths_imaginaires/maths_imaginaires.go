@@ -180,6 +180,10 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			
 			if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+				if !SizeMat(data[i - 1], data[i + 1], vars) {
+					data[0] = "Your matrice must have the same length"
+					return (data)
+				}
 				Calc = TmpComp{0, 0}
 				Matrices(&Calc, data[i - 1], data[i + 1], "+", vars)
 				data = maps.MapSlice(data, i)
@@ -209,6 +213,10 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			
 			if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+				if !SizeMat(data[i - 1], data[i + 1], vars) {
+					data[0] = "Your matrice must have the same length"
+					return (data)
+				}
 				Calc = TmpComp{0, 0}
 				Matrices(&Calc, data[i - 1], data[i + 1], "-", vars)
 				data = maps.MapSlice(data, i)
@@ -235,6 +243,22 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 	}
 	return (data)
+}
+
+func SizeMat(m string, m1 string, vars *types.Variable) (bool) {
+
+	ma := vars.Table[m].Value()
+	ma1 := vars.Table[m1].Value()
+
+	ml := matrices.GetnbLine(ma)
+	mc := matrices.GetnbCol(ma)
+	m1l := matrices.GetnbLine(ma1)
+	m1c := matrices.GetnbCol(ma1)
+	
+	if ml != m1l || mc != m1c {
+		return (false)
+	}
+	return (true)
 }
 
 func IsPowFunc(inconnue string, str string, str1 string) (bool) {
