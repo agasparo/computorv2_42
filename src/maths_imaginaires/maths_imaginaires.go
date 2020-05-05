@@ -486,19 +486,18 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 
 		if sign == "/" {
 			det, deti := MatDet(r_mat1, vars)
-			Finu.A = 1
-			Finu.B = 0
-			Divi(Finu, det, deti)
 			res2 := matrices.Modifi(Comatrice(r_mat1, vars))
 			vars.Table[mat1] = &res2
 			r_mat1 = vars.Table[mat1].Value()
-			fmt.Printf("commatrice : %s\n", r_mat1)
-			fmt.Println("Finu")
-			fmt.Println(Finu)
+			res3 := matrices.Modifi(Transcomatrice(r_mat1))
+			vars.Table[mat1] = &res3
+			r_mat1 = vars.Table[mat1].Value()
+			Finu.A = 1
+			Finu.B = 0
+			Divi(Finu, det, deti)
 			res1 := matrices.Modifi(CalcMatNb(r_mat1, "*", Finu, vars))
 			vars.Table[mat1] = &res1
 			r_mat1 = vars.Table[mat1].Value()
-			fmt.Printf("Mid : %s\n", r_mat1)
 			res := matrices.Modifi(MulMa(r_mat, r_mat1, vars))
 			vars.Table[mat] = &res
 			return
@@ -506,7 +505,7 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 
 	if r_mat != "" {
-		if sign == "*" || sign == "/" {
+		if sign == "*" || sign == "/" { // a changer pour le /
 			res := matrices.Modifi(CalcMatNb(r_mat, sign, Finu, vars))
 			vars.Table[mat] = &res
 			return
@@ -514,12 +513,35 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 
 	if r_mat1 != "" {
-		if sign == "*" || sign == "/" {
+		if sign == "*" || sign == "/" { // a changer pour le /
 			res := matrices.Modifi(CalcMatNb(r_mat1, sign, Finu, vars))
 			vars.Table[mat1] = &res
 			return
 		}
 	}
+}
+
+func Transcomatrice(m string) (string) {
+
+	ml := matrices.GetnbLine(m)
+
+	if ml == 1 {
+		return (m)
+	}
+
+	if ml == 2 {
+
+		m = strings.ReplaceAll(m, "[", "")
+		m = strings.ReplaceAll(m, "]", "")
+		cols := strings.Split(m, ";")
+		Row0 := strings.Split(cols[0], ",")
+		Row1 := strings.Split(cols[1], ",")
+
+		str := "[[" + Row0[0] + "," + Row1[0] + "];[" + Row0[1] + "," + Row1[1] + "]]"
+		return (str)
+	}
+
+	return (m)
 }
 
 func Comatrice(m string, vars *types.Variable) (string) {
