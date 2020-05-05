@@ -82,7 +82,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			nb1, nb2 := ParseOne(data[i - 1], vars)
 			Calc = TmpComp{nb1, nb2}
 			nb3, nb4 := ParseOne(data[i + 1], vars)
-			if nb3 == 0 {
+			if nb3 == 0 && nb4 == 0 {
 				data[0] = "Can't do modulo by 0"
 				return (data)
 			}
@@ -123,9 +123,8 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					data[i - 1] = data[i - 1]
 				} else if strings.Index(data[i - 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
-					nb3, _ := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
-					if nb3 == 0 {
+					if nb1 == 0 && nb2 == 0 {
 						data[0] = "Can't do division by 0"
 						return (data)
 					}
@@ -160,7 +159,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 				nb1, nb2 := ParseOne(data[i - 1], vars)
 				Calc = TmpComp{nb1, nb2}
 				nb3, nb4 := ParseOne(data[i + 1], vars)
-				if nb3 == 0 {
+				if nb3 == 0 && nb4 == 0 {
 					data[0] = "Can't do division by 0"
 					return (data)
 				}
@@ -515,7 +514,14 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			return
 		}
 		if strings.Index(sign, "/") != -1 && sign[0] == 'm' {
-			//ici matrice / nb
+			nb1 := Finu.A
+			nb2 := Finu.B
+			Finu.A = 1
+			Finu.B = 0
+			Divi(Finu, nb1, nb2)
+			res := matrices.Modifi(CalcMatNb(r_mat, "*", Finu, vars))
+			vars.Table[mat] = &res
+			return
 		}
 	}
 
