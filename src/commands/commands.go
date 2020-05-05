@@ -88,12 +88,16 @@ func Help() {
 
 func Graph(str string, Vars types.Variable) {
 
-	if _, ok := Vars.Table[strings.ToLower(str)]; ok {
+	if val, ok := Vars.Table[strings.ToLower(str)]; ok {
 
 		if parser.IsFunc(str, 0) == 1 {
-			C := courbe.Courbe{}
-			courbe.Init(&Vars, str, &C)
-			courbe.Trace(C, Vars)
+			if strings.Index(val.Value(), "]") == -1 || strings.Index(val.Value(), "[") == -1 {
+				C := courbe.Courbe{}
+				courbe.Init(&Vars, str, &C)
+				courbe.Trace(C, Vars)
+			} else {
+				error.SetError("I can't draw grap with matrice")
+			}
 		} else {
 			error.SetError(str + " isn't a function")
 		}
