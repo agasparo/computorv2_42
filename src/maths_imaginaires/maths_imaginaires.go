@@ -63,6 +63,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					data = maps.MapSlice(data, i)
 				}
 			} else {
+				if data[i + 1] == "*" {
+					data[0] = "'**' is for matrices"
+					return (data)
+				}
 				nb1, nb2 := ParseOne(data[i - 1], vars)
 				Calc = TmpComp{nb1, nb2}
 				nb3, nb4 := ParseOne(data[i + 1], vars)

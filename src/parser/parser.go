@@ -344,5 +344,8 @@ func Impossible(str string, cmp string) (bool) {
 	if (cmp == "*" || cmp == "/") && str == "/" {
 		return (true)
 	}
+	if cmp == "/" && str == "*" {
+		return (true)
+	}
 	return (false)
 }
