@@ -117,7 +117,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], data[i + 1], "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i - 1], "mat") != -1 { //ici
+				} else if strings.Index(data[i - 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
 					nb3, _ := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
@@ -125,10 +125,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 						data[0] = "Can't do division by 0"
 						return (data)
 					}
-					Matrices(&Calc, data[i - 1], "", "/", vars)
+					Matrices(&Calc, data[i - 1], "", "m/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i + 1], "mat") != -1 { //ici
+				} else if strings.Index(data[i + 1], "mat") != -1 {
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					if IsNul(data[i + 1], vars) {
@@ -148,7 +148,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 						data[0] = "Can't do division by det = 0 (matrice)"
 						return (data)
 					}
-					Matrices(&Calc, data[i + 1], "", "/", vars)
+					Matrices(&Calc, data[i + 1], "", "/m", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i + 1]
 				}
@@ -505,18 +505,24 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 	}
 
 	if r_mat != "" {
-		if sign == "*" || sign == "/" { // a changer pour le /
+		if sign == "*" {
 			res := matrices.Modifi(CalcMatNb(r_mat, sign, Finu, vars))
 			vars.Table[mat] = &res
 			return
 		}
+		if strings.Index(sign, "/") != -1 && sign[0] == 'm' {
+			//ici matrice / nb
+		}
 	}
 
 	if r_mat1 != "" {
-		if sign == "*" || sign == "/" { // a changer pour le /
+		if sign == "*" {
 			res := matrices.Modifi(CalcMatNb(r_mat1, sign, Finu, vars))
 			vars.Table[mat1] = &res
 			return
+		}
+		if strings.Index(sign, "/") != -1 sign[len(sign) - 1] == 'm' {
+			//ici nb / matrice
 		}
 	}
 }
