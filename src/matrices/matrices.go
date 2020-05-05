@@ -85,7 +85,9 @@ func AddMat(tab map[int]string, z int) (string) {
 		}
 
 		if strings.Index(tab[i], "]") != -1 {
-			save = i
+			if strings.Count(tab[i], "]") >= 2 {
+				save = i
+			}
 		}
 	}
 	if save == -1 {
