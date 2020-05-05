@@ -60,8 +60,8 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					Matrices(&Calc, data[i + 1], "", "*", vars)
-					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i + 1]
+					data = maps.MapSlice(data, i)
 				}
 			} else {
 				nb1, nb2 := ParseOne(data[i - 1], vars)
@@ -152,8 +152,8 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 						return (data)
 					}
 					Matrices(&Calc, data[i + 1], "", "/m", vars)
-					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i + 1]
+					data = maps.MapSlice(data, i)
 				}
 			} else {
 				nb1, nb2 := ParseOne(data[i - 1], vars)
@@ -532,7 +532,24 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			return
 		}
 		if strings.Index(sign, "/") != -1 && sign[len(sign) - 1] == 'm' {
-			//ici nb / matrice
+			nb1 := Finu.A
+			nb2 := Finu.B
+			det, deti := MatDet(r_mat1, vars)
+			res2 := matrices.Modifi(Comatrice(r_mat1, vars))
+			vars.Table[mat1] = &res2
+			r_mat1 = vars.Table[mat1].Value()
+			res3 := matrices.Modifi(Transcomatrice(r_mat1))
+			vars.Table[mat1] = &res3
+			r_mat1 = vars.Table[mat1].Value()
+			Finu.A = 1
+			Finu.B = 0
+			Divi(Finu, det, deti)
+			res1 := matrices.Modifi(CalcMatNb(r_mat1, "*", Finu, vars))
+			vars.Table[mat1] = &res1
+			r_mat1 = vars.Table[mat1].Value()
+			res := matrices.Modifi(CalcMatNb(r_mat1, "*", &TmpComp{ nb1, nb2 }, vars))
+			vars.Table[mat] = &res
+			return
 		}
 	}
 }
