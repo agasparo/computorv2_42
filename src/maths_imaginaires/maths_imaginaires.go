@@ -96,6 +96,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			
 			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
 				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+					if !SizeMat(data[i - 1], data[i + 1], vars) {
+						data[0] = "Your matrice must have the same length"
+						return (data)
+					}
 					if !IsCarre(data[i - 1], data[i + 1], vars) {
 						data[0] = "Your matrice must be carre"
 						return (data)
@@ -521,7 +525,7 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			vars.Table[mat1] = &res
 			return
 		}
-		if strings.Index(sign, "/") != -1 sign[len(sign) - 1] == 'm' {
+		if strings.Index(sign, "/") != -1 && sign[len(sign) - 1] == 'm' {
 			//ici nb / matrice
 		}
 	}
@@ -547,7 +551,14 @@ func Transcomatrice(m string) (string) {
 		return (str)
 	}
 
-	return (m)
+	m = strings.ReplaceAll(m, "[", "")
+	m = strings.ReplaceAll(m, "]", "")
+	cols := strings.Split(m, ";")
+	Row0 := strings.Split(cols[0], ",")
+	Row1 := strings.Split(cols[1], ",")
+	Row2 := strings.Split(cols[2], ",")
+	nstr := "[[" + Row0[0] + "," + Row1[0] + "," + Row2[0] + "];[" + Row0[1] + "," + Row1[1] + "," + Row2[1] + "];[" + Row0[2] + "," + Row1[2] + "," + Row2[2] + "]]" 
+	return (nstr)
 }
 
 func Comatrice(m string, vars *types.Variable) (string) {
@@ -560,6 +571,8 @@ func Comatrice(m string, vars *types.Variable) (string) {
 
 	if ml == 2 {
 
+		m = strings.ReplaceAll(m, "[", "")
+		m = strings.ReplaceAll(m, "]", "")
 		cols := strings.Split(m, ";")
 		Row0 := strings.Split(cols[0], ",")
 		Row1 := strings.Split(cols[1], ",")
@@ -577,7 +590,47 @@ func Comatrice(m string, vars *types.Variable) (string) {
 		return (str)
 	}
 
-	return (m)
+	m = strings.ReplaceAll(m, "[", "")
+	m = strings.ReplaceAll(m, "]", "")
+	cols := strings.Split(m, ";")
+	Row0 := strings.Split(cols[0], ",")
+	Row1 := strings.Split(cols[1], ",")
+	Row2 := strings.Split(cols[2], ",")
+
+	SousMat := make(map[int]string)
+	SousMat[0] = "[[" + Row1[1] + "," + Row1[2] + "];[" + Row2[1] + "," + Row2[2] + "]]"
+	SousMat[1] = "[[" + Row1[0] + "," + Row1[2] + "];[" + Row2[0] + "," + Row2[2] + "]]"
+	SousMat[2] = "[[" + Row1[0] + "," + Row1[1] + "];[" + Row2[0] + "," + Row2[1] + "]]"
+	SousMat[3] = "[[" + Row0[1] + "," + Row0[2] + "];[" + Row2[1] + "," + Row2[2] + "]]"
+	SousMat[4] = "[[" + Row0[0] + "," + Row0[2] + "];[" + Row2[0] + "," + Row2[2] + "]]"
+	SousMat[5] = "[[" + Row0[0] + "," + Row0[1] + "];[" + Row2[0] + "," + Row2[1] + "]]"
+	SousMat[6] = "[[" + Row0[1] + "," + Row0[2] + "];[" + Row1[1] + "," + Row1[2] + "]]"
+	SousMat[7] = "[[" + Row0[0] + "," + Row0[2] + "];[" + Row1[0] + "," + Row1[2] + "]]"
+	SousMat[8] = "[[" + Row0[0] + "," + Row0[1] + "];[" + Row1[0] + "," + Row1[1] + "]]"
+
+	nstr := "[["
+	for i := 0; i < len(SousMat); i++ {
+		det, deti := MatDet(SousMat[i], vars)
+		Tmp := TmpComp{ det, deti }
+		if i % 3 == 0 && i != 0 {
+			nstr += "];"
+		} else {
+			if i > 0 {
+				nstr += ","
+			}
+		}
+		if i % 3 == 0 && i != 0 {
+			nstr += "["
+		}
+		if i % 2 == 0 {
+			nstr += Float2string(Tmp)
+		} else {
+			Mul(&Tmp, -1, 0)
+			nstr += Float2string(Tmp)
+		}
+	}
+	nstr += "]"
+	return (nstr)
 }
 
 func MatDet(m string, vars *types.Variable) (float64, float64) {
