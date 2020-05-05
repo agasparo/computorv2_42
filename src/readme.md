@@ -22,6 +22,14 @@ bonus :
 
  - couleures
 
+ - calculs :
+
+ - matrice + matrice
+ - matrice - matrice
+ - matrice / nb
+ - nb / matrice
+ - matrice / matrice
+
  - convertions :
 
   - calcul de deg to rad

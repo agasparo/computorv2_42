@@ -455,10 +455,16 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			Finu.A = 1
 			Finu.B = 0
 			Divi(Finu, det, deti)
+			res2 := matrices.Modifi(Comatrice(r_mat1, vars))
+			vars.Table[mat1] = &res2
+			r_mat1 = vars.Table[mat1].Value()
+			fmt.Printf("commatrice : %s\n", r_mat1)
+			fmt.Println("Finu")
+			fmt.Println(Finu)
 			res1 := matrices.Modifi(CalcMatNb(r_mat1, "*", Finu, vars))
 			vars.Table[mat1] = &res1
-			fmt.Println(res1)
 			r_mat1 = vars.Table[mat1].Value()
+			fmt.Printf("Mid : %s\n", r_mat1)
 			res := matrices.Modifi(MulMa(r_mat, r_mat1, vars))
 			vars.Table[mat] = &res
 			return
@@ -480,6 +486,27 @@ func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.V
 			return
 		}
 	}
+}
+
+func Comatrice(m string, vars *types.Variable) (string) {
+
+	ml := matrices.GetnbLine(m)
+
+	if ml == 1 {
+		return (m)
+	}
+
+	if ml == 2 {
+
+		cols := strings.Split(m, ";")
+		Row0 := strings.Split(cols[0], ",")
+		Row1 := strings.Split(cols[1], ",")
+
+		str := "[[" + Row1[1] + ",-" + Row1[0] + "];[-" + Row0[1] + "," + Row0[0] + "]]"
+		return (str)
+	}
+
+	return (m)
 }
 
 func MatDet(m string, vars *types.Variable) (float64, float64) {
