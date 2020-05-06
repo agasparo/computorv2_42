@@ -251,7 +251,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}
-		res := matrices.Modifi(Vars.Table[data[0]].Value())
+		res := matrices.Modifi(Vars.Table[par[0]].Value())
 		Vars.Table[str[0]] = &res
 		matrices.RemoveTmp(Dat)
 		t = 0
