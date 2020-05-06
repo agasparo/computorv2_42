@@ -273,6 +273,11 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 		str = str[1:len(str)]
 	}
 
+	if str[0] == '*' || str[0] == '/' {
+		*pos = 1
+		return (data)
+	}
+
 	itab = 0
 	anc = ""
 	for i := 0; i < len(str); i++ {
