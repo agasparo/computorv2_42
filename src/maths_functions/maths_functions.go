@@ -36,7 +36,18 @@ func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable
 	}
 	tab = maths_imaginaires.CalcMulDivi(tab, vars, x)
 	tab = maths_imaginaires.CalcAddSous(tab, vars, x)
+	for i := 0; i < len(tab); i++ {
+		tab[i] = ReplaceMat(tab[i], vars)
+	}
 	return (JoinTab(tab))
+}
+
+func ReplaceMat(str string, vars *types.Variable) (string) {
+
+	if val, ok := vars.Table[strings.ToLower(str)]; ok {
+		return (val.Value())
+    }
+    return (str)
 }
 
 func Getx(str string) (string) {
