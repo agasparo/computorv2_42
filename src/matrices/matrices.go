@@ -5,6 +5,7 @@ import (
 	"types"
 	"strconv"
 	"maps"
+	"unicode"
 )
 
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
@@ -44,6 +45,14 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				for a := 0; a < len(part); a++ {
 					part[a] = strings.ReplaceAll(part[a], "[", "")
 					part[a] = strings.ReplaceAll(part[a], "]", "")
+					if IsFunc(part[a], 0) == 1 || IsFunc(part[a], 1) == 1 {
+						tab[0] = "You are not allow to use functions in matrices"
+						return (tab)
+					}
+					if part[a][0] == '(' || part[a][len(part[a]) - 1] == ')' {
+						tab[0] = "You are not allow to use expression in matrices"
+						return (tab)
+					}
 					part[a] = strings.ReplaceAll(part[a], ")", "")
 					part[a] = strings.ReplaceAll(part[a], "(", "")
 					Line.Row[len(Line.Row)] = part[a]
@@ -76,6 +85,44 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
 	return (tab)
+}
+
+func IsFunc(str string, t int) (int) {
+
+	p1 := strings.Index(str, "(")
+	p2 := strings.Index(str, ")")
+
+	if p1 < 0 {
+		return (0)
+	}
+
+	if !IsLetter(str[0:p1]) || p1 == 0 {
+		return (0)
+	}
+
+	if p2 < 0 {
+		return (1)
+	}
+
+	if t == 0 && !IsLetter(str[p1 + 1:p2]) {
+		return (0)
+	}
+
+	if p1 != -1 && p2 != -1 && p1 < p2 {
+
+		return (1)
+	}
+	return (0)
+}
+
+func IsLetter(s string) bool {
+
+    for _, r := range s {
+        if !unicode.IsLetter(r) {
+            return false
+        }
+    }
+    return true
 }
 
 func Power(str string) (bool) {
