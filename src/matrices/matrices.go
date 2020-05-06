@@ -13,17 +13,9 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	for z := 0; z < len(tab); z++ {
 		neg = 0
 		if strings.Index(tab[z], "[") != -1 {
-
-			if strings.Index(tab[z], "[") != -1 || strings.Index(tab[z], "]") != -1 {
-
-				if strings.Index(tab[z], "ˆ[") != -1 || strings.Index(tab[z], "ˆ([") != -1 || strings.Index(tab[z], "]ˆ") != -1 || strings.Index(tab[z], "])ˆ") != -1 {
-					tab[0] = "You are not allow to use Power with matrices"
-					return (tab)
-				}
-				if strings.Index(tab[z], "^[") != -1 || strings.Index(tab[z], "^([") != -1 || strings.Index(tab[z], "]^") != -1 || strings.Index(tab[z], "])^") != -1 {
-					tab[0] = "You are not allow to use Power with matrices"
-					return (tab)
-				}
+			if Power(tab[z]) {
+				tab[0] = "You are not allow to use Power with matrices"
+				return (tab)
 			}
 			if tab[z][0] == '-' {
 				neg = 1
@@ -84,6 +76,23 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
 	return (tab)
+}
+
+func Power(str string) (bool) {
+
+	str = strings.ReplaceAll(str, "ˆ", "^")
+	str = strings.ReplaceAll(str, ")", "")
+	str = strings.ReplaceAll(str, "(", "")
+	for e := strings.Index(str, "^"); e != -1; e = strings.Index(str, "^") {
+		if e - 1 >= 0 && (str[e - 1] == '[' || str[e - 1] == ']') {
+			return (true)
+		}
+		if e + 1 < len(str) && (str[e + 1] == '[' || str[e + 1] == ']') {
+			return (true)
+		}
+		str = str[e + 1:len(str)]
+	}
+	return (false)
 }
 
 func CheckPara(n string, str string, Mat types.Matrice) (string) {
