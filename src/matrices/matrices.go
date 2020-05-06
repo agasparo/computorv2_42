@@ -5,7 +5,6 @@ import (
 	"types"
 	"strconv"
 	"maps"
-	"fmt"
 )
 
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
@@ -57,6 +56,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				if tab[z][len(tab[z]) -1] == ')' {
 					Tmp[0] = "*"
 					Tmp[1] = tab[z] + ")"
+					Tmp[2] = tab[z + 1]
 					tab[z] = "(-1"
 				} else {
 					Tmp[0] = "*"
@@ -71,7 +71,6 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	}
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
-	fmt.Println(tab)
 	return (tab)
 }
 
