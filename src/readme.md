@@ -53,7 +53,7 @@ bonus :
 
   - calcul f(x) = g(x) ?
   - calcul f(x) - g(x) = 0 ?
-  - cacul du degres sans puissances
+  - calcul du degres sans puissances
   - affichage resultat en fraction et en decimal
   - resolution equations du type f(x) / ... = 0
 
