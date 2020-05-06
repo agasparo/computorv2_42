@@ -164,6 +164,12 @@ func Syntaxe() (map[int]Testes) {
 	Tvars[56] = Testes{ "teste avec ˆ : 8", "x = 2ˆ-3", "0.125000" }
 	Tvars[57] = Testes{ "teste avec ˆ : 9", "x = 1ˆ-9", "1" }
 
+	Tvars[58] = Testes{ "teste avec sign : 1", "c = 2**3", "'**' is for matrices" }
+	Tvars[59] = Testes{ "teste avec sign : 2", "x = 2*/3", "You have a mistake with your sign" }
+	Tvars[60] = Testes{ "teste avec sign : 3", "x = 2//3", "You have a mistake with your sign" }
+	Tvars[61] = Testes{ "teste avec sign : 4", "x = /9", "You have a mistake with your sign" }
+	Tvars[61] = Testes{ "teste avec sign : 5", "x = *9", "You have a mistake with your sign" }
+
 	return (Tvars)
 }
 
@@ -207,8 +213,10 @@ func Vars() (map[int]Testes) {
 	Tvars[34] = Testes{ "nom variable -> 0", "0 = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 	Tvars[35] = Testes{ "nom variable -> a0", "a0 = 2 * 3", "Your var must be just with alpha caracteres and not i" }
 
-	Tvars[36] = Testes{ "x = g", "x = g", "isn't defined" }
-	Tvars[37] = Testes{ "3 = 4", "3 = 4", "Your var must be just with alpha caracteres and not i" }
+	Tvars[36] = Testes{ "nom variable -> var c = 1", "var c = 1", "Your var must be just with alpha caracteres and not i" }
+	Tvars[37] = Testes{ "nom variable ->= 4", "= 4", "Your var must be just with alpha caracteres and not i" }
+	Tvars[38] = Testes{ "x = g", "x = g", "isn't defined" }
+	Tvars[39] = Testes{ "nom variable -> = 4", " = 4", "Your var must be just with alpha caracteres and not i" }
 	return (Tvars)
 }
 
