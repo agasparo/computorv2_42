@@ -12,6 +12,7 @@ import (
   	"parser"
   	"usuelles_functions"
   	"strings"
+  	"unicode"
 )
 
 type Courbe struct {
@@ -70,6 +71,9 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 			nn = 1
 			a, _ = strconv.ParseFloat(str, 64)
 		} else {
+			if !IsInter(str, i) {
+				doi = 1
+			}
 			a, _ = maths_functions.Calc(str, maths_functions.Getx(C.Name), fmt.Sprintf("%f", i), &vars)
 		}
 		if doi == 0 {
@@ -89,7 +93,11 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 	       	tabx = tmp
 	       	taby = tmp
 	       	br = 1
-	       	k = i
+	       	if i == 0 {
+				k = 0 + C.Step	       		
+	       	} else {
+	       		k = i
+	       	}
 		}
 		g = i
 	}
@@ -107,6 +115,29 @@ func CalcPoints(C *Courbe, vars types.Variable, All []chart.Series) ([]chart.Ser
 	    YValues: taby,
 	})
 	return (All)
+}
+
+func IsInter(str string, a float64) (bool) {
+
+	str = strings.ReplaceAll(str, " ", "")
+
+	for i := 0; i < len(str); i++ {
+
+		if str[i] == '/' && IsLetter(string(str[i + 1])) && a == 0 {
+			return (false)
+		}
+	}
+	return (true)
+}
+
+func IsLetter(s string) bool {
+
+    for _, r := range s {
+        if !unicode.IsLetter(r) {
+            return false
+        }
+    }
+    return true
 }
 
 func GetInterval(i float64, C *Courbe, br int) (string) {
