@@ -33,6 +33,8 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				for a := 0; a < len(part); a++ {
 					part[a] = strings.ReplaceAll(part[a], "[", "")
 					part[a] = strings.ReplaceAll(part[a], "]", "")
+					part[a] = strings.ReplaceAll(part[a], ")", "")
+					part[a] = strings.ReplaceAll(part[a], "(", "")
 					Line.Row[len(Line.Row)] = part[a]
 				}
 				if !CheckLength(Matr.Mat, len(Line.Row)) {
@@ -43,12 +45,17 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 			}
 			name := GenerateName(Dat)
 			vars.Table[name] = &Matr
-			tab[z] = name
+			tab[z] = CheckPara(name, tab[z], Matr)
 		}
 	}
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
 	return (tab)
+}
+
+func CheckPara(n string, str string, Mat types.Matrice) (string) {
+
+	return (strings.ReplaceAll(str, Mat.Value(), n))
 }
 
 func Modifi(m string) (types.Matrice) {

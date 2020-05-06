@@ -239,7 +239,9 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}
+		fmt.Println(data)
 		par := parentheses.Parse(data, Vars, false, "")
+		fmt.Println(par)
 		if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
 			error.SetError(par[0])
 			matrices.RemoveTmp(Dat)

@@ -261,6 +261,11 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 func SizeMat(m string, m1 string, vars *types.Variable) (bool) {
 
+	m = strings.ReplaceAll(m, "(", "")
+	m1 = strings.ReplaceAll(m1, "(", "")
+	m = strings.ReplaceAll(m, ")", "")
+	m1 = strings.ReplaceAll(m1, ")", "")
+
 	ma := vars.Table[m].Value()
 	ma1 := vars.Table[m1].Value()
 
@@ -420,6 +425,11 @@ func TransN(str string) (x float64, y float64) {
 
 func IsCarre(m string, m1 string, vars *types.Variable) (bool) {
 
+	m = strings.ReplaceAll(m, "(", "")
+	m1 = strings.ReplaceAll(m1, "(", "")
+	m = strings.ReplaceAll(m, ")", "")
+	m1 = strings.ReplaceAll(m1, ")", "")
+
 	ma := vars.Table[m].Value()
 	ma1 := vars.Table[m1].Value()
 
@@ -435,6 +445,11 @@ func IsCarre(m string, m1 string, vars *types.Variable) (bool) {
 }
 
 func IsOkMul(m string, m1 string, vars *types.Variable) (bool) {
+
+	m = strings.ReplaceAll(m, "(", "")
+	m1 = strings.ReplaceAll(m1, "(", "")
+	m = strings.ReplaceAll(m, ")", "")
+	m1 = strings.ReplaceAll(m1, ")", "")
 
 	ma := vars.Table[m].Value()
 	ma1 := vars.Table[m1].Value()
@@ -452,6 +467,8 @@ func IsOkMul(m string, m1 string, vars *types.Variable) (bool) {
 
 func IsNul(mat string, vars *types.Variable) (bool) {
 
+	mat = strings.ReplaceAll(mat, "(", "")
+	mat = strings.ReplaceAll(mat, ")", "")
 	c := 0
 	ma := vars.Table[mat].Value()
 	m := strings.Split(ma, ";")
@@ -476,6 +493,11 @@ func IsNul(mat string, vars *types.Variable) (bool) {
 func Matrices(Finu *TmpComp, mat string, mat1 string, sign string, vars *types.Variable) {
 
 	var r_mat, r_mat1 string
+
+	mat = strings.ReplaceAll(mat, "(", "")
+	mat1 = strings.ReplaceAll(mat1, "(", "")
+	mat = strings.ReplaceAll(mat, ")", "")
+	mat1 = strings.ReplaceAll(mat1, ")", "")
 
 	if mat != "" {
 		r_mat = vars.Table[mat].Value()

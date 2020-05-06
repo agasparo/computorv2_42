@@ -44,6 +44,8 @@ func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable
 
 func ReplaceMat(str string, vars *types.Variable) (string) {
 
+	str = strings.ReplaceAll(str, "(", "")
+	str = strings.ReplaceAll(str, ")", "")
 	if val, ok := vars.Table[strings.ToLower(str)]; ok {
 		return (val.Value())
     }
