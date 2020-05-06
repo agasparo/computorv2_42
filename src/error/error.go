@@ -275,6 +275,11 @@ func IsUsu(data map[int]string, vars types.Variable) (bool) {
 
 func Checkvars(str string) (bool) {
 
+	e := strings.Split(str, " ")
+	if len(e) > 1 {
+		return (false)
+	}
+
 	str = strings.ReplaceAll(str, " ", "")
 
 	if str == "" {
