@@ -105,7 +105,7 @@ func getSignEq(U *Unknown) (string, int) {
 		}
 	}
 	for a := 0; a < len(U.Tab); a++ {
-		if strings.Index(U.Tab[a], "(") != -1 || strings.Index(U.Tab[a], ")") != -1 || strings.Index(U.Tab[a], "[") != -1 || strings.Index(U.Tab[a], "]") != -1 {
+		if strings.Index(U.Tab[a], "(") != -1 || strings.Index(U.Tab[a], ")") != -1 || strings.Index(U.Tab[a], "[") != -1 || strings.Index(U.Tab[a], "]") != -1 || strings.Index(U.Tab[a], "i") != -1 {
 			return "Sorry i can't resolve this equation", 0
 		}
 	}
