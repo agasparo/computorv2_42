@@ -29,6 +29,7 @@ bonus :
  - matrice / nb
  - nb / matrice
  - matrice / matrice
+ - parentheses avec les matrices
 
  - convertions :
 
