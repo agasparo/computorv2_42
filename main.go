@@ -183,8 +183,8 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				error.SetError(err)
 				return 1, -1, str_ret
 			}
-			if strings.Index(data[0], "mat") != -1 {
-				res := matrices.Modifi(Vars.Table[data[0]].Value())
+			if strings.Index(par[0], "mat") != -1 {
+				res := matrices.Modifi(Vars.Table[par[0]].Value())
 				Vars.Table["?"] = &res
 			} else if y != 0 {
 				Vars.Table["?"] = &types.Imaginaire{ x, y }
