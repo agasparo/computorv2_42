@@ -167,7 +167,12 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			str_ret = "?"
 			t = 0
 		} else {
-			// test is defined f(x) ou autres fonctions
+			data = matrices.Parse(data, Dat, Vars)
+			if strings.Index(data[0], "You") != -1 {
+				error.SetError(data[0])
+				matrices.RemoveTmp(Dat)
+				return 1, -1, str_ret
+			}
 			par := parentheses.Parse(data, Vars, false, "")
 			if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
 				error.SetError(par[0])
@@ -178,7 +183,15 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				error.SetError(err)
 				return 1, -1, str_ret
 			}
-			Vars.Table["?"] = &types.Imaginaire{ x, y }
+			if strings.Index(data[0], "mat") != -1 {
+				res := matrices.Modifi(Vars.Table[data[0]].Value())
+				Vars.Table["?"] = &res
+			} else if y != 0 {
+				Vars.Table["?"] = &types.Imaginaire{ x, y }
+			} else {
+				Vars.Table["?"] = &types.Rationel{ x }
+			}
+			matrices.RemoveTmp(Dat)
 			str_ret = "?"
 			t = 0
 		}
