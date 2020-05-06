@@ -50,7 +50,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 						return (tab)
 					}
 					if part[a][0] == '(' || part[a][len(part[a]) - 1] == ')' {
-						tab[0] = "You are not allow to use expression in matrices"
+						tab[0] = "You are not allow to use expression with parentheses in matrices"
 						return (tab)
 					}
 					part[a] = strings.ReplaceAll(part[a], ")", "")
