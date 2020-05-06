@@ -10,7 +10,7 @@ func ShowVars(t int, v types.AllT) {
 
 	if t == 0 {
 		res := v.Value()
-		if strings.Index(res, "[") != -1 {
+		if IsMat(res) {
 			res = strings.ReplaceAll(res, ";", "\n")
 			res = strings.ReplaceAll(res, ",", " , ")
 			res = res[1:len(res) - 1]
@@ -21,4 +21,21 @@ func ShowVars(t int, v types.AllT) {
 			fmt.Println(v.Value())
 		}
 	}
+}
+
+func IsMat(res string) (bool) {
+
+	if strings.Index(res, "[") == -1 {
+		return (false)
+	}
+	if strings.Index(res, "*") != -1 {
+		return (false)
+	}
+	if strings.Index(res, "/") != -1 {
+		return (false)
+	}
+	if strings.Index(res, "%") != -1 {
+		return (false)
+	}
+	return (true)
 }
