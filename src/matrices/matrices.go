@@ -5,14 +5,22 @@ import (
 	"types"
 	"strconv"
 	"maps"
+	//"fmt"
 )
 
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
 
-
+	neg := 0
 	for z := 0; z < len(tab); z++ {
-
+		neg = 0
 		if strings.Index(tab[z], "[") != -1 {
+			if tab[z][0] == '-' {
+				neg = 1
+				tab[z] = tab[z][1:len(tab[z])]
+			}
+			if tab[z][0] == '+' {
+				tab[z] = tab[z][1:len(tab[z])]
+			}
 			Matr := types.Matrice{}
 			tab[z] = AddMat(tab, z)
 			if strings.Count(tab[z], "[") != strings.Count(tab[z], "]") {
@@ -44,6 +52,13 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				Matr.Mat[len(Matr.Mat)] = Line
 			}
 			name := GenerateName(Dat)
+			if neg == 1 {
+				Tmp := make(map[int]string)
+				Tmp[0] = "*"
+				Tmp[1] = "-1)"
+				tab[z] = "(" + tab[z]
+				tab = maps.CombineN(tab, Tmp, z + 1)
+			}
 			vars.Table[name] = &Matr
 			tab[z] = CheckPara(name, tab[z], Matr)
 		}

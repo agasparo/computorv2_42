@@ -30,6 +30,7 @@ bonus :
  - nb / matrice
  - matrice / matrice
  - parentheses avec les matrices
+ - '-' devant une matrice
 
  - convertions :
 
