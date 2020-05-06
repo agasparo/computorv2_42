@@ -25,16 +25,7 @@ func ShowVars(t int, v types.AllT) {
 
 func IsMat(res string) (bool) {
 
-	if strings.Index(res, "[") == -1 {
-		return (false)
-	}
-	if strings.Index(res, "*") != -1 {
-		return (false)
-	}
-	if strings.Index(res, "/") != -1 {
-		return (false)
-	}
-	if strings.Index(res, "%") != -1 {
+	if res[0] != '[' || res[len(res) - 1] != ']' {
 		return (false)
 	}
 	return (true)
