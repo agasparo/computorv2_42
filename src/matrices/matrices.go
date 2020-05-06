@@ -13,6 +13,18 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	for z := 0; z < len(tab); z++ {
 		neg = 0
 		if strings.Index(tab[z], "[") != -1 {
+
+			if strings.Index(tab[z], "[") != -1 || strings.Index(tab[z], "]") != -1 {
+
+				if strings.Index(tab[z], "ˆ[") != -1 || strings.Index(tab[z], "ˆ([") != -1 || strings.Index(tab[z], "]ˆ") != -1 || strings.Index(tab[z], "])ˆ") != -1 {
+					tab[0] = "You are not allow to use Power with matrices"
+					return (tab)
+				}
+				if strings.Index(tab[z], "^[") != -1 || strings.Index(tab[z], "^([") != -1 || strings.Index(tab[z], "]^") != -1 || strings.Index(tab[z], "])^") != -1 {
+					tab[0] = "You are not allow to use Power with matrices"
+					return (tab)
+				}
+			}
 			if tab[z][0] == '-' {
 				neg = 1
 				tab[z] = tab[z][1:len(tab[z])]
