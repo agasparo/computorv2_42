@@ -24,6 +24,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		return (tab)
 	}
 	res := ""
+
 	for max := nb_par; max > 0; max-- {
 
 		parser_err := 0
