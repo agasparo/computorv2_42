@@ -123,7 +123,11 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 						return ("'" + x + "' isn't defined 4")
 					}
 				} else {
-					return ("'" + tab[i] + "' isn't defined 4")
+					if strings.Index(tab[i], "[") == -1 && strings.Index(tab[i], "]") == -1 {
+						if tab[i] != "*" {
+							return ("'" + tab[i] + "' isn't defined 5")
+						}
+					}
 				}
 			}
 		}
@@ -132,7 +136,14 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			tes := strings.Split(strings.ReplaceAll(tab[i], " ", ""), x)
 			if !checktab(tes, Dat, tab[i], x) && !Is_defined(strings.Join(tes, ""), Dat) && !IsUsu(tab, Dat) {
 				if !ResFunct(tab[i], Dat) && parser.IsFunc(tab[i], 0) != 1 && strings.Index(tab[i], "i") == -1 {
-					return ("'" + tab[i] + "' isn't defined 3")
+					if strings.Index(tab[i], "[") == -1 && strings.Index(tab[i], "]") == -1 {
+						if tab[i] != "*" {
+							return ("'" + tab[i] + "' isn't defined 3")
+						}
+						if tab[i] == "*" && strings.Index(tab[i + 1], "]") == -1 {
+							return ("'" + tab[i] + "' isn't defined 3.1")
+						}
+					}
 				}
 			}
 			if IsUsu(tab, Dat) {

@@ -7,9 +7,10 @@ import (
 	"maths_imaginaires"
 	"parser"
 	"maps"
+	"matrices"
 )
 
-func Init(tab map[int]string, x string, vars *types.Variable) (string) {
+func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable) (string) {
 
 	x = Getx(x)
 	if maps.Array_search_count(tab, "(") >= 1 {
@@ -23,6 +24,14 @@ func Init(tab map[int]string, x string, vars *types.Variable) (string) {
 
 		if tab[i] != x {
 			tab[i] = replace_vars.GetVars(vars, tab[i])
+		}
+
+		if strings.Index(tab[i], "]") != -1 || strings.Index(tab[i], "[") != -1 {
+			tab = matrices.Parse(tab, Dat, vars)
+			if strings.Index(tab[0], "You") != -1 {
+				matrices.RemoveTmp(Dat)
+				return (tab[0])
+			}
 		}
 	}
 	tab = maths_imaginaires.CalcMulDivi(tab, vars, x)

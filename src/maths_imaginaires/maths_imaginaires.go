@@ -50,12 +50,20 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					data = maps.MapSliceCount(data, i, 3)
 					data[i - 1] = data[i - 1]
 				} else if strings.Index(data[i - 1], "mat") != -1 {
+					if data[i + 1] == "*" {
+						data[0] = "'**' is for matrices"
+						return (data)
+					}
 					nb1, nb2 := ParseOne(data[i + 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					Matrices(&Calc, data[i - 1], "", "*", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
 				} else if strings.Index(data[i + 1], "mat") != -1 {
+					if data[i + 1] == "*" {
+						data[0] = "'**' is for matrices"
+						return (data)
+					}
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					Matrices(&Calc, data[i + 1], "", "*", vars)
@@ -64,7 +72,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 				}
 			} else {
 				if data[i + 1] == "*" {
-					data[0] = "'**' is for matrices"
+					data[0] = "'**' is for matrices 2"
 					return (data)
 				}
 				nb1, nb2 := ParseOne(data[i - 1], vars)
