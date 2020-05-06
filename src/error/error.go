@@ -286,6 +286,10 @@ func Checkvars(str string) (bool) {
 		return (false)
 	}
 
+	if strings.Index(str, "mat") != -1 {
+		return (false)
+	}
+
 	if str == "i" || str == "ˆ" || strings.Index(str, "inf") != -1 || strings.Index(str, "nan") != -1 {
 		return (false)
 	}
