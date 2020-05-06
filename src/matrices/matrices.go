@@ -5,7 +5,7 @@ import (
 	"types"
 	"strconv"
 	"maps"
-	//"fmt"
+	"fmt"
 )
 
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
@@ -54,9 +54,15 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 			name := GenerateName(Dat)
 			if neg == 1 {
 				Tmp := make(map[int]string)
-				Tmp[0] = "*"
-				Tmp[1] = "-1)"
-				tab[z] = "(" + tab[z]
+				if tab[z][len(tab[z]) -1] == ')' {
+					Tmp[0] = "*"
+					Tmp[1] = tab[z] + ")"
+					tab[z] = "(-1"
+				} else {
+					Tmp[0] = "*"
+					Tmp[1] = "-1)"
+					tab[z] = "(" + tab[z]
+				}
 				tab = maps.CombineN(tab, Tmp, z + 1)
 			}
 			vars.Table[name] = &Matr
@@ -65,6 +71,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	}
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
+	fmt.Println(tab)
 	return (tab)
 }
 
