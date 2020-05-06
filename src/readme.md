@@ -31,6 +31,7 @@ bonus :
  - matrice / matrice
  - parentheses avec les matrices
  - '-' devant une matrice
+ - mettre une expression dans une matrice
 
  - convertions :
 
