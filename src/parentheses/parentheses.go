@@ -55,7 +55,6 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 			}
 		}
 		add, pos, repete := check(ntab)
-		fmt.Println(ntab)
 		n1, n2, err := maths_imaginaires.CalcVar(ntab, Vars)
 		if err != "" {
 			tab[0] = err
@@ -66,7 +65,7 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		} else {
 			ntab[0] = strings.ReplaceAll(ntab[0], ")", "")
 			ntab[0] = strings.ReplaceAll(ntab[0], "(", "")
-			res = Vars.Table[ntab[0]].Value() 
+			res = ntab[0] 
 		}
 		if powers != "" && strings.Index(powers, ")") != -1 && strings.Index(powers, "(") != -1 {
 			po := parser.GetAllIma(strings.ReplaceAll(add_check(res, powers, pl, "1"), " ", ""), &parser_err)
@@ -79,12 +78,10 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 		} else {
 			res = add_check(res, powers, pl, "1")
 		}
-		fmt.Printf("res : %s\n", res)
 		tab[index_d] = add_check(res, add, pos, repete)
 		tab = maps.MapSliceCount(tab, index_d + 1, index_c - index_d)
 		tab = maps.Clean(tab)
 	}
-	fmt.Println(tab)
 	return (tab)
 }
 
