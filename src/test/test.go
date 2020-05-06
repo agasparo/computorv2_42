@@ -279,7 +279,7 @@ func Sujet1() (map[int]Testes) {
 	Tvars[11] = Testes{ "1 + 1.5 = ?", "1 + 1.5 = ?", "2.5" }
 	Tvars[12] = Testes{ "c = 4 - 3 - (2 * 3)^2 * (2 - 4) + 4", "c = 4 - 3 - (2 * 3)^2 * (2 - 4) + 4", "77" }
 
-	Tvars[13] = Testes{ "c = () + 3", "c = () + 3", "'' isn't defined" }
+	Tvars[13] = Testes{ "c = () + 3", "c = () + 3", "you have a problem with your parentheses syntaxe" }
 	Tvars[14] = Testes{ "c = (3) + 3", "c = (3) + 3", "6" }
 	Tvars[15] = Testes{ "c = 2 * (3+2)", "c = 2 * (3+2)", "10" }
 	Tvars[16] = Testes{ "c = 2 * 3 + 2", "c = 2 * 3 + 2", "8" }
