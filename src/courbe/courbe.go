@@ -126,6 +126,9 @@ func IsInter(str string, a float64) (bool) {
 		if str[i] == '/' && IsLetter(string(str[i + 1])) && a == 0 {
 			return (false)
 		}
+		if str[i] == '%' && IsLetter(string(str[i + 1])) && a == 0 {
+			return (false)
+		}
 	}
 	return (true)
 }
