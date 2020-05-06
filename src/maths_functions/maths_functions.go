@@ -8,6 +8,7 @@ import (
 	"parser"
 	"maps"
 	"matrices"
+	"norm"
 )
 
 func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable) (string) {
@@ -28,6 +29,11 @@ func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable
 
 		if strings.Index(tab[i], "]") != -1 || strings.Index(tab[i], "[") != -1 {
 			tab = matrices.Parse(tab, Dat, vars)
+			if !norm.Normalize(vars) {
+				tab[0] = "You have a mistake in your matrice"
+				matrices.RemoveTmp(Dat)
+				return (tab[0])
+			}
 			if strings.Index(tab[0], "You") != -1 {
 				matrices.RemoveTmp(Dat)
 				return (tab[0])

@@ -128,7 +128,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 							if tab[i] == "" {
 								return ("you have a problem with your parentheses syntaxe")
 							}
-							return ("'" + tab[i] + "' isn't defined 5")
+							if strings.Index(tab[i], ",") == -1 {
+								return ("'" + tab[i] + "' isn't defined 5")
+							}
 						}
 					}
 				}
