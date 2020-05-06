@@ -196,9 +196,11 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 		res := maths_functions.Init(data, str[0], Vars, Dat)
 		if strings.Index(res, "You") != -1 {
 			error.SetError(data[0])
+			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}
 		Vars.Table[str[0]] = &types.Fonction{ res }
+		matrices.RemoveTmp(Dat)
 		t = 0
 	} else if strings.Index(str[1], "[") != -1 || strings.Index(str[1], "]") != -1 || IsMat(str[1], Vars) {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[1]), " ", ""), &err_pars)
