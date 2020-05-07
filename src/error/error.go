@@ -7,7 +7,6 @@ import (
 	"maths_functions"
 	"types"
 	"maps"
-	"fmt"
 )
 
 func SetError(str string) {
@@ -141,7 +140,6 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 				} else {
 					if strings.Index(tab[i], "[") == -1 && strings.Index(tab[i], "]") == -1 {
 						if tab[i] != "*" {
-							fmt.Println(tab)
 							if tab[i] == "" {
 								return ("you have a problem with your parentheses syntaxe")
 							}
