@@ -326,6 +326,9 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 			return (data)
 		}
 		index := GetCararc(str, "+-/*%")
+		if index + 1 == len(str) {
+			return (data)
+		}
 		if index >= 0 && str[index] == '*' && str[index + 1] == '*' {
 			ajj = 1
 		}

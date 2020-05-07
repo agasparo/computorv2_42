@@ -32,6 +32,10 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 	ajj := -1
 	tmp := ""
 
+	if strings.Index("+-/*%", tab[len(tab) - 1]) != -1 {
+		return ("You have a mistake with your sign")
+	}
+
 	if strings.Count(maps.Join(data, ""), ")") != strings.Count(maps.Join(data, ""), "(") {
 		return ("You must have the same number of parentheses")
 	}
