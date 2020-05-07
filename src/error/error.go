@@ -31,7 +31,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 	ajj := -1
 	tmp := ""
 
-	if strings.Index("+-/*%", tab[len(tab) - 1]) != -1 {
+	if strings.Index("+-/*%", tab[len(tab) - 1]) != -1 && len(tab) > 0 {
 		return ("You have a mistake with your sign")
 	}
 

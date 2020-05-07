@@ -366,6 +366,10 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 
 func DebCheck(str string) (bool) {
 
+	if len(str) == 1 {
+		return (false)
+	}
+
 	if strings.Index("+-/*%", string(str[0])) != -1 && strings.Index("+-/*%", string(str[1])) != -1 {
 		return (false)
 	}
