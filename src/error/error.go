@@ -47,8 +47,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			}
 			tab[i] = tab[i][1:len(tab[i])]
 		}
-		tab[i] = ReplaceTmp(tab[i])
-		if (parser.IsFunc(tab[i], 1) == 1 || parser.IsFunc(tab[i], 0) == 1) && strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
+		tmps := ReplaceTmp(tab[i])
+		if (parser.IsFunc(tmps, 1) == 1 || parser.IsFunc(tmps, 0) == 1) && strings.Index(tmps, "(") != -1 && strings.Index(tmps, ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
+			tab[i] = tmps
 			index := maps.Array_search(tab, ")")
 			if index == -1 {
 				return ("'" + tab[i] + "' isn't defined 1")
@@ -59,29 +60,39 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			tab = maps.Clean(tab)
 			ajj = index + 1
 		} else if parser.IsFunc(tab[i], 1) != 1 && parser.IsFunc(tab[i], 0) != 1 {
-			if !ParaCheck(tab[i]) {
-				return ("you must have n * (z not or z) * n not '" + tab[i] + "'")
-			}
-			if strings.Index(tab[i], "ˆ") == -1 && strings.Index(tab[i], "^") == -1 {
+			if tab[i] == "(" && (tab[i + 1] == "+" || tab[i + 1] == "-") {
+				tab[i] = tab[i] + tab[i + 1] + tab[i + 2]
 				tab[i] = strings.ReplaceAll(tab[i], "(", "")
 				tab[i] = strings.ReplaceAll(tab[i], ")", "")
+				tab = maps.MapSlice(tab, i + 1)
+				tab = maps.Reindex(tab)
+				tab = maps.Clean(tab)
+				ajj = i + 1
 			} else {
-				nstr := strings.Split(tab[i], "ˆ")
-				if len(nstr) == 1 {
-					nstr = strings.Split(tab[i], "^")
+				if !ParaCheck(tab[i]) {
+					return ("you must have n * (z not or z) * n not '" + tab[i] + "'")
 				}
-				if parser.IsFunc(nstr[1], 1) == 1 || parser.IsFunc(nstr[1], 0) == 1 {
-					
-					if len(tab) > i + 1 {
-						tab[i] = tab[i] + tab[i + 1] + tab[i + 2]
-						tab = maps.MapSlice(tab, i + 1)
-						tab = maps.Reindex(tab)
-						tab = maps.Clean(tab)
-						ajj = i + 1
-					}
-				} else {
+				if strings.Index(tab[i], "ˆ") == -1 && strings.Index(tab[i], "^") == -1 {
 					tab[i] = strings.ReplaceAll(tab[i], "(", "")
 					tab[i] = strings.ReplaceAll(tab[i], ")", "")
+				} else {
+					nstr := strings.Split(tab[i], "ˆ")
+					if len(nstr) == 1 {
+						nstr = strings.Split(tab[i], "^")
+					}
+					if parser.IsFunc(nstr[1], 1) == 1 || parser.IsFunc(nstr[1], 0) == 1 {
+						
+						if len(tab) > i + 1 {
+							tab[i] = tab[i] + tab[i + 1] + tab[i + 2]
+							tab = maps.MapSlice(tab, i + 1)
+							tab = maps.Reindex(tab)
+							tab = maps.Clean(tab)
+							ajj = i + 1
+						}
+					} else {
+						tab[i] = strings.ReplaceAll(tab[i], "(", "")
+						tab[i] = strings.ReplaceAll(tab[i], ")", "")
+					}
 				}
 			}
 		}
