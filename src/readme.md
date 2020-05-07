@@ -32,6 +32,7 @@ bonus :
  - parentheses avec les matrices
  - '-' devant une matrice
  - mettre une expression dans une matrice
+ - gestion de + et - Inf
 
  - convertions :
 
