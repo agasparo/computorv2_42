@@ -124,6 +124,7 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 				ntn := make(map[int]string)
 				ntn[0] = "*"
 				ntn[1] = "-1)"
+				ntn[2] = data[i + 1]
 				data[i] = "(" + data[i]
 				data = maps.CombineN(data, ntn, i + 1)
 				i = -1
