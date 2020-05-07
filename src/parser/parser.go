@@ -78,6 +78,7 @@ func GetDataFunc(str string, tab map[string]types.AllT) (string, string) {
 func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 
 	var tmp = make(map[int]string)
+	var negFunc = 0
 
 	for i := 0; i < len(data); i++ {
 
@@ -102,6 +103,10 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			nData = Checkfunc(nData, Vars)
 			data[i] = maps.Join(nData, "ˆ")
 		}
+		if len(data[i]) > 0 && data[i][0] == '-' {
+			negFunc = 1
+			data[i] = data[i][1:len(data[i])]
+		}
 		tmps := ReplaceTmp(data[i])
 		if IsFunc(tmps, 1) == 1 {
 			data[i] = tmps
@@ -115,28 +120,40 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			if add > 1 {
 				data = maps.MapSlice(data, i + 1)
 			}
-			name, value := GetDataFunc(data[i], Vars.Table)
-			x := Getx(name)
-			r := data[i][p1 + 1:p2]
-			if IsExpression(r, x, Vars) {
-				data[0] = "You must have only one number for unknown not an expression"
-				return (data)
-			}
-			if strings.Index(value, "|") != -1 {
-				value = strings.ReplaceAll(value, "usu|", "")
-				value = Remp(value, x, r, Vars)
-				value = usuelles_functions.GetUsuF(value, Vars)
-				if strings.Index(value, "Impossible") != -1 {
-					data[0] = value
+			if negFunc == 1 {
+				ntn := make(map[int]string)
+				ntn[0] = "*"
+				ntn[1] = "-1)"
+				data[i] = "(" + data[i]
+				data = maps.CombineN(data, ntn, i + 1)
+				i = -1
+			} else {
+				name, value := GetDataFunc(data[i], Vars.Table)
+				x := Getx(name)
+				r := data[i][p1 + 1:p2]
+				if IsExpression(r, x, Vars) {
+					data[0] = "You must have only one number for unknown not an expression"
 					return (data)
 				}
+				if strings.Index(value, "|") != -1 {
+					value = strings.ReplaceAll(value, "usu|", "")
+					value = Remp(value, x, r, Vars)
+					value = usuelles_functions.GetUsuF(value, Vars)
+					if strings.Index(value, "Impossible") != -1 {
+						data[0] = value
+						return (data)
+					}
+				}
+				nstr := strings.ReplaceAll(value, x, replace_vars.GetVars(&Vars, r))
+				tmp := strings.ReplaceAll(data[i], Remp(name, x, r, Vars), "(" + nstr + ")")
+				nt := GetAllIma(strings.ReplaceAll(tmp, " ", ""), &parser_err)
+				data = maps.CombineN(data, nt, i)
+				i = -1
 			}
-			nstr := strings.ReplaceAll(value, x, replace_vars.GetVars(&Vars, r))
-			tmp := strings.ReplaceAll(data[i], Remp(name, x, r, Vars), "(" + nstr + ")")
-			nt := GetAllIma(strings.ReplaceAll(tmp, " ", ""), &parser_err)
-			data = maps.CombineN(data, nt, i)
-			i = -1
+		} else if negFunc == 1 {
+			data[i] = "-" + data[i]
 		}
+		negFunc = 0
 	}
 	return (data)
 }
