@@ -273,7 +273,7 @@ func Sujet1() (map[int]Testes) {
 	Tvars[6] = Testes{ "func(y) = 43 * y / (4 % 2 * y)", "func(y) = 43 * y / (4 % 2 * y)", "43 * y / (4 % 2 * y)" }
 	Tvars[7] = Testes{ "funC(z) = -2 * z - 5", "funC(z) = -2 * z - 5", "-2 * z - 5" }
 
-	Tvars[8] = Testes{ "x = 23edd23-+-+", "x = 23edd23-+-+", "'23edd23' isn't defined" }
+	Tvars[8] = Testes{ "x = 23edd23-+-+", "x = 23edd23-+-+", "You have a mistake with your sign" }
 	Tvars[9] = Testes{ "2 + 2 = ?", "2 + 2 = ?", "4" }
 	Tvars[10] = Testes{ "3 * 2 = ?", "3 * 2 = ?", "6" }
 	Tvars[11] = Testes{ "1 + 1.5 = ?", "1 + 1.5 = ?", "2.5" }
