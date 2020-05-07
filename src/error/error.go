@@ -7,7 +7,6 @@ import (
 	"maths_functions"
 	"types"
 	"maps"
-	"fmt"
 )
 
 func SetError(str string) {
@@ -49,7 +48,6 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		}
 		tab[i] = ReplaceTmp(tab[i])
 		if (parser.IsFunc(tab[i], 1) == 1 || parser.IsFunc(tab[i], 0) == 1) && strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
-			fmt.Println("ici")
 			index := maps.Array_search(tab, ")")
 			if index == -1 {
 				return ("'" + tab[i] + "' isn't defined 1")

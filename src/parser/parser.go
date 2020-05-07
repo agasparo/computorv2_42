@@ -102,8 +102,9 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 			nData = Checkfunc(nData, Vars)
 			data[i] = maps.Join(nData, "ˆ")
 		}
-
-		if IsFunc(data[i], 1) == 1 {
+		tmps := ReplaceTmp(data[i])
+		if IsFunc(tmps, 1) == 1 {
+			data[i] = tmps
 			p1 := strings.Index(data[i], "(")
 			p2 := strings.Index(data[i], ")")
 			add := 1
@@ -138,6 +139,15 @@ func Checkfunc(data map[int]string, Vars types.Variable) (map[int]string) {
 		}
 	}
 	return (data)
+}
+
+func ReplaceTmp(str string) (string) {
+
+	r := 0
+	for i := 0; i < len(str) && str[i] == '('; i++ {
+		r++
+	} 
+	return (str[r:len(str)])
 }
 
 func IsExpression(str string, x string, Vars types.Variable) (bool) {
