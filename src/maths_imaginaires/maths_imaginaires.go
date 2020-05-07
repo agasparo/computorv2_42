@@ -853,9 +853,19 @@ func Add(Finu *TmpComp, a float64, b float64) {
 
 func Mul(Finu *TmpComp, a float64, b float64) {
 
-	tmp := ((Finu.A * a) - (Finu.B * b))
-	Finu.B = ((Finu.A * b) + (a * Finu.B))
-	Finu.A = tmp
+	if fmt.Sprintf("%f", Finu.A) == "+Inf" || fmt.Sprintf("%f", Finu.A) == "-Inf" {
+		if a < 0 {
+			Finu.A = Finu.A * a
+		} else if a == 0 {
+			tmp := ((Finu.A * a) - (Finu.B * b))
+			Finu.B = ((Finu.A * b) + (a * Finu.B))
+			Finu.A = tmp
+		}
+	} else {
+		tmp := ((Finu.A * a) - (Finu.B * b))
+		Finu.B = ((Finu.A * b) + (a * Finu.B))
+		Finu.A = tmp
+	}
 }
 
 func Divi(Finu *TmpComp, a float64, b float64) {
