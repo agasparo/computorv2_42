@@ -855,7 +855,7 @@ func Mul(Finu *TmpComp, a float64, b float64) {
 
 	if fmt.Sprintf("%f", Finu.A) == "+Inf" || fmt.Sprintf("%f", Finu.A) == "-Inf" {
 		if a < 0 {
-			Finu.A = Finu.A * a
+			Finu.A = Finu.A * -1
 		} else if a == 0 {
 			tmp := ((Finu.A * a) - (Finu.B * b))
 			Finu.B = ((Finu.A * b) + (a * Finu.B))
