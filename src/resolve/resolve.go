@@ -47,8 +47,7 @@ func Init(U *Unknown, Dat types.Variable) (string) {
 			return ("|")
 		}
 		if t == 1 {
-			//RempEq(U.Tab[0], U)
-			return ("|")
+			return ("Sorry i Cant resolve this equation")
 		}
 		RempEq(U.Tab, U, Dat)
 		return ("|")
