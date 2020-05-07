@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"equations"
 	"maps"
+	"replace_vars"
 )
 
 type Unknown struct {
@@ -146,14 +147,14 @@ func RempEq(tab map[int]string, U *Unknown, Dat types.Variable) {
 		if strings.Index(tab[i], "|") != -1 {
 			e := strings.Split(tab[i], "|")
 			ck := 0
-			GetAllSign(maps.Join(parser.Checkfunc(parser.GetAllIma(e[0], &ck), Dat), ""), e[1], U, WE, sign)
+			GetAllSign(maps.Join(parser.Checkfunc(parser.GetAllIma(e[0], &ck), Dat), ""), e[1], U, WE, sign, Dat)
 		} else {
-			RPuis(tab[i], 0, WE, U, sign)
+			RPuis(tab[i], 0, WE, U, sign, Dat)
 		}
 	}
 }
 
-func GetAllSign(str string, x string, U *Unknown, WE int, signdeb string) {
+func GetAllSign(str string, x string, U *Unknown, WE int, signdeb string, Dat types.Variable) {
 
 	var puis int
 	var sign int
@@ -180,9 +181,9 @@ func GetAllSign(str string, x string, U *Unknown, WE int, signdeb string) {
 			puis = 0
 		}
 		if sign == 1 {
-			RPuis(getNumber("-" + str[0:i], x), puis, WE, U, signdeb)
+			RPuis(getNumber("-" + str[0:i], x), puis, WE, U, signdeb, Dat)
 		} else {
-			RPuis(getNumber(str[0:i], x), puis, WE, U, signdeb)
+			RPuis(getNumber(str[0:i], x), puis, WE, U, signdeb, Dat)
 		}
 		str = str[i:len(str)]
 		sign = 0
@@ -191,7 +192,7 @@ func GetAllSign(str string, x string, U *Unknown, WE int, signdeb string) {
 	if puis < 0 {
 		puis = 0
 	}
-	RPuis(getNumber(str, x), puis, WE, U, signdeb)
+	RPuis(getNumber(str, x), puis, WE, U, signdeb, Dat)
 }
 
 
@@ -231,7 +232,7 @@ func GetIndex(str string) (int) {
 	return (max)
 }
 
-func RPuis(nb string, puis int, wEqs int, U *Unknown, sign string) {
+func RPuis(nb string, puis int, wEqs int, U *Unknown, sign string, Dat types.Variable) {
 
 	var Eq equations.Equation
 
@@ -245,6 +246,7 @@ func RPuis(nb string, puis int, wEqs int, U *Unknown, sign string) {
 		Eq = equations.Equation{}
 	}
 	
+	nb = replace_vars.GetVars(&Dat, nb)
 	t1, _ := strconv.ParseFloat(nb, 64)
 	
 	if sign == "-" {
