@@ -7,6 +7,7 @@ import (
 	"maths_functions"
 	"types"
 	"maps"
+	"fmt"
 )
 
 func SetError(str string) {
@@ -46,8 +47,9 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 			}
 			tab[i] = tab[i][1:len(tab[i])]
 		}
-
+		tab[i] = ReplaceTmp(tab[i])
 		if (parser.IsFunc(tab[i], 1) == 1 || parser.IsFunc(tab[i], 0) == 1) && strings.Index(tab[i], "(") != -1 && strings.Index(tab[i], ")") == -1 && i + 1 < len(tab) && !parser.IsNumeric(tab[i + 1]) {
+			fmt.Println("ici")
 			index := maps.Array_search(tab, ")")
 			if index == -1 {
 				return ("'" + tab[i] + "' isn't defined 1")
@@ -120,7 +122,7 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 				if strings.Index(tab[i], "(") != -1 {
 					x := maths_functions.Getx(tab[i])
 					if !Is_defined(x, Dat) {
-						return ("'" + x + "' isn't defined 4")
+						return ("'" + tab[i] + "' isn't defined 4")
 					}
 				} else {
 					if strings.Index(tab[i], "[") == -1 && strings.Index(tab[i], "]") == -1 {
@@ -170,6 +172,15 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 		tmp = ""
 	}
 	return ("1")
+}
+
+func ReplaceTmp(str string) (string) {
+
+	r := 0
+	for i := 0; str[i] == '('; i++ {
+		r++
+	}
+	return (str[r:len(str)])
 }
 
 func ParaCheck(str string) (bool) {
