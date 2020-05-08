@@ -77,6 +77,10 @@ func Parse(tab map[int]string, Vars *types.Variable, is_f bool, f_name string) (
 			}
 			res = Float2string(TmpComp{ a, b })
 		} else {
+			v, u := maths_imaginaires.ParseOne(res, Vars)
+			if u != 0 {
+				res = Float2string2(TmpComp{ v, u })
+			}
 			res = add_check(res, powers, pl, "1")
 		}
 		tab[index_d] = add_check(res, add, pos, repete)
@@ -222,6 +226,14 @@ func Float2string(Calc TmpComp) (string) {
 	} else if Calc.a == 0 {
 		return (fmt.Sprintf("%fi", Calc.b))
 	} else if Calc.b > 0 {
+		return (fmt.Sprintf("%f + %fi", Calc.a, Calc.b))
+	}
+	return (fmt.Sprintf("%f %fi", Calc.a, Calc.b))
+}
+
+func Float2string2(Calc TmpComp) (string) {
+
+	if Calc.b > 0 {
 		return (fmt.Sprintf("%f + %fi", Calc.a, Calc.b))
 	}
 	return (fmt.Sprintf("%f %fi", Calc.a, Calc.b))

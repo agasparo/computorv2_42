@@ -298,8 +298,11 @@ func CalcP(str string) (bool) {
 		nstr = strings.Split(str, "^")
 	}
 	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
-	if r.MatchString(str) {
-		return (false)
+	if r.MatchString(nstr[1]) {
+		a, _ := Trans(nstr[1])
+		if a != 0 {
+			return (false)
+		}
 	}
 	return (true)
 }
