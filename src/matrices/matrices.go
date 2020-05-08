@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"maps"
 	"unicode"
-	// /"fmt"
 )
 
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
@@ -68,6 +67,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 					}
 					part[a] = strings.ReplaceAll(part[a], ")", "")
 					part[a] = strings.ReplaceAll(part[a], "(", "")
+					//ici
 					Line.Row[len(Line.Row)] = part[a]
 				}
 				if !CheckLength(Matr.Mat, len(Line.Row)) {

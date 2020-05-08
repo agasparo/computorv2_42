@@ -112,10 +112,14 @@ func (m *Matrice) Value() (string) {
 
 		str += "["
 		for z := 0; z < len(m.Mat[i].Row); z++ {
-			nb, _ := strconv.ParseFloat(m.Mat[i].Row[z], 64)
-			tmpnb := nb
-			if isFloatInt(nb) {
-				str = str + fmt.Sprintf("%d", int64(tmpnb))
+			if !IsSign(m.Mat[i].Row[z]) {
+				nb, _ := strconv.ParseFloat(m.Mat[i].Row[z], 64)
+				tmpnb := nb
+				if isFloatInt(nb) {
+					str = str + fmt.Sprintf("%d", int64(tmpnb))
+				} else {
+					str = str + m.Mat[i].Row[z]
+				}
 			} else {
 				str = str + m.Mat[i].Row[z]
 			}
@@ -154,4 +158,12 @@ func isFloatInt(floatValue float64) (bool) {
 		return false
 	}
     return floatValue == float64(int64(floatValue))
+}
+
+func IsSign(str string) (bool) {
+
+	if strings.Index(str, "+") != -1 || strings.Index(str, "-") != -1 || strings.Index(str, "/") != -1 || strings.Index(str, "*") != -1 || strings.Index(str, "%") != -1 {
+		return (true)
+	}
+	return (false)
 }
