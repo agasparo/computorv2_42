@@ -24,6 +24,10 @@ func CalcVar(data map[int]string, vars *types.Variable) (float64, float64, strin
 	if strings.Index(data[0], "by 0") != -1 || strings.Index(data[0], "matrice") != -1 {
 		return 0, 0, data[0]
 	}
+	if !CalcP(data[0]) {
+		data[0] = "Can't do power by 0 complexe"
+		return 0, 0, data[0]
+	}
 	a, b := ParseOne(data[0], vars)
 	return a, b, ""
 }
@@ -75,6 +79,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					data[0] = "'**' is for matrices 2"
 					return (data)
 				}
+				if !CalcP(data[i - 1]) || !CalcP(data[i + 1]) {
+					data[0] = "Can't do power by 0 complexe"
+					return (data)
+				}
 				nb1, nb2 := ParseOne(data[i - 1], vars)
 				Calc = TmpComp{nb1, nb2}
 				nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -95,6 +103,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 			nb3, nb4 := ParseOne(data[i + 1], vars)
 			if nb3 == 0 && nb4 == 0 {
 				data[0] = "Can't do modulo by 0"
+				return (data)
+			}
+			if !CalcP(data[i - 1]) || !CalcP(data[i + 1]) {
+				data[0] = "Can't do power by 0 complexe"
 				return (data)
 			}
 			Mod(&Calc, nb3, nb4)
@@ -167,6 +179,10 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					data = maps.MapSlice(data, i)
 				}
 			} else {
+				if !CalcP(data[i - 1]) || !CalcP(data[i + 1]) {
+					data[0] = "Can't do power by 0 complexe"
+					return (data)
+				}
 				nb1, nb2 := ParseOne(data[i - 1], vars)
 				Calc = TmpComp{nb1, nb2}
 				nb3, nb4 := ParseOne(data[i + 1], vars)
@@ -206,6 +222,10 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				data[0] = "I can't add matrice and number"
 				return (data)
 			} else {
+				if !CalcP(data[i - 1]) || !CalcP(data[i + 1]) {
+					data[0] = "Can't do power by 0 complexe"
+					return (data)
+				}
 				nb_puis := NegPui(data[i - 1], data[i + 1])
 				if nb_puis == data[i - 1] {
 					nb1, nb2 = ParseOne(data[i - 1], vars)
@@ -239,6 +259,10 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				data[0] = "I can't add matrice and number"
 				return (data)
 			} else {
+				if !CalcP(data[i - 1]) || !CalcP(data[i + 1]) {
+					data[0] = "Can't do power by 0 complexe"
+					return (data)
+				}
 				nb_puis := NegPui(data[i - 1], data[i + 1])
 				if nb_puis == data[i - 1] {
 					nb1, nb2 = ParseOne(data[i - 1], vars)
@@ -257,6 +281,27 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 	}
 	return (data)
+}
+
+func CalcP(str string) (bool) {
+
+	if strings.Index(str, "ˆ") == -1 && strings.Index(str, "^") == -1 {
+		return (true)
+	}
+	str = strings.ReplaceAll(str, "ˆ", "^")
+	str = strings.ReplaceAll(str, " ", "")
+    str = strings.ReplaceAll(str, "\n", "")
+    str = strings.ReplaceAll(str, "[", "")
+	str = strings.ReplaceAll(str, "]", "")
+	nstr := strings.Split(str, "ˆ")
+	if len(nstr) == 1 {
+		nstr = strings.Split(str, "^")
+	}
+	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
+	if r.MatchString(str) {
+		return (false)
+	}
+	return (true)
 }
 
 func SizeMat(m string, m1 string, vars *types.Variable) (bool) {
