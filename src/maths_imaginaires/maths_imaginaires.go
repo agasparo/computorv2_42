@@ -318,22 +318,28 @@ func Float2string(Calc TmpComp) (string) {
 func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 
 	is_just_i := 0
+	r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 	str = strings.ReplaceAll(str, "ˆ", "^")
-	if str[0] == 'i' && str[1] == '^' {
-		is_just_i = 1
-	}
 	str = strings.ReplaceAll(str, " ", "")
     str = strings.ReplaceAll(str, "\n", "")
     str = strings.ReplaceAll(str, "[", "")
 	str = strings.ReplaceAll(str, "]", "")
-    str = strings.ReplaceAll(str, "(", "")
+	index_ch := strings.Index(str, "^")
+	if index_ch != -1 {
+		if str[index_ch - 1] == 'i' && str[index_ch] == '^' {
+			if r.MatchString(str) {
+				is_just_i = 0
+			} else {
+				is_just_i = 1
+			}
+		}
+	}
+	str = strings.ReplaceAll(str, "(", "")
 	str = strings.ReplaceAll(str, ")", "")
 	str = replace_vars.GetVars(vars, str)
 	if str == "i" {
 		str = "1i"
 	}
-
-    r, _ := regexp.Compile(`(?m)[+-]?([0-9]*[.])?[0-9]+[-+][+-]?([0-9]*[.])?[0-9]+[i]`)
 
 	if strings.Index(str, "ˆ") != -1 || strings.Index(str, "^") != -1 {
 		nstr := strings.Split(str, "ˆ")
@@ -348,10 +354,21 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		}
 		if is_just_i == 1 {
 			index := strings.Index(str, "i")
+			tmp := nstr[0]
 			nstr[0] = string(str[index])
+			a, b := TransPow(nstr)
+			str = Float2string(TmpComp{ a, b })
+			if len(tmp) > 1 {
+				tmp = strings.ReplaceAll(tmp, "i", "")
+				n1, n2 := ParseOne(tmp, vars)
+				Base := TmpComp{ a, b }
+				Mul(&Base, n1, n2)
+				str = Float2string(Base)
+			}
+		} else {
+			a, b := TransPow(nstr)
+			str = Float2string(TmpComp{ a, b })
 		}
-		a, b := TransPow(nstr)
-		str = Float2string(TmpComp{ a, b })
 		str = strings.ReplaceAll(str, " ", "")
 	}
 
