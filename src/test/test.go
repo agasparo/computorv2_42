@@ -314,11 +314,20 @@ func Sujet1() (map[int]Testes) {
 func Matrices() (map[int]Testes) {
 
 	Tvars := make(map[int]Testes)
-	Tvars[0] = Testes{ "error syntaxe 1", "c = [3,2]", "You must have [[ at the begining of your matrice" }
+	Tvars[0] = Testes{ "error syntaxe 1", "c = [3,2]", "You have a problem with your matrices syntaxe" }
 	Tvars[1] = Testes{ "error syntaxe 2", "c = [[,]]", "You must have a number in a matrice" }
 	Tvars[2] = Testes{ "error syntaxe 3", "c = [,[3,2]]", "You must have [[ at the begining of your matrice" }
 	Tvars[3] = Testes{ "error syntaxe 4", "c = [[];[3,2]]", "You must have a number in a matrice" }
-	Tvars[4] = Testes{ "error syntaxe 5", "c = [[3,2];;[2,3]]", "You must have a number in a matrice" }
+	Tvars[4] = Testes{ "error syntaxe 5", "c = [[3,2];;[2,3]]", "You have a problem with your matrices syntaxe" }
+
+	Tvars[5] = Testes{ "error syntaxe 6", "c = [[3,2;2,3]]", "You have a problem with your matrices syntaxe" }
+	Tvars[6] = Testes{ "error syntaxe 7", "c = [[]]", "You must have a number in a matrice" }
+	Tvars[7] = Testes{ "error syntaxe 8", "c = [[", "You have a problem with your matrices syntaxe" }
+	Tvars[8] = Testes{ "error syntaxe 9", "c = [", "You have a problem with your matrices syntaxe" }
+	Tvars[9] = Testes{ "error syntaxe 10", "c = ]", "You have a problem with your matrices syntaxe" }
+	Tvars[10] = Testes{ "error syntaxe 11", "c = ]]", "You have a problem with your matrices syntaxe" }
+	Tvars[11] = Testes{ "error syntaxe 12", "c = [[[3,2]]]", "You have a problem with your matrices syntaxe" }
+	Tvars[12] = Testes{ "error syntaxe 13", "c = [[3];[2];[-]]", "You have a mistake in your matrice" }
 	return (Tvars)
 }
 

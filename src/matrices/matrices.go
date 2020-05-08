@@ -14,7 +14,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	neg := 0
 	for z := 0; z < len(tab); z++ {
 		neg = 0
-		if strings.Index(tab[z], "[") != -1 {
+		if strings.Index(tab[z], "[") != -1 || strings.Index(tab[z], "]") != -1 {
 			if Power(tab[z]) {
 				tab[0] = "You are not allow to use Power with matrices"
 				return (tab)
@@ -28,6 +28,10 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 			}
 			Matr := types.Matrice{}
 			tab[z] = AddMat(tab, z)
+			if !CountPara(tab[z]) {
+				tab[0] = "You have a problem with your matrices syntaxe"
+				return (tab)
+			}
 			if tab[z][0] != '[' || tab[z][1] != '[' {
 				tab[0] = "You must have [[ at the begining of your matrice"
 				return (tab)
@@ -94,6 +98,24 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
 	return (tab)
+}
+
+func CountPara(str string) (bool) {
+
+	if len(str) < 2 {
+		return (false)
+	}
+
+	str = str[1:len(str) - 1]
+
+	pv := strings.Count(str, ";")
+	po := strings.Count(str, "[")
+	pf := strings.Count(str, "]")
+
+	if po != (pv + 1) || pf != (pv + 1){
+		return (false)
+	}
+	return (true)
 }
 
 func IsFunc(str string, t int) (int) {
