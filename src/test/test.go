@@ -334,7 +334,7 @@ func Matrices() (map[int]Testes) {
 	Tvars[15] = Testes{ "error syntaxe 16", "c = [[3,2];[2,2];[3,,2]]", "You must have a number in a matrice" }
 
 	Tvars[16] = Testes{ "test valide 1", "c = [[3];[2];[6]]", "[ 3 ]\n[ 2 ]\n[ 6 ]" }
-	Tvars[17] = Testes{ "test valide 2", "c = [[3 + 2];[2];[6 + 2i]]", "[ 5 ]\n[ 2 ]\n[ 6 + 2i ]" }
+	Tvars[17] = Testes{ "test valide 2", "c = [[3 + 2];[2];[6 + 2i]]", "[ 5 ]\n[ 2 ]\n[ 6.000000 + 2.000000i ]" }
 	Tvars[18] = Testes{ "test valide 3", "c = [[3,2];[2,4];[6,5]]", "[ 3 , 2 ]\n[ 2 , 4 ]\n[ 6 , 5 ]" }
 	Tvars[19] = Testes{ "test error 1", "c = [[3, 2];[2];[6, 3]]", "You have a problem with your matrices syntaxe" }
 
