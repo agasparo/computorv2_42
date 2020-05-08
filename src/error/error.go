@@ -138,7 +138,11 @@ func In(data map[int]string, t int, f string, Dat types.Variable) (string) {
 						return ("'" + tab[i] + "' isn't defined 4")
 					}
 				} else {
-					if strings.Index(tab[i], "[") == -1 && strings.Index(tab[i], "]") == -1 {
+					if is_i == 1 {
+						tab[i] = tmp
+					}
+					if strings.Index(tab[i], "[") == -1 && strings.Index(tab[i], "]") == -1 && !IsPower(tab[i], Dat, 0) {
+						tab[i] = strings.ReplaceAll(tab[i], "i", "")
 						if tab[i] != "*" {
 							if tab[i] == "" {
 								return ("you have a problem with your parentheses syntaxe")
@@ -263,7 +267,7 @@ func IsPower(str string, Dat types.Variable, t int) (bool) {
 					nstr[i] = nstr[i][p1 + 1:p2]
 				}
 
-				if !Is_defined(nstr[i], Dat) && !parser.IsNumeric(nstr[i]) {
+				if !Is_defined(nstr[i], Dat) && !parser.IsNumeric(nstr[i]) && nstr[i] != "i" {
 					return (false)
 				}
 			}
