@@ -355,6 +355,10 @@ func Matrices() (map[int]Testes) {
 	Tvars[31] = Testes{ "error syntaxe 24", "c = [[ˆ3,2]]", "You are not allow to use Power with matrices" }
 	Tvars[32] = Testes{ "error syntaxe 25", "c = [[3,ˆ2]]", "You must have a number in a matrice" }
 
+	Tvars[33] = Testes{ "error syntaxe 26", "c = [[(3,2)]]", "You are not allow to use expression with parentheses in matrices" }
+	Tvars[34] = Testes{ "error syntaxe 27", "c = [[3,(2 + 1)]]", "You are not allow to use expression with parentheses in matrices" }
+	Tvars[35] = Testes{ "error syntaxe 28", "c = [[f(x)]]", "You are not allow to use functions in matrices" }
+
 	return (Tvars)
 }
 

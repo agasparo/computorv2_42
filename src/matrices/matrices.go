@@ -29,7 +29,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 			Matr := types.Matrice{}
 			tab[z] = AddMat(tab, z, &is_par)
 			if !CountPara(tab[z]) {
-				tab[0] = "You have a problem with your matrices syntaxe"
+				tab[0] = "You have a problem with your matrices syntaxe 2"
 				return (tab)
 			}
 			if tab[z][0] != '[' || tab[z][1] != '[' {
@@ -41,7 +41,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				return (tab)
 			}
 			if strings.Count(tab[z], "[") > 2 && strings.Index(tab[z], ";") == -1 {
-				tab[0] = "You have a problem with your matrices syntaxe"
+				tab[0] = "You have a problem with your matrices syntaxe 1"
 				return (tab)
 			}
 			table := strings.Split(tab[z], ";")
@@ -72,7 +72,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 					Line.Row[len(Line.Row)] = part[a]
 				}
 				if !CheckLength(Matr.Mat, len(Line.Row)) {
-					tab[0] = "You have a problem with your matrices syntaxe"
+					tab[0] = "You have a problem with your matrices syntaxe 3"
 					return (tab)
 				}
 				Matr.Mat[len(Matr.Mat)] = Line
@@ -241,8 +241,8 @@ func AddMat(tab map[int]string, z int, is_par *string) (string) {
 	tab = maps.MapSliceCount(tab, z + 1, save - z)
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
-	index := strings.Index(tab[z], "]")
-	index_fin := IndexString(tab[z], "[")
+	index := strings.Index(tab[z], "[")
+	index_fin := IndexString(tab[z], "]")
 	tab[z] = ReplacePara(index, index_fin, tab[z], is_par)
 	return (tab[z])
 }

@@ -94,7 +94,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 
 		if data[i] == "%" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
-			if (strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1) || (!IsMat(data[i - 1], vars) && !IsMat(data[i + 1], vars)) {
+			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 || IsMat(data[i - 1], vars) || IsMat(data[i + 1], vars) {
 				data[0] = "Can't calcul matrice with modulo"
 				return (data)
 			}
@@ -117,7 +117,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			
-			if (strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1) || (!IsMat(data[i - 1], vars) && !IsMat(data[i + 1], vars)) {
+			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 || IsMat(data[i - 1], vars) || IsMat(data[i + 1], vars) {
 				if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) && IsMat(data[i + 1], vars)) {
 					if !SizeMat(data[i - 1], data[i + 1], vars) {
 						data[0] = "Your matrice must have the same length"
@@ -209,7 +209,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			
-			if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) && IsMat(data[i + 1], vars)) {
+			if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) && IsMat(data[i + 1], vars)) { // manque ou
 				if !SizeMat(data[i - 1], data[i + 1], vars) {
 					data[0] = "Your matrice must have the same length"
 					return (data)
