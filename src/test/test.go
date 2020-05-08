@@ -340,7 +340,10 @@ func Matrices() (map[int]Testes) {
 
 	Tvars[20] = Testes{ "test valide 4", "varA = [[2,3];[4,3]]", "[ 2 , 3 ]\n[ 4 , 3 ]" }
 	Tvars[21] = Testes{ "test valide 5", "varB = [[3,4]]", "[ 3 , 4 ]" }
+	Tvars[22] = Testes{ "test valide 6", "varA = [[1,2];[3,2];[3,4]]", "[ 1 , 2 ]\n[ 3 , 2 ]\n[ 3 , 4 ]" }
+	Tvars[23] = Testes{ "test valide 7", "varB =\t[[1,2]]", "[ 1 , 2 ]" }
 
+	Tvars[24] = Testes{ "error syntaxe 17", "c = [[3,2]", "You have a problem with your matrices syntaxe" }
 
 	return (Tvars)
 }
