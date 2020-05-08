@@ -39,12 +39,12 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 	for i := 1; i < len(data); i += 2 {
 
 		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
-			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
-				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+			if (strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) || IsMat(data[i + 1], vars)) {
+				if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (!IsMat(data[i - 1], vars) && !IsMat(data[i + 1], vars)) {
 					data[0] = "Multiplication with matrices is with ** not just one *"
 					return (data)
 				}
-				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 2], "mat") != -1 && data[i + 1] == "*" {
+				if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 2], "mat") != -1) || (IsMat(data[i - 1], vars) || IsMat(data[i + 1], vars)) && data[i + 1] == "*" {
 					if !IsOkMul(data[i - 1], data[i + 2], vars) {
 						data[0] = "Your matrice is not good for multiplication"
 						return (data)
@@ -53,7 +53,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], data[i + 2], "*", vars)
 					data = maps.MapSliceCount(data, i, 3)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i - 1], "mat") != -1 {
+				} else if strings.Index(data[i - 1], "mat") != -1 || IsMat(data[i - 1], vars) {
 					if data[i + 1] == "*" {
 						data[0] = "'**' is for matrices"
 						return (data)
@@ -63,7 +63,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], "", "*", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i + 1], "mat") != -1 {
+				} else if strings.Index(data[i + 1], "mat") != -1 || IsMat(data[i + 1], vars) {
 					if data[i + 1] == "*" {
 						data[0] = "'**' is for matrices"
 						return (data)
@@ -94,7 +94,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 		}
 
 		if data[i] == "%" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
-			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+			if (strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1) || (!IsMat(data[i - 1], vars) && !IsMat(data[i + 1], vars)) {
 				data[0] = "Can't calcul matrice with modulo"
 				return (data)
 			}
@@ -117,8 +117,8 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 		if data[i] == "/" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			
-			if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
-				if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+			if (strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1) || (!IsMat(data[i - 1], vars) && !IsMat(data[i + 1], vars)) {
+				if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) && IsMat(data[i + 1], vars)) {
 					if !SizeMat(data[i - 1], data[i + 1], vars) {
 						data[0] = "Your matrice must have the same length"
 						return (data)
@@ -144,7 +144,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], data[i + 1], "/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i - 1], "mat") != -1 {
+				} else if strings.Index(data[i - 1], "mat") != -1 || IsMat(data[i - 1], vars) {
 					nb1, nb2 := ParseOne(data[i + 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					if nb1 == 0 && nb2 == 0 {
@@ -154,7 +154,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 					Matrices(&Calc, data[i - 1], "", "m/", vars)
 					data = maps.MapSlice(data, i)
 					data[i - 1] = data[i - 1]
-				} else if strings.Index(data[i + 1], "mat") != -1 {
+				} else if strings.Index(data[i + 1], "mat") != -1 || IsMat(data[i + 1], vars) {
 					nb1, nb2 := ParseOne(data[i - 1], vars)
 					Calc = TmpComp{nb1, nb2}
 					if IsNul(data[i + 1], vars) {
@@ -209,7 +209,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 		if data[i] == "+" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			
-			if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+			if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) && IsMat(data[i + 1], vars)) {
 				if !SizeMat(data[i - 1], data[i + 1], vars) {
 					data[0] = "Your matrice must have the same length"
 					return (data)
@@ -218,7 +218,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				Matrices(&Calc, data[i - 1], data[i + 1], "+", vars)
 				data = maps.MapSlice(data, i)
 				data[i - 1] = data[i - 1]
-			} else if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+			} else if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 || IsMat(data[i - 1], vars) || IsMat(data[i + 1], vars) {
 				data[0] = "I can't add matrice and number"
 				return (data)
 			} else {
@@ -246,7 +246,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 		if data[i] == "-" && data[i - 1] != inconnue && data[i + 1] != inconnue && data[i + 2] != "*" && data[i - 2] != "*" && data[i + 2] != "/" && data[i - 2] != "/" && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			
-			if strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1 {
+			if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) && IsMat(data[i + 1], vars)){
 				if !SizeMat(data[i - 1], data[i + 1], vars) {
 					data[0] = "Your matrice must have the same length"
 					return (data)
@@ -255,7 +255,7 @@ func CalcAddSous(data map[int]string, vars *types.Variable, inconnue string) (ma
 				Matrices(&Calc, data[i - 1], data[i + 1], "-", vars)
 				data = maps.MapSlice(data, i)
 				data[i - 1] = data[i - 1]
-			} else if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 {
+			} else if strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1 || IsMat(data[i - 1], vars) || IsMat(data[i + 1], vars) {
 				data[0] = "I can't add matrice and number"
 				return (data)
 			} else {
@@ -1020,4 +1020,21 @@ func IsNumeric(s string) (bool) {
 
     _, err := strconv.ParseFloat(s, 64)
     return (err == nil)
+}
+
+func IsMat(str string, Vars *types.Variable) (bool) {
+
+	if len(str) > 1 {
+		if str[0] == '-' || str[0] == '+' {
+			str = str[1:len(str)]
+		}
+	}
+
+	for i := 0; i < len(str); i++ {
+		if _, ok := Vars.Table[strings.ToLower(str)]; ok {
+
+			return (true)
+    	}
+	}
+	return (false)
 }
