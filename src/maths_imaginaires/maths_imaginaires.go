@@ -40,7 +40,7 @@ func CalcMulDivi(data map[int]string, vars *types.Variable, inconnue string) (ma
 
 		if data[i] == "*" && data[i - 1] != inconnue && data[i + 1] != inconnue && !IsPowFunc(inconnue, data[i - 1], data[i + 1]) {
 			if (strings.Index(data[i - 1], "mat") != -1 || strings.Index(data[i + 1], "mat") != -1) || (IsMat(data[i - 1], vars) || IsMat(data[i + 1], vars)) {
-				if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) || (!IsMat(data[i - 1], vars) && !IsMat(data[i + 1], vars)) {
+				if (strings.Index(data[i - 1], "mat") != -1 && strings.Index(data[i + 1], "mat") != -1) && (!IsMat(data[i - 1], vars) && !IsMat(data[i + 1], vars)) {
 					data[0] = "Multiplication with matrices is with ** not just one *"
 					return (data)
 				}

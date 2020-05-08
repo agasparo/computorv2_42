@@ -11,6 +11,7 @@ import (
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
 
 	neg := 0
+	is_par := ""
 	for z := 0; z < len(tab); z++ {
 		neg = 0
 		if strings.Index(tab[z], "[") != -1 || strings.Index(tab[z], "]") != -1 {
@@ -26,7 +27,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				tab[z] = tab[z][1:len(tab[z])]
 			}
 			Matr := types.Matrice{}
-			tab[z] = AddMat(tab, z)
+			tab[z] = AddMat(tab, z, &is_par)
 			if !CountPara(tab[z]) {
 				tab[0] = "You have a problem with your matrices syntaxe"
 				return (tab)
@@ -68,7 +69,6 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 					}
 					part[a] = strings.ReplaceAll(part[a], ")", "")
 					part[a] = strings.ReplaceAll(part[a], "(", "")
-					//ici
 					Line.Row[len(Line.Row)] = part[a]
 				}
 				if !CheckLength(Matr.Mat, len(Line.Row)) {
@@ -94,6 +94,10 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 			}
 			vars.Table[name] = &Matr
 			tab[z] = CheckPara(name, tab[z], Matr)
+			if strings.Index(is_par, "|") != - 1 {
+				pae := strings.Split(is_par, "|")
+				tab[z] = pae[0] + tab[z] + pae[1]
+			}
 		}
 	}
 	tab = maps.Reindex(tab)
@@ -115,6 +119,8 @@ func CountPara(str string) (bool) {
 		return (false)
 	}
 
+	str = strings.ReplaceAll(str, ")", "")
+	str = strings.ReplaceAll(str, "(", "")
 	str = str[1:len(str) - 1]
 
 	pv := strings.Count(str, ";")
@@ -207,9 +213,12 @@ func Modifi(m string) (types.Matrice) {
 	return (M)
 }
 
-func AddMat(tab map[int]string, z int) (string) {
+func AddMat(tab map[int]string, z int, is_par *string) (string) {
 	
 	if strings.Count(tab[z], "[") == strings.Count(tab[z], "]") {
+		index := strings.Index(tab[z], "[")
+		index_fin := IndexString(tab[z], "]")
+		tab[z] = ReplacePara(index, index_fin, tab[z], is_par)
 		return (tab[z])
 	}
 
@@ -232,7 +241,35 @@ func AddMat(tab map[int]string, z int) (string) {
 	tab = maps.MapSliceCount(tab, z + 1, save - z)
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
+	index := strings.Index(tab[z], "]")
+	index_fin := IndexString(tab[z], "[")
+	tab[z] = ReplacePara(index, index_fin, tab[z], is_par)
 	return (tab[z])
+}
+
+func ReplacePara(deb int, fin int, str string, is_par *string) (string) {
+
+	if deb > 0 {
+		*is_par += str[0:deb]
+	}
+	*is_par += "|"
+	if fin + 1 < len(str) {
+		*is_par += str[fin + 1:len(str)]
+	}
+	return (str[deb:fin + 1])
+}
+
+func IndexString(str string, s string) (int) {
+
+	pos := -1
+
+	for i := 0; i < len(str); i++ {
+		
+		if string(str[i]) == s {
+			pos = i
+		}
+	}
+	return (pos)
 }
 
 func CheckLength(tab map[int]types.MatRow, cmp int) (bool) {
