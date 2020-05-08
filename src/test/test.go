@@ -25,7 +25,7 @@ type Testes struct {
 
 func DefineAndRun() {
 
-	/*Syn := Cat{ "Syntaxe" ,  Syntaxe(), 0 }
+	Syn := Cat{ "Syntaxe" ,  Syntaxe(), 0 }
 	Syn.Length = len(Syn.tab)
 	Run(Syn.tab, Syn)
 
@@ -43,15 +43,15 @@ func DefineAndRun() {
 
 	Sujet1 := Cat{ "Sujet1" ,  Sujet1(), 0 }
 	Sujet1.Length = len(Sujet1.tab)
-	Run(Sujet1.tab, Sujet1)*/
+	Run(Sujet1.tab, Sujet1)
 
 	Matrices := Cat{ "Matrices" ,  Matrices(), 0 }
 	Matrices.Length = len(Matrices.tab)
 	Run(Matrices.tab, Matrices)
 
-	/*Calcul := Cat{ "Calcul" ,  Calcul(), 0 }
+	Calcul := Cat{ "Calcul" ,  Calcul(), 0 }
 	Calcul.Length = len(Calcul.tab)
-	Run(Calcul.tab, Calcul)*/
+	Run(Calcul.tab, Calcul)
 }
 
 func Run(table map[int]Testes, C Cat) {
