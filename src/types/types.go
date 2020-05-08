@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"strings"
+	"strconv"
 )
 
 type AllT interface {
@@ -111,8 +112,13 @@ func (m *Matrice) Value() (string) {
 
 		str += "["
 		for z := 0; z < len(m.Mat[i].Row); z++ {
-
-			str = str + m.Mat[i].Row[z]
+			nb, _ := strconv.ParseFloat(m.Mat[i].Row[z], 64)
+			tmpnb := nb
+			if isFloatInt(nb) {
+				str = str + fmt.Sprintf("%d", int64(tmpnb))
+			} else {
+				str = str + m.Mat[i].Row[z]
+			}
 			if z + 1 < len(m.Mat[i].Row) {
 				str += ","
 			}

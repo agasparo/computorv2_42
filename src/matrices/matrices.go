@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"maps"
 	"unicode"
-	//"fmt"
+	// /"fmt"
 )
 
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
@@ -54,7 +54,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				for a := 0; a < len(part); a++ {
 					part[a] = strings.ReplaceAll(part[a], "[", "")
 					part[a] = strings.ReplaceAll(part[a], "]", "")
-					if part[a] == "" {
+					if part[a] == "" || IsSign(part[a]) {
 						tab[0] = "You must have a number in a matrice"
 						return (tab)
 					}
@@ -98,6 +98,14 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
 	return (tab)
+}
+
+func IsSign(str string) (bool) {
+
+	if str == "+" || str == "-" || str == "/" || str == "*" || str == "%" {
+		return (true)
+	}
+	return (false)
 }
 
 func CountPara(str string) (bool) {
