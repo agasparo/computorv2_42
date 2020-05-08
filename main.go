@@ -178,13 +178,13 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				Vars.Table["?"] = &types.Fonction{ res }
 			} else {
 				data = matrices.Parse(data, Dat, Vars)
-				if !norm.Normalize(Vars) {
-					error.SetError("You have a mistake in your matrice")
+				if strings.Index(data[0], "You") != -1 {
+					error.SetError(data[0])
 					matrices.RemoveTmp(Dat)
 					return 1, -1, str_ret
 				}
-				if strings.Index(data[0], "You") != -1 {
-					error.SetError(data[0])
+				if !norm.Normalize(Vars) {
+					error.SetError("You have a mistake in your matrice")
 					matrices.RemoveTmp(Dat)
 					return 1, -1, str_ret
 				}
@@ -250,13 +250,13 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			data = parser.GetAllIma(strings.ReplaceAll(strings.ToLower(maps.Join(data, "")), " ", ""), &err_pars)
 		}
 		data = matrices.Parse(data, Dat, Vars)
-		if !norm.Normalize(Vars) {
-			error.SetError("You have a mistake in your matrice")
+		if strings.Index(data[0], "You") != -1 {
+			error.SetError(data[0])
 			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}
-		if strings.Index(data[0], "You") != -1 {
-			error.SetError(data[0])
+		if !norm.Normalize(Vars) {
+			error.SetError("You have a mistake in your matrice")
 			matrices.RemoveTmp(Dat)
 			return 1, -1, str_ret
 		}

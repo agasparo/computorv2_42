@@ -25,7 +25,7 @@ type Testes struct {
 
 func DefineAndRun() {
 
-	Syn := Cat{ "Syntaxe" ,  Syntaxe(), 0 }
+	/*Syn := Cat{ "Syntaxe" ,  Syntaxe(), 0 }
 	Syn.Length = len(Syn.tab)
 	Run(Syn.tab, Syn)
 
@@ -43,11 +43,15 @@ func DefineAndRun() {
 
 	Sujet1 := Cat{ "Sujet1" ,  Sujet1(), 0 }
 	Sujet1.Length = len(Sujet1.tab)
-	Run(Sujet1.tab, Sujet1)
+	Run(Sujet1.tab, Sujet1)*/
 
-	Calcul := Cat{ "Calcul" ,  Calcul(), 0 }
+	Matrices := Cat{ "Matrices" ,  Matrices(), 0 }
+	Matrices.Length = len(Matrices.tab)
+	Run(Matrices.tab, Matrices)
+
+	/*Calcul := Cat{ "Calcul" ,  Calcul(), 0 }
 	Calcul.Length = len(Calcul.tab)
-	Run(Calcul.tab, Calcul)
+	Run(Calcul.tab, Calcul)*/
 }
 
 func Run(table map[int]Testes, C Cat) {
@@ -304,6 +308,17 @@ func Sujet1() (map[int]Testes) {
 	Tvars[19] = Testes{ "c = 1.1.15 + 2", "c = 1.1.15 + 2", "'1.1.15' isn't defined" }
 	Tvars[20] = Testes{ "c = -+-+23", "c = -+-+23", "You have a mistake with your sign" }
 	Tvars[21] = Testes{ "c = 2(3 + 2)", "c = 2(3 + 2)", "you must have n * (z not or z) * n not" }
+	return (Tvars)
+}
+
+func Matrices() (map[int]Testes) {
+
+	Tvars := make(map[int]Testes)
+	Tvars[0] = Testes{ "error syntaxe 1", "c = [3,2]", "You must have [[ at the begining of your matrice" }
+	Tvars[1] = Testes{ "error syntaxe 2", "c = [[,]]", "You must have a number in a matrice" }
+	Tvars[2] = Testes{ "error syntaxe 3", "c = [,[3,2]]", "You must have [[ at the begining of your matrice" }
+	Tvars[3] = Testes{ "error syntaxe 4", "c = [[];[3,2]]", "You must have a number in a matrice" }
+	Tvars[4] = Testes{ "error syntaxe 5", "c = [[3,2];;[2,3]]", "You must have a number in a matrice" }
 	return (Tvars)
 }
 

@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"maps"
 	"unicode"
+	//"fmt"
 )
 
 func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[int]string) {
@@ -27,6 +28,10 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 			}
 			Matr := types.Matrice{}
 			tab[z] = AddMat(tab, z)
+			if tab[z][0] != '[' || tab[z][1] != '[' {
+				tab[0] = "You must have [[ at the begining of your matrice"
+				return (tab)
+			}
 			if strings.Count(tab[z], "[") != strings.Count(tab[z], "]") {
 				tab[0] = "You must have the same number of '['' & ']'" 
 				return (tab)
@@ -45,6 +50,10 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				for a := 0; a < len(part); a++ {
 					part[a] = strings.ReplaceAll(part[a], "[", "")
 					part[a] = strings.ReplaceAll(part[a], "]", "")
+					if part[a] == "" {
+						tab[0] = "You must have a number in a matrice"
+						return (tab)
+					}
 					if IsFunc(part[a], 0) == 1 || IsFunc(part[a], 1) == 1 {
 						tab[0] = "You are not allow to use functions in matrices"
 						return (tab)
