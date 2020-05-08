@@ -333,6 +333,13 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 				is_just_i = 1
 			}
 		}
+		if str[len(str) - 1] == 'i' && str[index_ch] == '^' {
+			if r.MatchString(str) {
+				is_just_i = 0
+			} else {
+				is_just_i = 2
+			}
+		}
 	}
 	str = strings.ReplaceAll(str, "(", "")
 	str = strings.ReplaceAll(str, ")", "")
@@ -353,9 +360,9 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 			nstr[1] = replace_vars.GetVars(vars, nstr[1])
 		}
 		if is_just_i == 1 {
-			index := strings.Index(str, "i")
+			index := strings.Index(nstr[0], "i")
 			tmp := nstr[0]
-			nstr[0] = string(str[index])
+			nstr[0] = string(nstr[0][index])
 			a, b := TransPow(nstr)
 			str = Float2string(TmpComp{ a, b })
 			if len(tmp) > 1 {
@@ -365,6 +372,14 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 				Mul(&Base, n1, n2)
 				str = Float2string(Base)
 			}
+		} else if is_just_i == 2 {
+			index := strings.Index(nstr[1], "i")
+			nstr[1] = string(nstr[1][0:index])
+			a, b := TransPow(nstr)
+			str = Float2string(TmpComp{ a, b })
+			Base := TmpComp{ a, b }
+			Mul(&Base, 0, 1)
+			str = Float2string(Base)
 		} else {
 			a, b := TransPow(nstr)
 			str = Float2string(TmpComp{ a, b })
