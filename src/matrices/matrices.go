@@ -53,7 +53,8 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				for a := 0; a < len(part); a++ {
 					part[a] = strings.ReplaceAll(part[a], "[", "")
 					part[a] = strings.ReplaceAll(part[a], "]", "")
-					if part[a] == "" || IsSign(part[a]) {
+					part[a] = strings.ReplaceAll(part[a], "ˆ", "^")
+					if part[a] == "" || IsSign(part[a]) || part[a][0] == '^' || part[a][len(part[a]) - 1] == '^' {
 						tab[0] = "You must have a number in a matrice"
 						return (tab)
 					}

@@ -198,7 +198,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 					error.SetError(err)
 					return 1, -1, str_ret
 				}
-				if strings.Index(par[0], "mat") != -1 {
+				if strings.Index(par[0], "mat") != -1 || IsMat(par[0], Vars) {
 					res := matrices.Modifi(Vars.Table[par[0]].Value())
 					Vars.Table["?"] = &res
 				} else if y != 0 {

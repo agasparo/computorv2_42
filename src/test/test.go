@@ -344,6 +344,16 @@ func Matrices() (map[int]Testes) {
 	Tvars[23] = Testes{ "test valide 7", "varB =\t[[1,2]]", "[ 1 , 2 ]" }
 
 	Tvars[24] = Testes{ "error syntaxe 17", "c = [[3,2]", "You have a problem with your matrices syntaxe" }
+	Tvars[25] = Testes{ "error syntaxe 18", "c = [[3,2ˆ]]", "You are not allow to use Power with matrices" }
+	Tvars[26] = Testes{ "error syntaxe 19", "c = [[3,ˆ2ˆ]]", "You are not allow to use Power with matrices" }
+	Tvars[27] = Testes{ "error syntaxe 20", "c = [[3,ˆ]]", "You are not allow to use Power with matrices" }
+
+	Tvars[28] = Testes{ "error syntaxe 21", "c = [[3ˆ,2]]", "You must have a number in a matrice" }
+	Tvars[29] = Testes{ "error syntaxe 22", "c = [[ˆ3ˆ,2]]", "You are not allow to use Power with matrices" }
+	Tvars[30] = Testes{ "error syntaxe 23", "c = [[ˆ,2]]", "You are not allow to use Power with matrices" }
+
+	Tvars[31] = Testes{ "error syntaxe 24", "c = [[ˆ3,2]]", "You are not allow to use Power with matrices" }
+	Tvars[32] = Testes{ "error syntaxe 25", "c = [[3,ˆ2]]", "You must have a number in a matrice" }
 
 	return (Tvars)
 }
