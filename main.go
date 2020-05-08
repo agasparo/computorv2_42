@@ -328,9 +328,10 @@ func IsMat(str string, Vars *types.Variable) (bool) {
 	}
 
 	for i := 0; i < len(data); i++ {
-		if _, ok := Vars.Table[strings.ToLower(str)]; ok {
-
-			return (true)
+		if val, ok := Vars.Table[strings.ToLower(str)]; ok {
+			if strings.Index(val.Value(), "]") != -1 && strings.Index(val.Value(), "[") != -1 {
+				return (true)
+			}
     	}
 	}
 	return (false)
