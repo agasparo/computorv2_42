@@ -317,14 +317,19 @@ func Float2string(Calc TmpComp) (string) {
 
 func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 
-	str = strings.ReplaceAll(str, "(", "")
-	str = strings.ReplaceAll(str, ")", "")
-	str = strings.ReplaceAll(str, "[", "")
-	str = strings.ReplaceAll(str, "]", "")
-	str = replace_vars.GetVars(vars, str)
-    str = strings.ReplaceAll(str, " ", "")
+	is_just_i := 0
+	str = strings.ReplaceAll(str, "ˆ", "^")
+	if str[0] == 'i' && str[1] == '^' {
+		is_just_i = 1
+	}
+	str = strings.ReplaceAll(str, " ", "")
     str = strings.ReplaceAll(str, "\n", "")
-    if str == "i" {
+    str = strings.ReplaceAll(str, "[", "")
+	str = strings.ReplaceAll(str, "]", "")
+    str = strings.ReplaceAll(str, "(", "")
+	str = strings.ReplaceAll(str, ")", "")
+	str = replace_vars.GetVars(vars, str)
+	if str == "i" {
 		str = "1i"
 	}
 
@@ -341,8 +346,13 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		if !IsNumeric(nstr[1]) {
 			nstr[1] = replace_vars.GetVars(vars, nstr[1])
 		}
+		if is_just_i == 1 {
+			index := strings.Index(str, "i")
+			nstr[0] = string(str[index])
+		}
 		a, b := TransPow(nstr)
 		str = Float2string(TmpComp{ a, b })
+		str = strings.ReplaceAll(str, " ", "")
 	}
 
 	if r.MatchString(str) {
@@ -383,7 +393,6 @@ func TransPow(nstr []string) (x float64, y float64) {
 		Pow(&Base, int64(a))
 		nstr[i - 1] = Float2string(Base)
 	}
-
 	return Base.A, Base.B
 }
 
