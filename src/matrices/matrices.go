@@ -99,6 +99,7 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				tab[z] = pae[0] + tab[z] + pae[1]
 			}
 		}
+		is_par = ""
 	}
 	tab = maps.Reindex(tab)
 	tab = maps.Clean(tab)
