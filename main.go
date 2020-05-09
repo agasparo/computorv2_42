@@ -122,6 +122,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 
 	if strings.Index(str[1], "?") != -1 && strings.Count(str[1], "?") == 1 {
 		data := parser.GetAllIma(strings.ReplaceAll(strings.ToLower(str[0]), " ", ""), &err_pars)
+		tmpsl := data
 		data_r := parser.GetAllIma(strings.ReplaceAll(strings.ReplaceAll(strings.ToLower(str[1]), "?", ""), " ", ""), &err_pars)
 		Eq_Data.Part1 = data
 		Eq_Data.Part2 = data_r
@@ -168,46 +169,53 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 			str_ret = "?"
 			t = 0
 		} else {
-			if parser.IsFunc(str[0], 0) == 1 {
-				res := maths_functions.Init(data, str[0], Vars, Dat)
-				if strings.Index(res, "You") != -1 {
-					error.SetError(data[0])
-					matrices.RemoveTmp(Dat)
-					return 1, -1, str_ret
+			for z := 0; z < len(tmpsl); z += 2 {
+				if parser.IsFunc(tmpsl[z], 0) == 1 {
+					in := maths_functions.Getx(tmpsl[z])
+					if !parser.Is_defined(in, Dat) {
+						res := maths_functions.Init(data, tmpsl[z], Vars, Dat)
+						if strings.Index(res, "You") != -1 {
+							error.SetError(data[0])
+							matrices.RemoveTmp(Dat)
+							return 1, -1, str_ret
+						}
+						Vars.Table["?"] = &types.Fonction{ res }
+						str_ret = "?"
+						t = 0
+						return 1, t, str_ret
+					}
 				}
-				Vars.Table["?"] = &types.Fonction{ res }
-			} else {
-				data = matrices.Parse(data, Dat, Vars)
-				if strings.Index(data[0], "You") != -1 {
-					error.SetError(data[0])
-					matrices.RemoveTmp(Dat)
-					return 1, -1, str_ret
-				}
-				if !norm.Normalize(Vars) {
-					error.SetError("You have a mistake in your matrice")
-					matrices.RemoveTmp(Dat)
-					return 1, -1, str_ret
-				}
-				par := parentheses.Parse(data, Vars, false, "")
-				if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
-					error.SetError(par[0])
-					return 1, -1, str_ret
-				}
-				x, y, err := maths_imaginaires.CalcVar(par, Vars)
-				if err != "" {
-					error.SetError(err)
-					return 1, -1, str_ret
-				}
-				if strings.Index(par[0], "mat") != -1 || IsMat(par[0], Vars) {
-					res := matrices.Modifi(Vars.Table[par[0]].Value())
-					Vars.Table["?"] = &res
-				} else if y != 0 {
-					Vars.Table["?"] = &types.Imaginaire{ x, y }
-				} else {
-					Vars.Table["?"] = &types.Rationel{ x }
-				}
-				matrices.RemoveTmp(Dat)
 			}
+			data = matrices.Parse(data, Dat, Vars)
+			if strings.Index(data[0], "You") != -1 {
+				error.SetError(data[0])
+				matrices.RemoveTmp(Dat)
+				return 1, -1, str_ret
+			}
+			if !norm.Normalize(Vars) {
+				error.SetError("You have a mistake in your matrice")
+				matrices.RemoveTmp(Dat)
+				return 1, -1, str_ret
+			}
+			par := parentheses.Parse(data, Vars, false, "")
+			if strings.Index(par[0], "by 0") != -1 || strings.Index(par[0], "syntaxe") != -1 || strings.Index(par[0], "matrice") != -1 {
+				error.SetError(par[0])
+				return 1, -1, str_ret
+			}
+			x, y, err := maths_imaginaires.CalcVar(par, Vars)
+			if err != "" {
+				error.SetError(err)
+				return 1, -1, str_ret
+			}
+			if strings.Index(par[0], "mat") != -1 || IsMat(par[0], Vars) {
+				res := matrices.Modifi(Vars.Table[par[0]].Value())
+				Vars.Table["?"] = &res
+			} else if y != 0 {
+				Vars.Table["?"] = &types.Imaginaire{ x, y }
+			} else {
+				Vars.Table["?"] = &types.Rationel{ x }
+			}
+			matrices.RemoveTmp(Dat)
 			str_ret = "?"
 			t = 0
 		}
