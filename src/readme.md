@@ -22,6 +22,8 @@ bonus :
 
  - couleures
 
+ - compositions de fonction du styel f(x) = g(y) + 2x
+
  - calculs :
 
  - matrice + matrice
