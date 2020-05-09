@@ -112,12 +112,15 @@ func ReplaceX(tab map[int]string, min int, x string, vars *types.Variable, Dat t
 
 func ReplaceMat(str string, vars *types.Variable) (string) {
 
+	nstr := str
 	str = strings.ReplaceAll(str, "(", "")
 	str = strings.ReplaceAll(str, ")", "")
 	if val, ok := vars.Table[strings.ToLower(str)]; ok {
-		return (val.Value())
+		if strings.Index(val.Value(), "]") != -1 && strings.Index(val.Value(), "[") != -1 {
+			return (val.Value())
+		}
     }
-    return (str)
+    return (nstr)
 }
 
 func Getx(str string) (string) {
