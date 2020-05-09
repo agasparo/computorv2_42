@@ -14,6 +14,7 @@ import (
 func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable) (string) {
 
 	x = Getx(x)
+	tab = ReplaceU(tab, x, Dat)
 	if maps.Array_search_count(tab, "(") >= 1 {
 		index := maps.Array_search_last(tab, ")")
 		res, ne := ReplaceX(tab, index, x, vars, Dat)
@@ -52,6 +53,22 @@ func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable
 		tab[i] = ReplaceMat(tab[i], vars)
 	}
 	return (JoinTab(tab))
+}
+
+func ReplaceU(tab map[int]string, x string, Dat types.Variable) (map[int]string) {
+
+	for i := 0; i < len(tab); i++ {
+
+		nstr := tab[i]
+		nstr = strings.ReplaceAll(nstr, ")", "")
+		nstr = strings.ReplaceAll(nstr, "(", "")
+		if nstr != x && !parser.IsNumeric(nstr) && !parser.Is_defined(nstr, Dat) && strings.Index(nstr, x) == -1 && !IsSign(nstr) {
+			if strings.Index(nstr, "]") == -1 && strings.Index(nstr, "[") == -1 && strings.Index(nstr, "mat") == -1 && !maths_imaginaires.IsMat(nstr, &Dat) {
+				tab[i] = strings.ReplaceAll(tab[i], nstr, x)
+			}
+		}
+	}
+	return (tab)
 }
 
 func ReplaceX(tab map[int]string, min int, x string, vars *types.Variable, Dat types.Variable) (string, map[int]string) {
@@ -207,4 +224,12 @@ func Calc(fu string, x string, r string, vars *types.Variable) (float64, float64
 	data = maths_imaginaires.CalcMulDivi(data, vars, x)
 	data = maths_imaginaires.CalcAddSous(data, vars, x)
 	return (maths_imaginaires.ParseOne(data[0], vars))
+}
+
+func IsSign(str string) (bool) {
+
+	if strings.Index(str, "+") != -1 || strings.Index(str, "-") != -1 || strings.Index(str, "/") != -1 || strings.Index(str, "*") != -1 || strings.Index(str, "%") != -1 {
+		return (true)
+	}
+	return (false)
 }
