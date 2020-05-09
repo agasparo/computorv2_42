@@ -13,6 +13,7 @@ import (
   	"usuelles_functions"
   	"strings"
   	"unicode"
+  	"runtime"
 )
 
 type Courbe struct {
@@ -176,7 +177,12 @@ func Draw(C Courbe, All []chart.Series) {
 	defer f.Close()
 	graph.Render(chart.PNG, f)
 	
-	cmd := exec.Command("sh", "catimg.sh", C.Name + ".png")
+	var cmd *exec.Cmd
+    if runtime.GOOS == "linux" {
+        cmd = exec.Command("feh", C.Name + ".png")
+    } else {
+        cmd = exec.Command("sh", "catimg.sh", C.Name + ".png")
+    }
     stdout, err := cmd.Output()
 
     if err != nil {
