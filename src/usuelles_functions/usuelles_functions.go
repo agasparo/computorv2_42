@@ -90,6 +90,9 @@ func GetUsuF(str string, Vars types.Variable) (string) {
 	p1 := strings.Index(str, "(")
 	p2 := strings.Index(str, ")")
 	nstr := str[0:p1]
+	if strings.Index(str[p1 + 1:p2], "[") != -1 || strings.Index(str[p1 + 1:p2], "]") != -1 || strings.Index(str[p1 + 1:p2], "mat") != -1 || IsMat(str[p1 + 1:p2], &Vars) {
+		return ("Impossible usuelle function can't take matrice")
+	}
 	nb1, nb2 := maths_imaginaires.ParseOne(str[p1 + 1:p2], &Vars)
 	Calc := maths_imaginaires.TmpComp{ nb1, nb2 }
 	switch t := nstr; t {
@@ -109,4 +112,22 @@ func GetUsuF(str string, Vars types.Variable) (string) {
 		Expo(&Calc)
 	}
 	return (maths_imaginaires.Float2string(Calc))
+}
+
+func IsMat(str string, Vars *types.Variable) (bool) {
+
+	if len(str) > 1 {
+		if str[0] == '-' || str[0] == '+' {
+			str = str[1:len(str)]
+		}
+	}
+
+	for i := 0; i < len(str); i++ {
+		if val, ok := Vars.Table[strings.ToLower(str)]; ok {
+			if strings.Index(val.Value(), "]") != -1 && strings.Index(val.Value(), "[") != -1 {
+				return (true)
+			}
+    	}
+	}
+	return (false)
 }
