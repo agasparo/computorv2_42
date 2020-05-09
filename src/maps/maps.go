@@ -52,6 +52,19 @@ func Array_search(array map[int]string, to_search string) (int) {
 	return (-1)
 }
 
+func Array_search_last(array map[int]string, to_search string) (int) {
+
+	pos := -1
+
+	for i := 0; i < len(array); i++ {
+
+		if strings.Index(array[i], to_search) != -1 {
+			pos = i
+		}
+	}
+	return (pos)
+}
+
 func CombineN(data map[int]string, in map[int]string, i int) (map[int]string) {
 
 	tab := make(map[int]string)
@@ -146,4 +159,15 @@ func Copy(data map[int]string) (map[int]string) {
 		tab[i] = data[i]
 	}
 	return (tab)
+}
+
+func Cut(data map[int]string, min int, max int) (map[int]string) {
+
+	ntab := make(map[int]string)
+	a := 0
+	for i := min; i < max; i++ {
+		ntab[a] = data[i]
+		a++
+	}
+	return (ntab)
 }

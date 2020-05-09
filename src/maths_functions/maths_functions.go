@@ -15,6 +15,12 @@ func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable
 
 	x = Getx(x)
 	if maps.Array_search_count(tab, "(") >= 1 {
+		index := maps.Array_search_last(tab, ")")
+		res, ne := ReplaceX(tab, index, x, vars, Dat)
+		if res != "ok" {
+			return (res)
+		}
+		tab = ne
 		return (JoinTab(tab))
 	}
 	for i := 0; i < len(tab); i++ {
@@ -46,6 +52,45 @@ func Init(tab map[int]string, x string, vars *types.Variable, Dat types.Variable
 		tab[i] = ReplaceMat(tab[i], vars)
 	}
 	return (JoinTab(tab))
+}
+
+func ReplaceX(tab map[int]string, min int, x string, vars *types.Variable, Dat types.Variable) (string, map[int]string) {
+	
+	for i := len(tab) - 1; i > min; i-- {
+
+		if tab[i] != x && strings.Index(tab[i], x) != -1 {
+			AddMul(tab[i], x, tab, i)
+		}
+
+		if tab[i] != x {
+			tab[i] = replace_vars.GetVars(vars, tab[i])
+		}
+
+		if strings.Index(tab[i], "]") != -1 || strings.Index(tab[i], "[") != -1 {
+			tab = matrices.Parse(tab, Dat, vars)
+			if strings.Index(tab[0], "You") != -1 {
+				matrices.RemoveTmp(Dat)
+				return tab[0], tab
+			}
+			if !norm.Normalize(vars) {
+				tab[0] = "You have a mistake in your matrice"
+				matrices.RemoveTmp(Dat)
+				return tab[0], tab
+			}
+		}
+	}
+	ntab := maps.Copy(tab)
+	ntab = maps.Cut(ntab, min + 2, len(tab))
+	ntab = maths_imaginaires.CalcMulDivi(ntab, vars, x)
+	ntab = maths_imaginaires.CalcAddSous(ntab, vars, x)
+	atab := maps.Copy(tab)
+	atab = maps.Cut(atab, 0, min + 2)
+	tab = maps.Combine(ntab, atab, 0, len(ntab))
+	tab = maps.Clean(tab)
+	for i := len(tab) - 1; i > min; i-- {
+		tab[i] = ReplaceMat(tab[i], vars)
+	}
+	return "ok", tab
 }
 
 func ReplaceMat(str string, vars *types.Variable) (string) {
