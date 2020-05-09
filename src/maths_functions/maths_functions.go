@@ -62,7 +62,7 @@ func ReplaceU(tab map[int]string, x string, Dat types.Variable) (map[int]string)
 		nstr := tab[i]
 		nstr = strings.ReplaceAll(nstr, ")", "")
 		nstr = strings.ReplaceAll(nstr, "(", "")
-		if nstr != x && !parser.IsNumeric(nstr) && !parser.Is_defined(nstr, Dat) && strings.Index(nstr, x) == -1 && !IsSign(nstr) {
+		if nstr != x && !parser.IsNumeric(nstr) && !parser.Is_defined(nstr, Dat) && strings.Index(nstr, x) == -1 && !IsSign(nstr) && nstr != "i" {
 			if strings.Index(nstr, "]") == -1 && strings.Index(nstr, "[") == -1 && strings.Index(nstr, "mat") == -1 && !maths_imaginaires.IsMat(nstr, &Dat) {
 				tab[i] = strings.ReplaceAll(tab[i], nstr, x)
 			}
