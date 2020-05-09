@@ -173,6 +173,7 @@ func basic_check(Inputs input.Data, Vars *types.Variable, Dat types.Variable) (i
 				if parser.IsFunc(tmpsl[z], 0) == 1 {
 					in := maths_functions.Getx(tmpsl[z])
 					if !parser.Is_defined(in, Dat) {
+						fmt.Printf("in : %s\n", in)
 						res := maths_functions.Init(data, tmpsl[z], Vars, Dat)
 						if strings.Index(res, "You") != -1 {
 							error.SetError(data[0])
