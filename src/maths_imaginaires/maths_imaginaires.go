@@ -443,6 +443,7 @@ func ParseOne(str string, vars *types.Variable) (x float64, y float64) {
 		str = strings.ReplaceAll(str, " ", "")
 	}
 
+	str = strings.ReplaceAll(str, " ", "")
 	if r.MatchString(str) {
 		return Trans(str)
 	}

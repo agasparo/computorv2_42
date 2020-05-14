@@ -330,7 +330,7 @@ func GetAllIma(str string, pos *int) (map[int]string) {
 			return (data)
 		}
 		index := GetCararc(str, "+-/*%")
-		if index + 1 == len(str) {
+		if index + 1 == len(str) || index == 0 {
 			return (data)
 		}
 		if index >= 0 && str[index] == '*' && str[index + 1] == '*' {

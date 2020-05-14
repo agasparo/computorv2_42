@@ -36,6 +36,10 @@ func Parse(tab map[int]string, Dat types.Variable, vars *types.Variable) (map[in
 				tab[0] = "You must have [[ at the begining of your matrice"
 				return (tab)
 			}
+			if tab[z][len(tab[z]) - 1] != ']' || tab[z][len(tab[z]) - 2] != ']' {
+				tab[0] = "You must have ]] at the end of your matrice"
+				return (tab)
+			}
 			if strings.Count(tab[z], "[") != strings.Count(tab[z], "]") {
 				tab[0] = "You must have the same number of '['' & ']'" 
 				return (tab)
