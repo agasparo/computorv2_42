@@ -481,6 +481,14 @@ func TransPow(nstr []string) (x float64, y float64) {
 		}
 		Pow(&Base, int64(a))
 		nstr[i - 1] = Float2string(Base)
+		cmp := fmt.Sprintf("%f", Base.A) 
+		if cmp == "+Inf" || cmp == "-Inf" {
+			return Base.A, Base.B
+		}
+		cmp = fmt.Sprintf("%f", Base.B) 
+		if cmp == "+Inf" || cmp == "-Inf" {
+			return Base.A, Base.B
+		}
 	}
 	return Base.A, Base.B
 }
@@ -1007,7 +1015,9 @@ func Pow(n1 *TmpComp, n2 int64) {
         	return
         }
     }
-    Isinf(n1, coe, im)
+    if Isinf(n1, coe, im) {
+       	return
+    }
 }
 
 func IsNan(f float64) (bool) {
