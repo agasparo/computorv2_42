@@ -330,7 +330,7 @@ func Matrices() (map[int]Testes) {
 	Tvars[12] = Testes{ "error syntaxe 13", "c = [[3];[2];[-]]", "You must have a number in a matrice" }
 
 	Tvars[13] = Testes{ "error syntaxe 14", "c = [[3];[2];[--6]]", "You have a mistake in your matrice" }
-	Tvars[14] = Testes{ "error syntaxe 15", "c = [[3];[2];[---6]]", "You have a mistake in your matrice" }
+	Tvars[14] = Testes{ "error syntaxe 15", "c = [[3];[2];[---6]]", "You have a mistake with your sign" }
 	Tvars[15] = Testes{ "error syntaxe 16", "c = [[3,2];[2,2];[3,,2]]", "You must have a number in a matrice" }
 
 	Tvars[16] = Testes{ "test valide 1", "c = [[3];[2];[6]]", "[ 3 ]\n[ 2 ]\n[ 6 ]" }
